@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Domain", "Enbiso.NLib.Domain\Enbiso.NLib.Domain.csproj", "{E37AA2C1-FE17-4602-859E-FA9E6345F07B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Domain", "Enbiso.NLib.Domain\Enbiso.NLib.Domain.csproj", "{E37AA2C1-FE17-4602-859E-FA9E6345F07B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enbiso.NLib.Tests", "Enbiso.NLib.Tests", "{FE195805-0953-40EE-A849-9F44EB4DDA69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Domain.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.Domain.Tests\Enbiso.NLib.Domain.Tests.csproj", "{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.RabbitMq", "Enbiso.NLib.EventBus.RabbitMq\Enbiso.NLib.EventBus.RabbitMq.csproj", "{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.ServiceBus", "Enbiso.NLib.EventBus.ServiceBus\Enbiso.NLib.EventBus.ServiceBus.csproj", "{ED2AD6D1-BA48-414A-94CD-8689EEC799B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Abstractions", "Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj", "{0E62B109-CB18-428F-919E-E011FFE6F818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus", "Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj", "{A8616133-736C-4962-ACE5-08B4770F13FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +27,32 @@ Global
 		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED2AD6D1-BA48-414A-94CD-8689EEC799B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2AD6D1-BA48-414A-94CD-8689EEC799B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2AD6D1-BA48-414A-94CD-8689EEC799B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2AD6D1-BA48-414A-94CD-8689EEC799B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E62B109-CB18-428F-919E-E011FFE6F818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E62B109-CB18-428F-919E-E011FFE6F818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E62B109-CB18-428F-919E-E011FFE6F818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E62B109-CB18-428F-919E-E011FFE6F818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8616133-736C-4962-ACE5-08B4770F13FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8616133-736C-4962-ACE5-08B4770F13FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8616133-736C-4962-ACE5-08B4770F13FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8616133-736C-4962-ACE5-08B4770F13FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {348B7E76-5B7B-4B29-8DE3-C0D9B070765C}

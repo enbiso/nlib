@@ -1,0 +1,12 @@
+env:
+  - PACKAGE_VERSION="1.0"
+language: csharp
+mono: none
+dotnet: 2.1.4
+script:
+  - dotnet restore
+  - dotnet build -c release -o ../bin
+after_success:
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then
+      dotnet nuget push ./bin/*.nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
+    fi

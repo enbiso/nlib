@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Enbiso.NLib.EventBus.Abstractions</PackageId>
+    
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>
+    
+    <Authors>Faraj Farook</Authors>
+    <Description>Simple Abstract event bus library</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <PackageTags>Enbiso Enbiso.NLib EventBus</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en-AU</NeutralLanguage>
+    <Owners>enbiso</Owners>    
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <Summary>Enbiso - Simple Abstract EventBus Library in .NET Standard</Summary>
+    <Title>Simple Abstract EventBus</Title>
+    
+    <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
+    
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.*" />
+  </ItemGroup>
+</Project>
