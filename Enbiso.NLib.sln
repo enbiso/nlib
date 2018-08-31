@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Domain", "Enbiso.NLib.Domain\Enbiso.NLib.Domain.csproj", "{E37AA2C1-FE17-4602-859E-FA9E6345F07B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E37AA2C1-FE17-4602-859E-FA9E6345F07B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {348B7E76-5B7B-4B29-8DE3-C0D9B070765C}
+	EndGlobalSection
+EndGlobal
