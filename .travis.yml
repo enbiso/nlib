@@ -8,5 +8,7 @@ script:
   - dotnet build -c release -o ../bin
 after_success:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
-      dotnet nuget push ./bin/*.nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
+      for nupkg in ./bin/*.nupkg; do
+          dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
+      done
     fi
