@@ -1,4 +1,4 @@
-﻿namespace Enbiso.NLib.EventBus.Abstractions
+﻿namespace Enbiso.NLib.EventBus
 {
     /// <summary>
     /// Event bus interface
@@ -14,7 +14,7 @@
         /// Publish event
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IIntegrationEvent @event);
+        void Publish(IEvent @event);
 
         /// <summary>
         /// Subscribe to events
@@ -22,15 +22,15 @@
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void Subscribe<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
-            where TEventHandler : IIntegrationEventHandler<TEvent>;
+            where TEvent : IEvent
+            where TEventHandler : IEventHandler<TEvent>;
 
         /// <summary>
         /// Subscribe to events
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>        
         void Subscribe<TEvent>()
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
 
         /// <summary>
         /// Subscribe to events dynamically
@@ -54,7 +54,7 @@
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void Unsubscribe<TEvent, TEventHandler>()
-            where TEventHandler : IIntegrationEventHandler<TEvent>
-            where TEvent : IIntegrationEvent;
+            where TEventHandler : IEventHandler<TEvent>
+            where TEvent : IEvent;
     }
 }

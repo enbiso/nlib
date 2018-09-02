@@ -8,12 +8,12 @@ using RabbitMQ.Client.Exceptions;
 
 namespace Enbiso.NLib.EventBus.RabbitMq
 {
-    public class DefaultRabbitMqPersistentConnection : IRabbitMqPersistentConnection
+    public class RabbitMqPersistentConnection : IRabbitMqPersistentConnection
     {
         private IConnection _connection;
         private bool _disposed;
         private readonly IConnectionFactory _connectionFactory;
-        private readonly ILogger<DefaultRabbitMqPersistentConnection> _logger;
+        private readonly ILogger<RabbitMqPersistentConnection> _logger;
         private readonly int _retryCount;
         private readonly object _syncRoot = new object();
 
@@ -22,8 +22,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="option"></param>
-        public DefaultRabbitMqPersistentConnection(
-            ILogger<DefaultRabbitMqPersistentConnection> logger, 
+        public RabbitMqPersistentConnection(
+            ILogger<RabbitMqPersistentConnection> logger, 
             RabbitMqOption option)
         {
             _connectionFactory = new ConnectionFactory

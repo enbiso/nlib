@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enbiso.NLib.EventBus.Abstractions
+namespace Enbiso.NLib.EventBus
 {
     /// <summary>
     /// Subscription details

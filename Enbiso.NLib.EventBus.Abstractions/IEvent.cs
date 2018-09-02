@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Enbiso.NLib.EventBus.Abstractions
+namespace Enbiso.NLib.EventBus
 {
-    public interface IIntegrationEvent
+    public interface IEvent
     {
         Guid Id { get; }
         DateTime CreationDate { get; }

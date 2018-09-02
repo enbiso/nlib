@@ -1,5 +1,4 @@
-﻿using Enbiso.NLib.EventBus.Abstractions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.EventBus

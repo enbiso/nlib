@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 
-namespace Enbiso.NLib.EventBus.Abstractions
+namespace Enbiso.NLib.EventBus
 {
+    /// <inheritdoc />
     /// <summary>
     /// Integration event handler with type event
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
-    public interface IIntegrationEventHandler<in TEvent> : IIntegrationEventHandler where TEvent: IIntegrationEvent
+    public interface IEventHandler<in TEvent> : IIntegrationEventHandler where TEvent: IEvent
     {
         Task Handle(TEvent @event);
     }

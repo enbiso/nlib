@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Enbiso.NLib.EventBus.Abstractions
+namespace Enbiso.NLib.EventBus
 {
     public interface IEventBusSubscriber
     {
