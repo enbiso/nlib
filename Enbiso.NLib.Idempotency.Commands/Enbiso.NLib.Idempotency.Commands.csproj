@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Enbiso.NLib.Idempotency.Commands</PackageId>
+
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>
+    
+    <Authors>Faraj Farook</Authors>
+    <Description>Simple Idempotency Commands with MediatR</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <PackageTags>Enbiso Enbiso.Common Idempotency Commands</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en-AU</NeutralLanguage>
+    <Owners>enbiso</Owners>    
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <Summary>Enbiso - Simple Idempotency Commands with MediatR in .NET Standard</Summary>
+    <Title>Simple Idempotency Commands with MediatR</Title>
+    
+    <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="5.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj" />
+  </ItemGroup>
+  
+</Project>
