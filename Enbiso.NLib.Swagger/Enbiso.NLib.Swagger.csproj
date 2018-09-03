@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Enbiso.NLib.Swagger.Extensions</PackageId>
+    <PackageId>Enbiso.NLib.Swagger</PackageId>
 
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>

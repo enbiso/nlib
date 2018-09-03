@@ -1,6 +1,6 @@
 using System;
 
-namespace Enbiso.NLib.Swagger.Extensions.Attributes.Actions
+namespace Enbiso.NLib.Swagger.Attributes.Actions
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ExtActionDetailsAttribute : ExtActionAttribute

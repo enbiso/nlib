@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enbiso.NLib.Swagger.Extensions.Attributes.Inputs
+namespace Enbiso.NLib.Swagger.Attributes.Inputs
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class ExtInputAttribute : ExtAttribute

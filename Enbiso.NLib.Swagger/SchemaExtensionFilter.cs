@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Enbiso.NLib.Swagger.Extensions.Attributes;
-using Enbiso.NLib.Swagger.Extensions.Attributes.Actions;
+using Enbiso.NLib.Swagger.Attributes;
+using Enbiso.NLib.Swagger.Attributes.Actions;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Enbiso.NLib.Swagger.Extensions
+namespace Enbiso.NLib.Swagger
 {
     public class SchemaExtensionFilter : ISchemaFilter
     {

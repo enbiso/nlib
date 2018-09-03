@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Enbiso.NLib.Swagger.Extensions.Attributes
+namespace Enbiso.NLib.Swagger.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class ExtKeyAttribute : ExtAttribute
