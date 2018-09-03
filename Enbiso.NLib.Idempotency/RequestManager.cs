@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Enbiso.NLib.Idempotency
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Request manager implementation
+    /// </summary>
     public class RequestManager : IRequestManager
     {
         private readonly IRequestLogRepo _repo;
@@ -12,7 +16,12 @@ namespace Enbiso.NLib.Idempotency
             _repo = repo;
         }
 
-        public async Task CreateRequestForCommandAsync<T>(Guid id)
+        public Task<bool> ExistAsync(Guid id)
+        {
+            return _repo.ExistsAsync(id);
+        }
+
+        public async Task CreateRequestForAsync<T>(Guid id)
         {
             var exists = await _repo.ExistsAsync(id);
 

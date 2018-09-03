@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Enbiso.NLib.EventLogger.EntityFramework
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Event log entity configurations
+    /// </summary>
     public class EventLogEntityConfig : IEntityTypeConfiguration<EventLog>
     {
         public void Configure(EntityTypeBuilder<EventLog> builder)

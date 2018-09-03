@@ -2,6 +2,9 @@
 
 namespace Enbiso.NLib.Idempotency
 {
+    /// <summary>
+    /// Request Log
+    /// </summary>
     public class RequestLog
     {
         public Guid Id { get; set; }        
