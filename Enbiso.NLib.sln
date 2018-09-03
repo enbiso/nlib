@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Domain", "Enbis
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Enbiso.NLib.Tests", "Enbiso.NLib.Tests", "{FE195805-0953-40EE-A849-9F44EB4DDA69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Domain.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.Domain.Tests\Enbiso.NLib.Domain.Tests.csproj", "{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Domain.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.Domain.Tests\Enbiso.NLib.Domain.Tests.csproj", "{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.RabbitMq", "Enbiso.NLib.EventBus.RabbitMq\Enbiso.NLib.EventBus.RabbitMq.csproj", "{D61FBE67-E7E5-4CB6-867E-5032ACD7F8D4}"
 EndProject
@@ -15,15 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Abstractions", "Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj", "{0E62B109-CB18-428F-919E-E011FFE6F818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus", "Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj", "{A8616133-736C-4962-ACE5-08B4770F13FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus", "Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj", "{A8616133-736C-4962-ACE5-08B4770F13FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventLogger", "Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj", "{D0D1061C-34BE-48A7-BD21-90766CC7710A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventLogger", "Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj", "{D0D1061C-34BE-48A7-BD21-90766CC7710A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventLogger.EntityFramework", "Enbiso.NLib.EventLogger.EntityFramework\Enbiso.NLib.EventLogger.EntityFramework.csproj", "{00903477-1281-4583-ACF2-CC5866B5F2E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventLogger.EntityFramework", "Enbiso.NLib.EventLogger.EntityFramework\Enbiso.NLib.EventLogger.EntityFramework.csproj", "{00903477-1281-4583-ACF2-CC5866B5F2E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Idempotency", "Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj", "{4A29722E-5A78-47C3-A8CE-6FAE41DA4A40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Idempotency", "Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj", "{4A29722E-5A78-47C3-A8CE-6FAE41DA4A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Idempotency.EntityFramework", "Enbiso.NLib.Idempotency.EntityFramework\Enbiso.NLib.Idempotency.EntityFramework.csproj", "{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Idempotency.EntityFramework", "Enbiso.NLib.Idempotency.EntityFramework\Enbiso.NLib.Idempotency.EntityFramework.csproj", "{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.HttpClient", "Enbiso.NLib.HttpClient\Enbiso.NLib.HttpClient.csproj", "{E0895114-A502-4FCD-992E-493EF527A03E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0895114-A502-4FCD-992E-493EF527A03E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0895114-A502-4FCD-992E-493EF527A03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
