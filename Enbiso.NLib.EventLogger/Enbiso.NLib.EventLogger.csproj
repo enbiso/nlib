@@ -1,6 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Enbiso.NLib.EventLogger</PackageId>
+
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>
+    
+    <Authors>Faraj Farook</Authors>
+    <Description>EventLogs for integration events</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <PackageTags>Enbiso Enbiso.Common EventLog</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en-AU</NeutralLanguage>
+    <Owners>enbiso</Owners>    
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <Summary>Enbiso - EventLogs for integration events in .NET Standard</Summary>
+    <Title>EventLogs for integration events</Title>
+    
+    <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />
