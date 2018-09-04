@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
-using Enbiso.NLib.EventBus.Abstractions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -43,7 +42,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         {
             _serviceBusPersisterConnection = serviceBusPersisterConnection;
             _logger = logger;
-            _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
+            _subsManager = subsManager ?? new EventBusSubscriptionsManager();
 
             _subscriptionClient = new SubscriptionClient(
                 serviceBusPersisterConnection.ServiceBusConnectionStringBuilder,
@@ -62,7 +61,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Publish(IIntegrationEvent @event)
+        public void Publish(IEvent @event)
         {
             var eventName = @event.GetType().Name.Replace(IntegrationEventSufix, "");
             var jsonMessage = JsonConvert.SerializeObject(@event);
@@ -82,9 +81,9 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Subscribe<TEvent>() where TEvent : IIntegrationEvent
+        public void Subscribe<TEvent>() where TEvent : IEvent
         {
-            Subscribe<TEvent, IIntegrationEventHandler<TEvent>>();
+            Subscribe<TEvent, IEventHandler<TEvent>>();
         }
 
         /// <inheritdoc />
@@ -96,8 +95,8 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void Subscribe<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
-            where TEventHandler : IIntegrationEventHandler<TEvent>
+            where TEvent : IEvent
+            where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = typeof(TEvent).Name.Replace(IntegrationEventSufix, "");
 
@@ -123,8 +122,8 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void Unsubscribe<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
-            where TEventHandler : IIntegrationEventHandler<TEvent>
+            where TEvent : IEvent
+            where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = typeof(TEvent).Name.Replace(IntegrationEventSufix, "");
 
@@ -205,7 +204,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                             var eventType = _subsManager.GetEventTypeByName(eventName);
                             var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
                             var handler = scope.ResolveOptional(subscription.HandlerType);
-                            var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+                            var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
                             await (Task) concreteType.GetMethod("Handle")
                                 .Invoke(handler, new[] {integrationEvent});
                         }

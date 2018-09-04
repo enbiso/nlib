@@ -4,7 +4,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
-using Enbiso.NLib.EventBus.Abstractions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -79,7 +78,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Publish(IIntegrationEvent @event)
+        public void Publish(IEvent @event)
         {
             if (!_persistentConnection.IsConnected)
             {
@@ -109,8 +108,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         /// <inheritdoc />
         public void Subscribe<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
-            where TEventHandler : IIntegrationEventHandler<TEvent>
+            where TEvent : IEvent 
+            where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = _subscriptionsManager.GetEventKey<TEvent>();
             DoInternalSubscription(eventName);
@@ -118,9 +117,9 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Subscribe<TEvent>() where TEvent : IIntegrationEvent
+        public void Subscribe<TEvent>() where TEvent : IEvent
         {
-            Subscribe<TEvent, IIntegrationEventHandler<TEvent>>();
+            Subscribe<TEvent, IEventHandler<TEvent>>();
         }
 
         /// <inheritdoc />
@@ -140,8 +139,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         /// <inheritdoc />
         public void Unsubscribe<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
-            where TEventHandler : IIntegrationEventHandler<TEvent>
+            where TEvent : IEvent 
+            where TEventHandler : IEventHandler<TEvent>
         {
             _subscriptionsManager.RemoveSubscription<TEvent, TEventHandler>();
         }
@@ -210,7 +209,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                         var eventType = _subscriptionsManager.GetEventTypeByName(eventName);
                         var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
                         var handler = scope.ResolveOptional(subscription.HandlerType);
-                        var concreteHandlerType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+                        var concreteHandlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
                         await (Task)concreteHandlerType.GetMethod("Handle").Invoke(handler, new[] {integrationEvent});
                     }
                 }

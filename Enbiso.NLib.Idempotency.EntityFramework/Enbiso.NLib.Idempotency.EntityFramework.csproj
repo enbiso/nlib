@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Enbiso.NLib.EventBus.Abstractions</PackageId>
-    <RootNamespace>Enbiso.NLib.EventBus</RootNamespace>
-    
+    <PackageId>Enbiso.NLib.Idempotency.EntityFramework</PackageId>
+
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>
     
     <Authors>Faraj Farook</Authors>
-    <Description>Simple Abstract event bus library</Description>
+    <Description>Simple Idempotency with Request Persistence with EF</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
-    <PackageTags>Enbiso Enbiso.NLib EventBus</PackageTags>
+    <PackageTags>Enbiso Enbiso.Common Idempotency RequestLog</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Owners>enbiso</Owners>    
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
-    <Summary>Enbiso - Simple Abstract EventBus Library in .NET Standard</Summary>
-    <Title>Simple Abstract EventBus</Title>
+    <Summary>Enbiso - Simple Idempotency with Request Persistence with EF in .NET Standard</Summary>
+    <Title>Simple Idempotency with Request Persistence</Title>
     
     <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
-    
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj" />
   </ItemGroup>
 </Project>

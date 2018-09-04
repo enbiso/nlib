@@ -8,9 +8,9 @@ namespace Enbiso.NLib.EventBus.ServiceBus
     /// <summary>
     /// Default service bus persistece connection
     /// </summary>
-    public class DefaultServiceBusPersisterConnection : IServiceBusPersisterConnection
+    public class ServiceBusPersisterConnection : IServiceBusPersisterConnection
     {
-        private readonly ILogger<DefaultServiceBusPersisterConnection> _logger;
+        private readonly ILogger<ServiceBusPersisterConnection> _logger;
         private ITopicClient _topicClient;
 
         private bool _disposed;
@@ -20,8 +20,8 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         /// </summary>
         /// <param name="serviceBusConnectionStringBuilder"></param>
         /// <param name="logger"></param>
-        public DefaultServiceBusPersisterConnection(ServiceBusConnectionStringBuilder serviceBusConnectionStringBuilder,
-            ILogger<DefaultServiceBusPersisterConnection> logger)
+        public ServiceBusPersisterConnection(ServiceBusConnectionStringBuilder serviceBusConnectionStringBuilder,
+            ILogger<ServiceBusPersisterConnection> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             ServiceBusConnectionStringBuilder = serviceBusConnectionStringBuilder ?? throw new ArgumentNullException(nameof(serviceBusConnectionStringBuilder));

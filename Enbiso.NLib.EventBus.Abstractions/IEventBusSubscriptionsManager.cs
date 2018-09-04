@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Enbiso.NLib.EventBus.Abstractions
+namespace Enbiso.NLib.EventBus
 {
     /// <summary>
     /// Event subscription manager interface
@@ -59,8 +59,8 @@ namespace Enbiso.NLib.EventBus.Abstractions
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void AddSubscription<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
-            where TEventHandler : IIntegrationEventHandler<TEvent>;
+            where TEvent : IEvent 
+            where TEventHandler : IEventHandler<TEvent>;
         
         /// <summary>
         /// Remove subscription
@@ -68,8 +68,8 @@ namespace Enbiso.NLib.EventBus.Abstractions
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void RemoveSubscription<TEvent, TEventHandler>() 
-            where TEventHandler : IIntegrationEventHandler<TEvent> 
-            where TEvent : IIntegrationEvent;
+            where TEventHandler : IEventHandler<TEvent> 
+            where TEvent : IEvent;
 
         /// <summary>
         /// Check if a subsciption exists for an event
@@ -77,7 +77,7 @@ namespace Enbiso.NLib.EventBus.Abstractions
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         bool HasSubscriptionsForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
 
         /// <summary>
         /// Clear all event handlers
@@ -90,7 +90,7 @@ namespace Enbiso.NLib.EventBus.Abstractions
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         IEnumerable<SubscriptionInfo> GetHandlersForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
         
         /// <summary>
         /// Get all event subscrptions given the dynamic event
@@ -105,6 +105,6 @@ namespace Enbiso.NLib.EventBus.Abstractions
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         string GetEventKey<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
     }
 }

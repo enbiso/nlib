@@ -1,5 +1,4 @@
-﻿using Enbiso.NLib.EventBus.Abstractions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.EventBus.RabbitMq
@@ -30,7 +29,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <param name="option"></param>
         public static void AddEventBus(this IServiceCollection services, RabbitMqOption option)
         {
-            services.AddEventBus<DefaultRabbitMqPersistentConnection, InMemoryEventBusSubscriptionsManager>(option);
+            services.AddEventBus<RabbitMqPersistentConnection, EventBusSubscriptionsManager>(option);
         }
     }
 }
