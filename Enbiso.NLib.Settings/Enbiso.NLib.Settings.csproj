@@ -5,7 +5,7 @@
         <PackageId>Enbiso.NLib.Settings</PackageId>
 
         <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
-        <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION).$(TRAVIS_BUILD_NUMBER)</PackageVersion>
+        <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
         
         <Authors>Faraj Farook</Authors>
         <Description>Simple Settings</Description>
