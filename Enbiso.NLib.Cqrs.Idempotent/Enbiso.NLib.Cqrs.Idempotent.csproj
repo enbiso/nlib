@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj" />
+    <ProjectReference Include="..\Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj" />
+  </ItemGroup>
+
+</Project>
