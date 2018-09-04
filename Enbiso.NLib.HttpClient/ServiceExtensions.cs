@@ -5,7 +5,7 @@ namespace Enbiso.NLib.HttpClient
     public static class ServiceExtensions
     {
         public static void AddHttpClient(this IServiceCollection services)
-        {
+        {            
             services.AddTransient<IHttpClient, StandardHttpClient>();
         }
 

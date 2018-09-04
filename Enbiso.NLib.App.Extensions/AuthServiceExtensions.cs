@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Enbiso.NLib.Auth
+namespace Enbiso.NLib.App.Extensions
 {
-    public static class ServiceExtensions
+    public static class AuthServiceExtensions
     {
         public static IServiceCollection AddAuth(this IServiceCollection services, IAppSettings settings)
-        {            
+        {                        
             services.AddAuthorization(); //.AddJsonFormatters();
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

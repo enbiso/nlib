@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Cqrs", "Enbiso.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Settings", "Enbiso.NLib.Settings\Enbiso.NLib.Settings.csproj", "{7B650737-DD60-410F-B264-B2C06DE0EE43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Auth", "Enbiso.NLib.Auth\Enbiso.NLib.Auth.csproj", "{C62A326A-BD8A-4CC1-8E19-2FE57EEB0F2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.App.Extensions", "Enbiso.NLib.App.Extensions\Enbiso.NLib.App.Extensions.csproj", "{C62A326A-BD8A-4CC1-8E19-2FE57EEB0F2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Cqrs.Idempotent", "Enbiso.NLib.Cqrs.Idempotent\Enbiso.NLib.Cqrs.Idempotent.csproj", "{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}"
 EndProject
