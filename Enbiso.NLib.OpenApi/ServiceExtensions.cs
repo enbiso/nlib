@@ -10,7 +10,7 @@ namespace Enbiso.NLib.OpenApi
     public static class ServiceExtensions
     {
         public static void AddOpenApi(this IServiceCollection services, IAppSettings settings)
-        {                        
+        {            
             services.AddSwaggerGen(options =>
             {
                 options.SchemaFilter<SchemaExtensionFilter>();
