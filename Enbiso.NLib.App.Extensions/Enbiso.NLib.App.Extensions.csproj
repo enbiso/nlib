@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -28,7 +28,6 @@
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.*" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.*" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.1.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.*" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.*" />
   </ItemGroup>
 
