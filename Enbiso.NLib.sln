@@ -33,13 +33,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Validation.Beha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.OpenApi", "Enbiso.NLib.OpenApi\Enbiso.NLib.OpenApi.csproj", "{863C1D72-CF98-4A64-9A34-7DDDD73AC688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Cqrs", "Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj", "{B2F44E3E-632D-4D5C-AEA4-20F649ACB414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Cqrs", "Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj", "{B2F44E3E-632D-4D5C-AEA4-20F649ACB414}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Settings", "Enbiso.NLib.Settings\Enbiso.NLib.Settings.csproj", "{7B650737-DD60-410F-B264-B2C06DE0EE43}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.App.Extensions", "Enbiso.NLib.App.Extensions\Enbiso.NLib.App.Extensions.csproj", "{C62A326A-BD8A-4CC1-8E19-2FE57EEB0F2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.Cqrs.Idempotent", "Enbiso.NLib.Cqrs.Idempotent\Enbiso.NLib.Cqrs.Idempotent.csproj", "{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Cqrs.Idempotent", "Enbiso.NLib.Cqrs.Idempotent\Enbiso.NLib.Cqrs.Idempotent.csproj", "{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.DependencyInjection", "Enbiso.NLib.DependencyInjection\Enbiso.NLib.DependencyInjection.csproj", "{3B6FF6ED-750E-47FB-A01E-1D45D3414417}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFBD7E3E-A594-4BEE-B38C-0D02DC032EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B6FF6ED-750E-47FB-A01E-1D45D3414417}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B6FF6ED-750E-47FB-A01E-1D45D3414417}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B6FF6ED-750E-47FB-A01E-1D45D3414417}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B6FF6ED-750E-47FB-A01E-1D45D3414417}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

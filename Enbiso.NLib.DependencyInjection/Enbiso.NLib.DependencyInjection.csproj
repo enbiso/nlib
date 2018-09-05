@@ -1,31 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Enbiso.NLib.Cqrs</PackageId>
-    
+    <PackageId>Enbiso.NLib.DependencyInjection</PackageId>
+
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
     <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
-    
+
     <Company>enbiso</Company>
     <Authors>Faraj Farook</Authors>
-    <Description>Simple CQRS</Description>
+    <Description>Simple Annotated Dependency Injection library</Description>
     <Copyright>Copyright 2017 (c) enbiso. All rights reserved.</Copyright>
-    <PackageTags>Enbiso Enbiso.NLib CQRS</PackageTags>
+    <PackageTags>Enbiso Enbiso.NLib Annotated Dependency Injection</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Owners>enbiso</Owners>
     <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
-    <Summary>Enbiso - Simple CQRS .NET Standard</Summary>
-    <Title>Simple CQRS</Title>
+    <Summary>Enbiso - Simple Annotated Dependency Injection in .NET Standard</Summary>
+    <Title>Annotated Dependency Injection</Title>
     <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
     <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.1.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.*" />
   </ItemGroup>
 
 </Project>
