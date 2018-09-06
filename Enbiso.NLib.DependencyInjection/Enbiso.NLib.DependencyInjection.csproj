@@ -14,14 +14,15 @@
     <PackageTags>Enbiso Enbiso.NLib Annotated Dependency Injection</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
-    <Owners>enbiso</Owners>
-    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+    <Owners>enbiso</Owners>    
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple Annotated Dependency Injection in .NET Standard</Summary>
     <Title>Annotated Dependency Injection</Title>
+
     <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+    
   </PropertyGroup>
 
   <ItemGroup>
