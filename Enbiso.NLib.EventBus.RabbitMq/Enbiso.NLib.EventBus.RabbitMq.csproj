@@ -23,9 +23,9 @@
     <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.*" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.*" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.*" />
     <PackageReference Include="Polly" Version="6.0.*" />
     <PackageReference Include="RabbitMQ.Client" Version="5.0.*" />

@@ -19,11 +19,11 @@
         /// </summary>
         public string VirtualHost { get; set; }
         /// <summary>
-        /// Rabbit server connection retris
+        /// Rabbit server connection retries
         /// </summary>
         public int RetryCount { get; set; } = 5;
         /// <summary>
-        /// Message publish retris
+        /// Message publish retries
         /// </summary>
         public int PublishRetryCount { get; set; } = 5;
         /// <summary>
@@ -34,9 +34,5 @@
         /// Client broker name
         /// </summary>
         public string Exchange { get; set; }
-        /// <summary>
-        /// Client scope
-        /// </summary>
-        public string Scope { get; set; }
     }
 }

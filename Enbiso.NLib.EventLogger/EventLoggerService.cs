@@ -10,15 +10,15 @@ namespace Enbiso.NLib.EventLogger
     /// </summary>
     public interface IEventLoggerService
     {
-        EventLog AddEvent(IEvent @event);
-        Task SaveEventAsync(IEvent @event, DbTransaction transaction);
-        Task MarkEventAsPublishedAsync(IEvent @event);
-        Task MarkEventAsFailedAsync(IEvent @event);
+        EventLog AddEvent(IIntegrationEvent integrationEvent);
+        Task SaveEventAsync(IIntegrationEvent integrationEvent, DbTransaction transaction);
+        Task MarkEventAsPublishedAsync(IIntegrationEvent integrationEvent);
+        Task MarkEventAsFailedAsync(IIntegrationEvent integrationEvent);
     }
     
     /// <inheritdoc />
     /// <summary>
-    /// Event logger implementation
+    /// IntegrationEvent logger implementation
     /// </summary>
     public class EventLoggerService : IEventLoggerService
     {
@@ -30,43 +30,43 @@ namespace Enbiso.NLib.EventLogger
         }
 
         /// <summary>
-        /// Add event
+        /// Add integrationEvent
         /// </summary>
-        /// <param name="event"></param>
+        /// <param name="integrationEvent"></param>
         /// <returns></returns>
-        public EventLog AddEvent(IEvent @event)
+        public EventLog AddEvent(IIntegrationEvent integrationEvent)
         {
-            var eventLogEntry = new EventLog(@event);
+            var eventLogEntry = new EventLog(integrationEvent);
             return _repo.Add(eventLogEntry);
         }
 
         /// <summary>
         /// Save events
         /// </summary>
-        /// <param name="event"></param>
+        /// <param name="integrationEvent"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public Task SaveEventAsync(IEvent @event, DbTransaction transaction)
+        public Task SaveEventAsync(IIntegrationEvent integrationEvent, DbTransaction transaction)
         {
             if (transaction == null)
             {
-                throw new ArgumentNullException(nameof(transaction), $"A {typeof(DbTransaction).FullName} is required as a pre-requisite to save the event.");
+                throw new ArgumentNullException(nameof(transaction), $"A {typeof(DbTransaction).FullName} is required as a pre-requisite to save the integrationEvent.");
             }
 
-            var eventLogEntry = new EventLog(@event);
+            var eventLogEntry = new EventLog(integrationEvent);
             _repo.UseTransaction(transaction);
             _repo.Add(eventLogEntry);
             return _repo.SaveChangesAsync();
         }
 
         /// <summary>
-        /// Mark event as published
+        /// Mark integrationEvent as published
         /// </summary>
-        /// <param name="event"></param>
+        /// <param name="integrationEvent"></param>
         /// <returns></returns>
-        public async Task MarkEventAsPublishedAsync(IEvent @event)
+        public async Task MarkEventAsPublishedAsync(IIntegrationEvent integrationEvent)
         {
-            var eventLogEntry = await _repo.FindByIdAsync(@event.Id);
+            var eventLogEntry = await _repo.FindByIdAsync(integrationEvent.Id);
             eventLogEntry.TimesSent++;
             eventLogEntry.State = EventState.Published;
             _repo.Update(eventLogEntry);
@@ -76,11 +76,11 @@ namespace Enbiso.NLib.EventLogger
         /// <summary>
         /// Mark as failed
         /// </summary>
-        /// <param name="event"></param>
+        /// <param name="integrationEvent"></param>
         /// <returns></returns>
-        public async Task MarkEventAsFailedAsync(IEvent @event)
+        public async Task MarkEventAsFailedAsync(IIntegrationEvent integrationEvent)
         {
-            var eventLogEntry = await _repo.FindByIdAsync(@event.Id);            
+            var eventLogEntry = await _repo.FindByIdAsync(integrationEvent.Id);            
             eventLogEntry.State = EventState.Failed;
             _repo.Update(eventLogEntry);
             await _repo.SaveChangesAsync();

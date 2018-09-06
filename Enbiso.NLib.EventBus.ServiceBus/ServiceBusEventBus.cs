@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Autofac;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,46 +11,45 @@ using Newtonsoft.Json.Linq;
 namespace Enbiso.NLib.EventBus.ServiceBus
 {
     /// <summary>
-    /// Eventbus Service bus
+    /// Event bus Service bus
     /// </summary>
     /// /// <inheritdoc />
     public class ServiceBusEventBus : IEventBus
     {
-        private const string AutofacScopeName = "scope_service_bus";
-        private const string IntegrationEventSufix = "IntegrationEvent";
+        private const string IntegrationEventSuffix = "IntegrationEvent";
 
-        private readonly IServiceBusPersisterConnection _serviceBusPersisterConnection;
+        private readonly IServiceBusPersistenceConnection _serviceBusPersistenceConnection;
         private readonly ILogger<ServiceBusEventBus> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
-        private readonly SubscriptionClient _subscriptionClient;
-        private readonly ILifetimeScope _autofac;
+        private readonly SubscriptionClient _subscriptionClient;        
         private readonly IEnumerable<IEventBusSubscriber> _subscribers;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
-        /// Constrsuctor
+        /// Constructor
         /// </summary>
-        /// <param name="serviceBusPersisterConnection"></param>
+        /// <param name="serviceBusPersistenceConnection"></param>
         /// <param name="logger"></param>
         /// <param name="subsManager"></param>        
         /// <param name="subscriptionClientName"></param>
         /// <param name="autofac"></param>
-        public ServiceBusEventBus(IServiceBusPersisterConnection serviceBusPersisterConnection,
+        public ServiceBusEventBus(IServiceBusPersistenceConnection serviceBusPersistenceConnection,
             ILogger<ServiceBusEventBus> logger, IEventBusSubscriptionsManager subsManager,            
-            string subscriptionClientName,
-            ILifetimeScope autofac, 
-            IEnumerable<IEventBusSubscriber> subscribers)
+            string subscriptionClientName,            
+            IEnumerable<IEventBusSubscriber> subscribers, 
+            IServiceProvider serviceProvider)
         {
-            _serviceBusPersisterConnection = serviceBusPersisterConnection;
+            _serviceBusPersistenceConnection = serviceBusPersistenceConnection;
             _logger = logger;
             _subsManager = subsManager ?? new EventBusSubscriptionsManager();
 
             _subscriptionClient = new SubscriptionClient(
-                serviceBusPersisterConnection.ServiceBusConnectionStringBuilder,
-                subscriptionClientName);
-            _autofac = autofac;            
+                serviceBusPersistenceConnection.ServiceBusConnectionStringBuilder,
+                subscriptionClientName);                     
 
             RemoveDefaultRule();
             _subscribers = subscribers;
+            _serviceProvider = serviceProvider;
         }
 
         /// <inheritdoc />
@@ -61,10 +60,10 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Publish(IEvent @event)
+        public void Publish(IIntegrationEvent integrationEvent)
         {
-            var eventName = @event.GetType().Name.Replace(IntegrationEventSufix, "");
-            var jsonMessage = JsonConvert.SerializeObject(@event);
+            var eventName = integrationEvent.GetType().Name.Replace(IntegrationEventSuffix, "");
+            var jsonMessage = JsonConvert.SerializeObject(integrationEvent);
 
             var message = new Message
             {
@@ -73,7 +72,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                 Label = eventName,
             };
 
-            var topicClient = _serviceBusPersisterConnection.CreateModel();
+            var topicClient = _serviceBusPersistenceConnection.CreateModel();
 
             topicClient.SendAsync(message)
                 .GetAwaiter()
@@ -81,7 +80,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Subscribe<TEvent>() where TEvent : IEvent
+        public void Subscribe<TEvent>() where TEvent : IIntegrationEvent
         {
             Subscribe<TEvent, IEventHandler<TEvent>>();
         }
@@ -95,10 +94,10 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void Subscribe<TEvent, TEventHandler>()
-            where TEvent : IEvent
+            where TEvent : IIntegrationEvent
             where TEventHandler : IEventHandler<TEvent>
         {
-            var eventName = typeof(TEvent).Name.Replace(IntegrationEventSufix, "");
+            var eventName = typeof(TEvent).Name.Replace(IntegrationEventSuffix, "");
 
             var containsKey = _subsManager.HasSubscriptionsForEvent<TEvent>();
             if (!containsKey)
@@ -122,10 +121,10 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void Unsubscribe<TEvent, TEventHandler>()
-            where TEvent : IEvent
+            where TEvent : IIntegrationEvent
             where TEventHandler : IEventHandler<TEvent>
         {
-            var eventName = typeof(TEvent).Name.Replace(IntegrationEventSufix, "");
+            var eventName = typeof(TEvent).Name.Replace(IntegrationEventSuffix, "");
 
             try
             {
@@ -161,7 +160,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
             _subscriptionClient.RegisterMessageHandler(
                 async (message, token) =>
                 {
-                    var eventName = $"{message.Label}{IntegrationEventSufix}";
+                    var eventName = $"{message.Label}{IntegrationEventSuffix}";
                     var messageData = Encoding.UTF8.GetString(message.Body);
                     await ProcessEvent(eventName, messageData);
 
@@ -186,7 +185,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         {
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {
-                using (var scope = _autofac.BeginLifetimeScope(AutofacScopeName))
+                using (var scope = _serviceProvider.CreateScope())
                 {
                     var subscriptions = _subsManager.GetHandlersForEvent(eventName);
                     foreach (var subscription in subscriptions)
@@ -194,7 +193,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                         if (subscription.IsDynamic)
                         {
                             var handler =
-                                scope.ResolveOptional(subscription.HandlerType) as IDynamicIntegrationEventHandler;
+                                scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicIntegrationEventHandler;
                             dynamic eventData = JObject.Parse(message);
                             if (handler != null) await handler.Handle(eventData);
                             else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");
@@ -203,7 +202,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                         {
                             var eventType = _subsManager.GetEventTypeByName(eventName);
                             var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
-                            var handler = scope.ResolveOptional(subscription.HandlerType);
+                            var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
                             var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
                             await (Task) concreteType.GetMethod("Handle")
                                 .Invoke(handler, new[] {integrationEvent});

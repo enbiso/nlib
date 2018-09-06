@@ -1,7 +1,7 @@
 ﻿namespace Enbiso.NLib.EventBus
 {
     /// <summary>
-    /// Event bus interface
+    /// IntegrationEvent bus interface
     /// </summary>
     public interface IEventBus
     {
@@ -11,10 +11,10 @@
         void Initialize();
 
         /// <summary>
-        /// Publish event
+        /// Publish integrationEvent
         /// </summary>
-        /// <param name="event"></param>
-        void Publish(IEvent @event);
+        /// <param name="integrationEvent"></param>
+        void Publish(IIntegrationEvent integrationEvent);
 
         /// <summary>
         /// Subscribe to events
@@ -22,7 +22,7 @@
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void Subscribe<TEvent, TEventHandler>()
-            where TEvent : IEvent
+            where TEvent : IIntegrationEvent
             where TEventHandler : IEventHandler<TEvent>;
 
         /// <summary>
@@ -30,7 +30,7 @@
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>        
         void Subscribe<TEvent>()
-            where TEvent : IEvent;
+            where TEvent : IIntegrationEvent;
 
         /// <summary>
         /// Subscribe to events dynamically
@@ -41,7 +41,7 @@
             where TEventHandler : IDynamicIntegrationEventHandler;
 
         /// <summary>
-        /// Unsusbcribe to event dynamically
+        /// Unsusbcribe to integrationEvent dynamically
         /// </summary>
         /// <param name="eventName"></param>
         /// <typeparam name="TEventHandler"></typeparam>
@@ -55,6 +55,6 @@
         /// <typeparam name="TEventHandler"></typeparam>
         void Unsubscribe<TEvent, TEventHandler>()
             where TEventHandler : IEventHandler<TEvent>
-            where TEvent : IEvent;
+            where TEvent : IIntegrationEvent;
     }
 }
