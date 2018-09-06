@@ -12,7 +12,7 @@ namespace Enbiso.NLib.Domain.Events
     public interface IDomainEventBus
     {
         Task Publish<TDomainEvent>(TDomainEvent @event, CancellationToken cancellationToken = default(CancellationToken)) where TDomainEvent : IDomainEvent;
-        IEnumerable<Task> PublishFromEntities(IEnumerable<IEntity> entities, CancellationToken cancellationToken = default(CancellationToken));
+        Task[] PublishFromEntities(IEnumerable<IEntity> entities, CancellationToken cancellationToken = default(CancellationToken));
     }
 
     /// <summary>
@@ -32,10 +32,10 @@ namespace Enbiso.NLib.Domain.Events
             return _mediator.Publish(@event, cancellationToken);
         }
 
-        public IEnumerable<Task> PublishFromEntities(IEnumerable<IEntity> entities,
+        public Task[] PublishFromEntities(IEnumerable<IEntity> entities,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            return entities.GetEvents<IDomainEvent>().Select(async e => await Publish(e, cancellationToken)) ;
+            return entities.GetEvents<IDomainEvent>().Select(async e => await Publish(e, cancellationToken)).ToArray();
         }
     }
 }
