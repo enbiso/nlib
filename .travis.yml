@@ -1,5 +1,5 @@
 env:
-  - PACKAGE_VERSION="1.1.0-rc7"
+  - PACKAGE_VERSION="1.1.0-rc8"
   - PACKAGE_ICON="https://www.enbiso.com/logo.svg"
   - PACKAGE_PROJECT="https://nlib.enbiso.com"
   - PACKAGE_REPO="https://github.com/enbiso/Enbiso.NLib"

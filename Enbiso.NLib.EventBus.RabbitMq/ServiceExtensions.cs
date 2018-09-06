@@ -12,7 +12,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <param name="option"></param>
         /// <typeparam name="TConnection"></typeparam>
         /// <typeparam name="TEventSubscriptionManager"></typeparam>        
-        public static void AddEventBus<TConnection, TEventSubscriptionManager>(this IServiceCollection services, Action<RabbitMqOption> option = null)
+        public static void AddEventBusRabbitMq<TConnection, TEventSubscriptionManager>(this IServiceCollection services, Action<RabbitMqOption> option = null)
             where TConnection : class, IRabbitMqPersistentConnection
             where TEventSubscriptionManager : class, IEventBusSubscriptionsManager
         {
@@ -29,9 +29,9 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// </summary>
         /// <param name="services"></param>
         /// <param name="option"></param>
-        public static void AddEventBus(this IServiceCollection services, Action<RabbitMqOption> option = null)
+        public static void AddEventBusRabbitMq(this IServiceCollection services, Action<RabbitMqOption> option = null)
         {
-            services.AddEventBus<RabbitMqPersistentConnection, EventBusSubscriptionsManager>(option);
+            services.AddEventBusRabbitMq<RabbitMqPersistentConnection, EventBusSubscriptionsManager>(option);
         }
     }
 }
