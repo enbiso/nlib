@@ -14,8 +14,7 @@
     <PackageTags>Enbiso Enbiso.NLib CQRS</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
-    <Owners>enbiso</Owners>
-    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+    <Owners>enbiso</Owners>    
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple CQRS .NET Standard</Summary>
     <Title>Simple CQRS</Title>
