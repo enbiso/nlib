@@ -4,8 +4,8 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>Enbiso.NLib.HttpClient</PackageId>
 
-        <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
-        <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
         
         <Authors>Faraj Farook</Authors>
         <Description>Resilient (and standard) http client library</Description>
@@ -19,9 +19,9 @@
         <Summary>Enbiso - Simple Resilient HTTP Client in .NET Standard</Summary>
         <Title>Simple Resilient Http Client</Title>
         
-        <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
-        <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
+        <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+        <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+        <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>

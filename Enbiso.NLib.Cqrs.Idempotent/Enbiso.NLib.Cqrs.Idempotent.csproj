@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Enbiso.NLib.Cqrs.Idempotent</PackageId>
     
-    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' == '' ">0.0.1-local</PackageVersion>
-    <PackageVersion Condition=" '$(TRAVIS_BUILD_NUMBER)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
     
     <Company>enbiso</Company>
     <Authors>Faraj Farook</Authors>
@@ -15,13 +15,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Owners>enbiso</Owners>
-    <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
+    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple Idempotent CQRS .NET Standard</Summary>
     <Title>Simple Idempotent CQRS</Title>
-    <PackageIconUrl>https://image.ibb.co/jkE54b/logo.png</PackageIconUrl>
-    <PackageProjectUrl>https://nlib.enbiso.com/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/enbiso/Enbiso.NLib</RepositoryUrl>
+    <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+    <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
