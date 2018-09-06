@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Enbiso.NLib.Domain.Models;
 
-namespace Enbiso.NLib.Domain.Repository
+namespace Enbiso.NLib.Domain
 {
     /// <summary>
     /// Repository

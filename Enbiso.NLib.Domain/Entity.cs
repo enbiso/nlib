@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using Enbiso.NLib.Domain.Events;
+using System.Linq;
 
-namespace Enbiso.NLib.Domain.Models
+namespace Enbiso.NLib.Domain
 {
     /// <summary>
-    /// Agregated root entity
+    /// Aggregated root entity
     /// </summary>
     public interface IRootEntity
+    {
+    }
+
+    /// <summary>
+    /// Base Event
+    /// </summary>
+    public interface IEntityEvent
     {
     }
 
@@ -16,9 +23,10 @@ namespace Enbiso.NLib.Domain.Models
     /// </summary>
     public interface IEntity
     {
-        List<IDomainEvent> DomainEvents { get; set; }
+        List<IEntityEvent> Events { get; set; }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Domain Entity abstraction
     /// </summary>
@@ -29,16 +37,16 @@ namespace Enbiso.NLib.Domain.Models
         public virtual TKey Id { get; set; }
 
 
-        public List<IDomainEvent> DomainEvents { get; set; } = new List<IDomainEvent>();
+        public List<IEntityEvent> Events { get; set; } = new List<IEntityEvent>();
 
-        public void AddDomainEvent(IDomainEvent eventItem)
+        public void AddEvent(IEntityEvent @event)
         {            
-            DomainEvents.Add(eventItem?? throw new ArgumentNullException());
+            Events.Add(@event?? throw new ArgumentNullException());
         }
         
-        public void RemoveDomainEvent(IDomainEvent eventItem)
+        public void RemoveEvent(IEntityEvent @event)
         {            
-            DomainEvents.Remove(eventItem?? throw new ArgumentNullException());
+            Events.Remove(@event ?? throw new ArgumentNullException());
         }
 
         public bool IsTransient()
@@ -52,7 +60,6 @@ namespace Enbiso.NLib.Domain.Models
                 return false;
 
             if (ReferenceEquals(this, obj))
-                
                 return true;
 
             if (GetType() != obj.GetType())
@@ -78,12 +85,31 @@ namespace Enbiso.NLib.Domain.Models
 
         public static bool operator ==(Entity<TKey> left, Entity<TKey> right)
         {
-            return Equals(left, null) ? Equals(right, null) : left.Equals(right);
+            return left?.Equals(right) ?? Equals(right, null);
         }
 
         public static bool operator !=(Entity<TKey> left, Entity<TKey> right)
         {
             return !(left == right);
+        }
+    }
+
+    /// <summary>
+    /// Entity helper extensions
+    /// </summary>
+    public static class EntityExtensions
+    {
+        public static void ClearEvents(this IEnumerable<IEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                entity.Events.Clear();
+            }
+        }
+
+        public static IEnumerable<TEvent> GetEvents<TEvent>(this IEnumerable<IEntity> entities) where TEvent: IEntityEvent
+        {
+            return entities.ToList().SelectMany(e => e.Events).OfType<TEvent>();
         }
     }
 }

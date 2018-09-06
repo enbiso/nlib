@@ -2,6 +2,7 @@
 
 namespace Enbiso.NLib.Domain
 {
+    /// <inheritdoc />
     /// <summary>
     /// Domain Exception
     /// </summary>

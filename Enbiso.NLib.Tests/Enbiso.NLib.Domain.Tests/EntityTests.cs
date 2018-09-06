@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using AutoFixture.AutoNSubstitute;
-using Enbiso.NLib.Domain.Events;
-using Enbiso.NLib.Domain.Models;
 using Xunit;
 
 namespace Enbiso.NLib.Domain.Tests
@@ -44,39 +42,39 @@ namespace Enbiso.NLib.Domain.Tests
         public void AddDomainEvent_ListOfIDomainEvent_Success()
         {            
             var entity = _fixture.Create<Entity<Guid>>();
-            var events = _fixture.Create<List<IDomainEvent>>();
-            entity.DomainEvents.Clear();
+            var events = _fixture.Create<List<IEntityEvent>>();
+            entity.Events.Clear();
 
-            events.ForEach(entity.AddDomainEvent);
-            Assert.Equal(entity.DomainEvents.Count, events.Count);
+            events.ForEach(entity.AddEvent);
+            Assert.Equal(entity.Events.Count, events.Count);
         }
         
         [Fact]        
         public void RemoveDomainEvent_ValidEvent_Success()
         {            
             var entity = _fixture.Create<Entity<Guid>>();
-            var events = _fixture.Create<List<IDomainEvent>>();            
+            var events = _fixture.Create<List<IEntityEvent>>();            
 
-            events.ForEach(entity.AddDomainEvent);
-            entity.RemoveDomainEvent(events.First());
-            Assert.Equal(entity.DomainEvents.Count, events.Count - 1);
+            events.ForEach(entity.AddEvent);
+            entity.RemoveEvent(events.First());
+            Assert.Equal(entity.Events.Count, events.Count - 1);
         }
         
                 
         [Fact]                
         public void RemoveDomainEvent_Null_Success()
         {
-            var events = _fixture.Create<List<IDomainEvent>>();
+            var events = _fixture.Create<List<IEntityEvent>>();
             var entity = _fixture.Create<Entity<Guid>>();            
-            events.ForEach(entity.AddDomainEvent);            
-            Assert.Throws<ArgumentNullException>(() => entity.RemoveDomainEvent(null));  
+            events.ForEach(entity.AddEvent);            
+            Assert.Throws<ArgumentNullException>(() => entity.RemoveEvent(null));  
         }
         
         [Fact]        
         public void AddDomainEvent_Nulls_Success()
         {            
             var entity = _fixture.Create<Entity<Guid>>();
-            Assert.Throws<ArgumentNullException>(() => entity.AddDomainEvent(null));            
+            Assert.Throws<ArgumentNullException>(() => entity.AddEvent(null));            
         }
     }
 }
