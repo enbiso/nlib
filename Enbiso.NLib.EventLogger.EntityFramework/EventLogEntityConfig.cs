@@ -33,4 +33,15 @@ namespace Enbiso.NLib.EventLogger.EntityFramework
         }
     }
 
+    /// <summary>
+    /// Model builder extensions
+    /// </summary>
+    public static class ModelBuilderExtensions
+    {
+        public static ModelBuilder ApplyEventLoggerConfiguration(this ModelBuilder builder)
+        {
+            return builder.ApplyConfiguration(new EventLogEntityConfig());
+        }
+    }
+
 }

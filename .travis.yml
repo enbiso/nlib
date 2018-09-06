@@ -1,5 +1,5 @@
 env:
-  - PACKAGE_VERSION="1.1.0-rc3"
+  - PACKAGE_VERSION="1.1.0-rc4"
 language: csharp
 mono: none
 dotnet: 2.1.302

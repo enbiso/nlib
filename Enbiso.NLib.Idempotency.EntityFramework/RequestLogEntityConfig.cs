@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Enbiso.NLib.Idempotency.EntityFramework
 {
-    public class ClientRequestEntityConfig : IEntityTypeConfiguration<RequestLog>
+    public class RequestLogEntityConfig : IEntityTypeConfiguration<RequestLog>
     {
         public void Configure(EntityTypeBuilder<RequestLog> requestConfiguration)
         {
@@ -12,4 +12,14 @@ namespace Enbiso.NLib.Idempotency.EntityFramework
         }
     }
 
+    /// <summary>
+    /// Model builder extensions
+    /// </summary>
+    public static class ModelBuilderExtensions
+    {
+        public static ModelBuilder ApplyIdempotencyConfiguration(this ModelBuilder builder)
+        {
+            return builder.ApplyConfiguration(new RequestLogEntityConfig());
+        }
+    }
 }
