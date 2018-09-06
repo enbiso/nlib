@@ -6,7 +6,7 @@ namespace Enbiso.NLib.EventBus
     public static class ServiceExtensions
     {      
         /// <summary>
-        /// Add IntegrationEvent bus with default connection and manager
+        /// Add Event bus with default connection and manager
         /// </summary>
         /// <param name="services"></param>        
         public static void AddEventBus(this IServiceCollection services)
@@ -15,7 +15,7 @@ namespace Enbiso.NLib.EventBus
         }
 
         /// <summary>
-        /// Add IntegrationEvent bus with default connection and manager
+        /// Add Event bus with default connection and manager
         /// </summary>
         /// <param name="services"></param>        
         public static void AddEventBus<TEventBusSubscriptionManager>(this IServiceCollection services) where TEventBusSubscriptionManager: class, IEventBusSubscriptionsManager

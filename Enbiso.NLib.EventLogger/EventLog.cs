@@ -7,12 +7,12 @@ namespace Enbiso.NLib.EventLogger
     public class EventLog
     {
         private EventLog() { }
-        public EventLog(IIntegrationEvent integrationEvent)
+        public EventLog(IEvent @event)
         {
-            EventId = integrationEvent.Id;
-            CreationTime = integrationEvent.CreationDate;
-            EventTypeName = integrationEvent.GetType().FullName;
-            Content = JsonConvert.SerializeObject(integrationEvent);
+            EventId = @event.Id;
+            CreationTime = @event.CreationDate;
+            EventTypeName = @event.GetType().FullName;
+            Content = JsonConvert.SerializeObject(@event);
             State = EventState.NotPublished;
             TimesSent = 0;
         }        

@@ -17,7 +17,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 {
     /// <inheritdoc />
     /// <summary>
-    /// Rabbit implementation of integrationEvent bus
+    /// Rabbit implementation of @event bus
     /// </summary>
     public class RabbitMqEventBus : IEventBus
     {
@@ -69,7 +69,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Publish(IIntegrationEvent integrationEvent)
+        public void Publish(IEvent @event)
         {
             if (!_persistentConnection.IsConnected)
             {
@@ -85,10 +85,10 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                var eventName = integrationEvent.GetType().Name;
+                var eventName = @event.GetType().Name;
                 channel.ExchangeDeclare(exchange: _brokerName, type: "direct");
 
-                var message = JsonConvert.SerializeObject(integrationEvent);
+                var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
                 policy.Execute(() =>
                 {
@@ -99,7 +99,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         /// <inheritdoc />
         public void Subscribe<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
+            where TEvent : IEvent 
             where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = _subscriptionsManager.GetEventKey<TEvent>();
@@ -108,14 +108,14 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Subscribe<TEvent>() where TEvent : IIntegrationEvent
+        public void Subscribe<TEvent>() where TEvent : IEvent
         {
             Subscribe<TEvent, IEventHandler<TEvent>>();
         }
 
         /// <inheritdoc />
         public void SubscribeDynamic<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             DoInternalSubscription(eventName);
             _subscriptionsManager.AddDynamicSubscription<TEventHandler>(eventName);
@@ -123,14 +123,14 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         /// <inheritdoc />
         public void UnsubscribeDynamic<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             _subscriptionsManager.RemoveDynamicSubscription<TEventHandler>(eventName);
         }
 
         /// <inheritdoc />
         public void Unsubscribe<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
+            where TEvent : IEvent 
             where TEventHandler : IEventHandler<TEvent>
         {
             _subscriptionsManager.RemoveSubscription<TEvent, TEventHandler>();
@@ -190,7 +190,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                     if (subscription.IsDynamic)
                     {
                         var handler =
-                            scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicIntegrationEventHandler;
+                            scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
                         dynamic eventData = JObject.Parse(message);
                         if (handler != null) await handler.Handle(eventData);
                         else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");

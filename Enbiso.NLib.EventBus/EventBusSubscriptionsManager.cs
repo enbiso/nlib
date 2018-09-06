@@ -6,7 +6,7 @@ namespace Enbiso.NLib.EventBus
 {
     /// <inheritdoc />
     /// <summary>
-    /// In-memory integrationEvent subscription manager
+    /// In-memory @event subscription manager
     /// </summary>
     public class EventBusSubscriptionsManager : IEventBusSubscriptionsManager
     {
@@ -33,13 +33,13 @@ namespace Enbiso.NLib.EventBus
         
         /// <inheritdoc />
         public void AddDynamicSubscription<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             DoAddSubscription(typeof(TEventHandler), eventName, true);
         }
         
         /// <inheritdoc />
-        public void AddSubscription<TEvent, TEventHandler>() where TEvent : IIntegrationEvent 
+        public void AddSubscription<TEvent, TEventHandler>() where TEvent : IEvent 
             where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = GetEventKey<TEvent>();
@@ -49,7 +49,7 @@ namespace Enbiso.NLib.EventBus
 
         /// <inheritdoc />
         public void RemoveDynamicSubscription<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             var handlerToRemove = FindDynamicSubscriptionToRemove<TEventHandler>(eventName);
             DoRemoveSubscription(eventName, handlerToRemove);
@@ -58,7 +58,7 @@ namespace Enbiso.NLib.EventBus
         /// <inheritdoc />
         public void RemoveSubscription<TEvent, TEventHandler>() 
             where TEventHandler : IEventHandler<TEvent> 
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
         {
             var handlerToRemove = FindSubscriptionToRemove<TEvent, TEventHandler>();
             var eventName = GetEventKey<TEvent>();
@@ -67,7 +67,7 @@ namespace Enbiso.NLib.EventBus
 
         /// <inheritdoc />
         public bool HasSubscriptionsForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
         {
             var key = GetEventKey<TEvent>();
             return HasSubscriptionsForEvent(key);
@@ -83,14 +83,14 @@ namespace Enbiso.NLib.EventBus
 
         /// <inheritdoc />
         public string GetEventKey<TEvent>() 
-            where TEvent: IIntegrationEvent
+            where TEvent: IEvent
         {
             return typeof(TEvent).Name;
         }
 
         /// <inheritdoc />
         public IEnumerable<SubscriptionInfo> GetHandlersForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
         {
             var key = GetEventKey<TEvent>();
             return GetHandlersForEvent(key);
@@ -139,13 +139,13 @@ namespace Enbiso.NLib.EventBus
         }
 
         private SubscriptionInfo FindDynamicSubscriptionToRemove<TEventHandler>(string eventName)
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             return DoFindSubscriptionToRemove(eventName, typeof(TEventHandler));
         }
 
         private SubscriptionInfo FindSubscriptionToRemove<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
             where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = GetEventKey<TEvent>();

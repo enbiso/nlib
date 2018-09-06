@@ -29,7 +29,7 @@ namespace Enbiso.NLib.EventBus
         /// <param name="eventName"></param>
         /// <typeparam name="TEventHandler"></typeparam>
         void AddDynamicSubscription<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler;
+            where TEventHandler : IDynamicEventHandler;
 
         /// <summary>
         /// Remove dynamic event subscription
@@ -37,7 +37,7 @@ namespace Enbiso.NLib.EventBus
         /// <param name="eventName"></param>
         /// <typeparam name="TEventHandler"></typeparam>
         void RemoveDynamicSubscription<TEventHandler>(string eventName) 
-            where TEventHandler : IDynamicIntegrationEventHandler;
+            where TEventHandler : IDynamicEventHandler;
         
         /// <summary>
         /// Check if subscription exist for dynamic events
@@ -59,7 +59,7 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="TEvent"></typeparam>
         /// <typeparam name="TEventHandler"></typeparam>
         void AddSubscription<TEvent, TEventHandler>() 
-            where TEvent : IIntegrationEvent 
+            where TEvent : IEvent 
             where TEventHandler : IEventHandler<TEvent>;
         
         /// <summary>
@@ -69,7 +69,7 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="TEventHandler"></typeparam>
         void RemoveSubscription<TEvent, TEventHandler>() 
             where TEventHandler : IEventHandler<TEvent> 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
 
         /// <summary>
         /// Check if a subsciption exists for an event
@@ -77,7 +77,7 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         bool HasSubscriptionsForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
 
         /// <summary>
         /// Clear all event handlers
@@ -90,7 +90,7 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         IEnumerable<SubscriptionInfo> GetHandlersForEvent<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
         
         /// <summary>
         /// Get all event subscrptions given the dynamic event
@@ -105,6 +105,6 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
         string GetEventKey<TEvent>() 
-            where TEvent : IIntegrationEvent;
+            where TEvent : IEvent;
     }
 }

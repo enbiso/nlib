@@ -5,9 +5,9 @@ namespace Enbiso.NLib.EventBus
     /// <summary>
     /// Integration event abstraction
     /// </summary>
-    public abstract class IntegrationEvent: IIntegrationEvent
+    public abstract class Event: IEvent
     {
-        protected IntegrationEvent()
+        protected Event()
         {
             Id = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;

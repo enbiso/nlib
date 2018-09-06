@@ -6,7 +6,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
     public static class ServiceExtensions
     {
         /// <summary>
-        /// Add IntegrationEvent bus wth custom connection and subscription manager
+        /// Add Event bus wth custom connection and subscription manager
         /// </summary>
         /// <param name="services"></param>        
         /// <param name="option"></param>
@@ -25,7 +25,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <summary>
-        /// Add IntegrationEvent bus with default connection and manager
+        /// Add Event bus with default connection and manager
         /// </summary>
         /// <param name="services"></param>
         /// <param name="option"></param>

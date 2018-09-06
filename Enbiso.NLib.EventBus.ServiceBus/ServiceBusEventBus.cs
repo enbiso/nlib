@@ -16,7 +16,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
     /// /// <inheritdoc />
     public class ServiceBusEventBus : IEventBus
     {
-        private const string IntegrationEventSuffix = "IntegrationEvent";
+        private const string IntegrationEventSuffix = "Event";
 
         private readonly IServiceBusPersistenceConnection _serviceBusPersistenceConnection;
         private readonly ILogger<ServiceBusEventBus> _logger;
@@ -60,10 +60,10 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Publish(IIntegrationEvent integrationEvent)
+        public void Publish(IEvent @event)
         {
-            var eventName = integrationEvent.GetType().Name.Replace(IntegrationEventSuffix, "");
-            var jsonMessage = JsonConvert.SerializeObject(integrationEvent);
+            var eventName = @event.GetType().Name.Replace(IntegrationEventSuffix, "");
+            var jsonMessage = JsonConvert.SerializeObject(@event);
 
             var message = new Message
             {
@@ -80,21 +80,21 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Subscribe<TEvent>() where TEvent : IIntegrationEvent
+        public void Subscribe<TEvent>() where TEvent : IEvent
         {
             Subscribe<TEvent, IEventHandler<TEvent>>();
         }
 
         /// <inheritdoc />
         public void SubscribeDynamic<TEventHandler>(string eventName)
-            where TEventHandler : IDynamicIntegrationEventHandler
+            where TEventHandler : IDynamicEventHandler
         {
             _subsManager.AddDynamicSubscription<TEventHandler>(eventName);
         }
 
         /// <inheritdoc />
         public void Subscribe<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
             where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = typeof(TEvent).Name.Replace(IntegrationEventSuffix, "");
@@ -121,7 +121,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void Unsubscribe<TEvent, TEventHandler>()
-            where TEvent : IIntegrationEvent
+            where TEvent : IEvent
             where TEventHandler : IEventHandler<TEvent>
         {
             var eventName = typeof(TEvent).Name.Replace(IntegrationEventSuffix, "");
@@ -143,7 +143,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
         /// <inheritdoc />
         public void UnsubscribeDynamic<TH>(string eventName)
-            where TH : IDynamicIntegrationEventHandler
+            where TH : IDynamicEventHandler
         {
             _subsManager.RemoveDynamicSubscription<TH>(eventName);
         }
@@ -193,7 +193,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                         if (subscription.IsDynamic)
                         {
                             var handler =
-                                scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicIntegrationEventHandler;
+                                scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
                             dynamic eventData = JObject.Parse(message);
                             if (handler != null) await handler.Handle(eventData);
                             else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");

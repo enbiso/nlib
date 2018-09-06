@@ -7,7 +7,7 @@ namespace Enbiso.NLib.EventBus
     /// Integration event handler with type event
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
-    public interface IEventHandler<in TEvent> : IIntegrationEventHandler where TEvent: IIntegrationEvent
+    public interface IEventHandler<in TEvent> : IEventHandler where TEvent: IEvent
     {
         Task Handle(TEvent @event);
     }
@@ -15,7 +15,7 @@ namespace Enbiso.NLib.EventBus
     /// <summary>
     /// Integration event handler
     /// </summary>
-    public interface IIntegrationEventHandler
+    public interface IEventHandler
     {
 
     }
@@ -23,7 +23,7 @@ namespace Enbiso.NLib.EventBus
     /// <summary>
     /// Dynamic integration event handler interface
     /// </summary>
-    public interface IDynamicIntegrationEventHandler
+    public interface IDynamicEventHandler
     {
         /// <summary>
         /// Handle dynamic event
