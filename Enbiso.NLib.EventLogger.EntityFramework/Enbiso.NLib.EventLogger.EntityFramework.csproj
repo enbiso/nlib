@@ -23,9 +23,10 @@
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.*" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.*" />
+    <ProjectReference Include="..\Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj" />
+    <ProjectReference Include="..\Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj" />
   </ItemGroup>
 </Project>

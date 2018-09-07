@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using Enbiso.NLib.EventBus;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.EventLogger.EntityFramework
@@ -9,6 +11,11 @@ namespace Enbiso.NLib.EventLogger.EntityFramework
         {
             services.AddEventLogger();
             services.AddSingleton<IEventLogRepo, EntityEventLogRepo<TDbContext>>();
+
+            var eventService = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IEventService));
+            if (eventService != null) services.Remove(eventService);
+
+            services.AddSingleton<IEventService, EntityEventLoggerEventService<TDbContext>>();
         }
     }
 }

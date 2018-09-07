@@ -89,7 +89,7 @@ namespace Enbiso.NLib.EventBus
         /// </summary>
         /// <typeparam name="TEvent"></typeparam>
         /// <returns></returns>
-        IEnumerable<SubscriptionInfo> GetHandlersForEvent<TEvent>() 
+        IEnumerable<ISubscriptionInfo> GetHandlersForEvent<TEvent>() 
             where TEvent : IEvent;
         
         /// <summary>
@@ -97,7 +97,7 @@ namespace Enbiso.NLib.EventBus
         /// </summary>
         /// <param name="eventName"></param>
         /// <returns></returns>
-        IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName);
+        IEnumerable<ISubscriptionInfo> GetHandlersForEvent(string eventName);
         
         /// <summary>
         /// Get event key for given event

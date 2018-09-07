@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.Cqrs.Idempotent
@@ -14,12 +13,14 @@ namespace Enbiso.NLib.Cqrs.Idempotent
             return services.AddCqrsIdempotent(assembly);
         }
 
-        public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services, params Assembly[] assemblies)
+        public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services,
+            params Assembly[] assemblies)
         {
             var assemblyList = assemblies.ToList();
-            assemblyList.Add(typeof(ServiceExtensions).Assembly);            
-            services.AddCqrs(assemblies);            
+            assemblyList.Add(typeof(ServiceExtensions).Assembly);
+            services.AddCqrs(assemblies);
+            services.AddSingleton<IIdempotentCommandBus, IdempotentCommandBus>();
             return services;
-        }        
+        }
     }
 }
