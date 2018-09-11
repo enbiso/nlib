@@ -6,33 +6,28 @@ namespace Enbiso.NLib.EventLogger
 {
     public class EventLoggerEventService: IEventService
     {
-        protected readonly IEventBus Bus;
-        protected readonly IEventLoggerService Service;
+        private readonly IEventBus _bus;
+        private readonly IEventLoggerService _service;
 
         public EventLoggerEventService(IEventBus bus, IEventLoggerService service)
         {
-            Bus = bus;
-            Service = service;
+            _bus = bus;
+            _service = service;
         }
 
         public async Task PublishToBus(IEvent @event)
         {
-            await PrePublish(@event);
+            await _service.SaveEventAsync(@event);
             try
             {
-                Bus.Publish(@event);
-                await Service.MarkEventAsPublishedAsync(@event);
+                _bus.Publish(@event);
+                await _service.MarkEventAsPublishedAsync(@event);
             }
             catch (Exception)
             {
-                await Service.MarkEventAsFailedAsync(@event);
+                await _service.MarkEventAsFailedAsync(@event);
                 throw;
             }
-        }
-
-        protected virtual Task PrePublish(IEvent @event)
-        {
-            return Service.SaveEventAsync(@event);
         }
     }
 }

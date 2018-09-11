@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Polly;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -44,20 +45,21 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <param name="option"></param>
         public RabbitMqPersistentConnection(
             ILogger<RabbitMqPersistentConnection> logger, 
-            RabbitMqOption option)
+            IOptions<RabbitMqOption> option)
         {
+            var optVal = option.Value;
             _connectionFactory = new ConnectionFactory
             {
-                HostName = option.Server ?? throw new ArgumentNullException(nameof(option.Server)),
+                HostName = optVal.Server ?? throw new ArgumentNullException(nameof(optVal.Server)),
             };
-            if(!string.IsNullOrEmpty(option.UserName))
-                _connectionFactory.UserName = option.UserName;
-            if(!string.IsNullOrEmpty(option.Password))
-                _connectionFactory.Password = option.Password;
-            if (!string.IsNullOrEmpty(option.VirtualHost))
-                _connectionFactory.VirtualHost = option.VirtualHost;
+            if(!string.IsNullOrEmpty(optVal.UserName))
+                _connectionFactory.UserName = optVal.UserName;
+            if(!string.IsNullOrEmpty(optVal.Password))
+                _connectionFactory.Password = optVal.Password;
+            if (!string.IsNullOrEmpty(optVal.VirtualHost))
+                _connectionFactory.VirtualHost = optVal.VirtualHost;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _retryCount = option.RetryCount;
+            _retryCount = optVal.RetryCount;
         }
 
         /// <inheritdoc />

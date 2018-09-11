@@ -20,10 +20,11 @@ namespace Enbiso.NLib.EventBus
 
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Dynamic integration event handler interface
     /// </summary>
-    public interface IDynamicEventHandler
+    public interface IDynamicEventHandler: IEventHandler
     {
         /// <summary>
         /// Handle dynamic event

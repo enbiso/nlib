@@ -25,8 +25,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         private readonly IRabbitMqPersistentConnection _persistentConnection;
         private readonly ILogger<RabbitMqEventBus> _logger;
-        private readonly IEventBusSubscriptionsManager _subscriptionsManager;        
-        private readonly IEnumerable<IEventBusSubscriber> _subscribers;        
+        private readonly IEventBusSubscriptionsManager _subscriptionsManager;          
         private readonly IServiceProvider _serviceProvider;
         private readonly int _retryCount;
         private IModel _consumerChannel;
@@ -36,8 +35,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             IRabbitMqPersistentConnection persistentConnection, 
             ILogger<RabbitMqEventBus> logger,            
             IEventBusSubscriptionsManager subscriptionManager,             
-            IOptions<RabbitMqOption> optionWrap, 
-            IEnumerable<IEventBusSubscriber> subscribers,             
+            IOptions<RabbitMqOption> optionWrap,           
             IServiceProvider serviceProvider)
         {
             var option = optionWrap.Value;
@@ -46,7 +44,6 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _subscriptionsManager = subscriptionManager;            
-            _subscribers = subscribers;
             _serviceProvider = serviceProvider;            
             _subscriptionsManager.OnEventRemoved += SubscriptionManager_OnEventRemoved;
             _consumerChannel = CreateConsumerChannel();
@@ -56,8 +53,6 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <inheritdoc />
         public void Initialize()
         {
-            _subscribers.Subscribe();
-
             var consumer = new EventingBasicConsumer(_consumerChannel);
             consumer.Received += async (model, ea) =>
             {
