@@ -9,11 +9,11 @@ namespace Enbiso.NLib.Idempotency
     public interface IRequestLogRepo
     {
         /// <summary>
-        /// Find exists
+        /// Find by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<bool> ExistsAsync(Guid id);
+        Task<RequestLog> FindAsync(Guid id);
 
         /// <summary>
         /// Add New

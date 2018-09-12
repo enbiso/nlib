@@ -8,6 +8,7 @@ namespace Enbiso.NLib.Cqrs
 
     public interface ICommandResponse
     {
+        
     }
 
     public interface ICommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse> 

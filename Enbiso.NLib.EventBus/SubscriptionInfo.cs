@@ -2,20 +2,21 @@
 
 namespace Enbiso.NLib.EventBus
 {
+
     /// <summary>
     /// Subscription details
     /// </summary>
-    public class SubscriptionInfo
+    public class SubscriptionInfo : ISubscriptionInfo
     {
         /// <summary>
         /// Is subscription dynamic
         /// </summary>
         public bool IsDynamic { get; }
-        
+
         /// <summary>
         /// Subscription handler type
         /// </summary>
-        public Type HandlerType{ get; }
+        public Type HandlerType { get; }
 
         private SubscriptionInfo(bool isDynamic, Type handlerType)
         {
@@ -32,7 +33,7 @@ namespace Enbiso.NLib.EventBus
         {
             return new SubscriptionInfo(true, handlerType);
         }
-        
+
         /// <summary>
         /// Create strict type subscription
         /// </summary>

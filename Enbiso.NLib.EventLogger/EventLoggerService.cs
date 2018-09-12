@@ -11,7 +11,7 @@ namespace Enbiso.NLib.EventLogger
     public interface IEventLoggerService
     {
         EventLog AddEvent(IEvent @event);
-        Task SaveEventAsync(IEvent @event, DbTransaction transaction);
+        Task SaveEventAsync(IEvent @event, DbTransaction transaction = null);
         Task MarkEventAsPublishedAsync(IEvent @event);
         Task MarkEventAsFailedAsync(IEvent @event);
     }
@@ -46,15 +46,12 @@ namespace Enbiso.NLib.EventLogger
         /// <param name="event"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public Task SaveEventAsync(IEvent @event, DbTransaction transaction)
+        public Task SaveEventAsync(IEvent @event, DbTransaction transaction = null)
         {
-            if (transaction == null)
-            {
-                throw new ArgumentNullException(nameof(transaction), $"A {typeof(DbTransaction).FullName} is required as a pre-requisite to save the @event.");
-            }
+            if (transaction != null)
+                _repo.UseTransaction(transaction);
 
             var eventLogEntry = new EventLog(@event);
-            _repo.UseTransaction(transaction);
             _repo.Add(eventLogEntry);
             return _repo.SaveChangesAsync();
         }

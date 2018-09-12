@@ -21,8 +21,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         private readonly IServiceBusPersistenceConnection _serviceBusPersistenceConnection;
         private readonly ILogger<ServiceBusEventBus> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
-        private readonly SubscriptionClient _subscriptionClient;        
-        private readonly IEnumerable<IEventBusSubscriber> _subscribers;
+        private readonly SubscriptionClient _subscriptionClient;
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
@@ -35,8 +34,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         /// <param name="autofac"></param>
         public ServiceBusEventBus(IServiceBusPersistenceConnection serviceBusPersistenceConnection,
             ILogger<ServiceBusEventBus> logger, IEventBusSubscriptionsManager subsManager,            
-            string subscriptionClientName,            
-            IEnumerable<IEventBusSubscriber> subscribers, 
+            string subscriptionClientName,
             IServiceProvider serviceProvider)
         {
             _serviceBusPersistenceConnection = serviceBusPersistenceConnection;
@@ -48,20 +46,18 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                 subscriptionClientName);                     
 
             RemoveDefaultRule();
-            _subscribers = subscribers;
             _serviceProvider = serviceProvider;
         }
 
         /// <inheritdoc />
         public void Initialize()
         {
-            _subscribers.Subscribe();
             RegisterSubscriptionClientMessageHandler();
         }
 
         /// <inheritdoc />
         public void Publish(IEvent @event)
-        {
+        {            
             var eventName = @event.GetType().Name.Replace(IntegrationEventSuffix, "");
             var jsonMessage = JsonConvert.SerializeObject(@event);
 
@@ -76,7 +72,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
             topicClient.SendAsync(message)
                 .GetAwaiter()
-                .GetResult();
+                .GetResult();            
         }
 
         /// <inheritdoc />

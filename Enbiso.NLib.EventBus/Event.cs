@@ -5,7 +5,7 @@ namespace Enbiso.NLib.EventBus
     /// <summary>
     /// Integration event abstraction
     /// </summary>
-    public abstract class Event: IEvent
+    public abstract class Event : IEvent
     {
         protected Event()
         {

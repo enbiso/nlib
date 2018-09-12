@@ -17,7 +17,7 @@ namespace Enbiso.NLib.Cqrs
         public static IServiceCollection AddCqrs(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddMediatR(assemblies);
-            services.AddSingleton<ICommandBus, CommandBus>();                        
+            services.AddScoped<ICommandBus, CommandBus>();                        
             return services;
         }        
     }

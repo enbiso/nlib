@@ -10,14 +10,14 @@ namespace Enbiso.NLib.Domain.Events
     {
         public static IServiceCollection AddDomainEvents(this IServiceCollection services)
         {
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => !a.IsDynamic);
+            var assembly = Assembly.GetCallingAssembly();
             return services.AddDomainEvents(assembly);
         }
 
         public static IServiceCollection AddDomainEvents(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddMediatR(assemblies);
-            services.AddSingleton<IDomainEventBus, DomainEventBus>();
+            services.AddScoped<IDomainEventBus, DomainEventBus>();
             return services;
         }
     }

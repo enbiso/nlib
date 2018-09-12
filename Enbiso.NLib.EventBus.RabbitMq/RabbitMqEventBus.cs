@@ -25,8 +25,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         private readonly IRabbitMqPersistentConnection _persistentConnection;
         private readonly ILogger<RabbitMqEventBus> _logger;
-        private readonly IEventBusSubscriptionsManager _subscriptionsManager;        
-        private readonly IEnumerable<IEventBusSubscriber> _subscribers;
+        private readonly IEventBusSubscriptionsManager _subscriptionsManager;          
         private readonly IServiceProvider _serviceProvider;
         private readonly int _retryCount;
         private IModel _consumerChannel;
@@ -36,8 +35,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             IRabbitMqPersistentConnection persistentConnection, 
             ILogger<RabbitMqEventBus> logger,            
             IEventBusSubscriptionsManager subscriptionManager,             
-            IOptions<RabbitMqOption> optionWrap, 
-            IEnumerable<IEventBusSubscriber> subscribers, 
+            IOptions<RabbitMqOption> optionWrap,           
             IServiceProvider serviceProvider)
         {
             var option = optionWrap.Value;
@@ -46,8 +44,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _subscriptionsManager = subscriptionManager;            
-            _subscribers = subscribers;
-            _serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider;            
             _subscriptionsManager.OnEventRemoved += SubscriptionManager_OnEventRemoved;
             _consumerChannel = CreateConsumerChannel();
             _retryCount = option.PublishRetryCount;
@@ -56,8 +53,6 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <inheritdoc />
         public void Initialize()
         {
-            _subscribers.Subscribe();
-
             var consumer = new EventingBasicConsumer(_consumerChannel);
             consumer.Received += async (model, ea) =>
             {
@@ -70,14 +65,14 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         /// <inheritdoc />
         public void Publish(IEvent @event)
-        {
+        {            
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
 
             var policy = Policy.Handle<BrokerUnreachableException>()
-                .Or<SocketException>()
+                .Or<SocketException>()                
                 .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
                 {
                     _logger.LogWarning(ex.ToString());
@@ -90,11 +85,12 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
+
                 policy.Execute(() =>
                 {
                     channel.BasicPublish(exchange: _brokerName, routingKey: eventName, basicProperties: null, body: body);
                 });
-            }
+            }            
         }
 
         /// <inheritdoc />

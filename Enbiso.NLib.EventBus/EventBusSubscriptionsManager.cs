@@ -89,7 +89,7 @@ namespace Enbiso.NLib.EventBus
         }
 
         /// <inheritdoc />
-        public IEnumerable<SubscriptionInfo> GetHandlersForEvent<TEvent>() 
+        public IEnumerable<ISubscriptionInfo> GetHandlersForEvent<TEvent>() 
             where TEvent : IEvent
         {
             var key = GetEventKey<TEvent>();
@@ -97,7 +97,7 @@ namespace Enbiso.NLib.EventBus
         }
         
         /// <inheritdoc />
-        public IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName) 
+        public IEnumerable<ISubscriptionInfo> GetHandlersForEvent(string eventName) 
             => _handlers[eventName];
 
         
