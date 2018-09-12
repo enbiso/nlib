@@ -16,27 +16,27 @@ namespace Enbiso.NLib.Idempotency
             _repo = repo;
         }
 
-        public Task<bool> ExistAsync(Guid id)
+        public Task<RequestLog> FindAsync(Guid id)
         {
-            return _repo.ExistsAsync(id);
+            return _repo.FindAsync(id);
         }
 
-        public async Task CreateRequestForAsync<T>(Guid id)
+        public Task CreateRequestForAsync<T>(Guid id, string response)
         {
-            var exists = await _repo.ExistsAsync(id);
+            return CreateRequestAsync(id, typeof(T).Name, response);
+        }
 
-            var request = exists ?
-                throw new Exception($"Request with {id} already exists") : 
-                new RequestLog
-                {
-                    Id = id,
-                    Name = typeof(T).Name,
-                    Time = DateTime.UtcNow
-                };
-
+        public async Task CreateRequestAsync(Guid id, string name, string response)
+        {            
+            var request = new RequestLog
+            {
+                Id = id,
+                Name = name,
+                Time = DateTime.UtcNow,
+                Response = response
+            };
             _repo.Add(request);
-
             await _repo.SaveChangesAsync();
-        }
+        }    
     }
 }

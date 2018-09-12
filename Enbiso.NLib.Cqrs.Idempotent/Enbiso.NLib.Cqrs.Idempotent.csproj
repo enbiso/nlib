@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -22,6 +22,10 @@
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.*" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj" />

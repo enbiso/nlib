@@ -9,18 +9,28 @@ namespace Enbiso.NLib.Idempotency
     public interface IRequestManager
     {
         /// <summary>
-        /// Check exists
+        /// Find Async
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<bool> ExistAsync(Guid id);
+        Task<RequestLog> FindAsync(Guid id);
 
         /// <summary>
         /// Create request for command
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
+        /// <param name="response"></param>
         /// <returns></returns>
-        Task CreateRequestForAsync<T>(Guid id);
+        Task CreateRequestForAsync<T>(Guid id, string response);
+
+        /// <summary>
+        /// Create Request Log by name
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        Task CreateRequestAsync(Guid id, string name, string response);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Enbiso.NLib.Idempotency;
+using Newtonsoft.Json;
 
 namespace Enbiso.NLib.Cqrs.Idempotent
 {
@@ -9,8 +11,8 @@ namespace Enbiso.NLib.Cqrs.Idempotent
     /// </summary>
     public interface IIdempotentCommandBus
     {
-        Task<TResponse> Send<TCommand, TResponse>(TCommand command, string requestId, CancellationToken cancellationToken = default(CancellationToken))
-            where TCommand: ICommand<TResponse>
+        Task<TResponse> Send<TResponse>(ICommand<TResponse> command, string requestId,
+            CancellationToken cancellationToken = default(CancellationToken))
             where TResponse : ICommandResponse;
     }
 
@@ -21,20 +23,28 @@ namespace Enbiso.NLib.Cqrs.Idempotent
     public class IdempotentCommandBus: IIdempotentCommandBus
     {
         private readonly ICommandBus _bus;
+        private readonly IRequestManager _requestManager;
 
-        public IdempotentCommandBus(ICommandBus bus)
+        public IdempotentCommandBus(ICommandBus bus, IRequestManager requestManager)
         {
             _bus = bus;
+            _requestManager = requestManager;
         }
 
-        public Task<TResponse> Send<TCommand, TResponse>(TCommand command, string requestId, CancellationToken cancellationToken = default(CancellationToken))
-            where TCommand : ICommand<TResponse>
+        public async Task<TResponse> Send<TResponse>(ICommand<TResponse> command, string requestId, CancellationToken cancellationToken = default(CancellationToken))            
             where TResponse : ICommandResponse
         {
-            if (!Guid.TryParse(requestId, out var requestGuId))            
-                throw new InvalidRequestIdException(requestId);            
+            if (!Guid.TryParse(requestId, out var reqGuid))            
+                throw new InvalidRequestIdException(requestId);
 
-            return _bus.Send(new IdempotentCommand<TCommand, TResponse>(command, requestGuId), cancellationToken);
+            var reqLog = await _requestManager.FindAsync(reqGuid);
+            if (reqLog != null)
+            {
+                return JsonConvert.DeserializeObject<TResponse>(reqLog.Response);
+            }
+            var response = await _bus.Send(command, cancellationToken);
+            await _requestManager.CreateRequestAsync(reqGuid, command.GetType().Name, JsonConvert.SerializeObject(response));
+            return response;
         }
     }
 

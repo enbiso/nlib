@@ -6,8 +6,8 @@ namespace Enbiso.NLib.Cqrs
 {
     public interface ICommandBus
     {
-        Task<TResponse> Send<TResponse>(ICommand<TResponse> request,
-            CancellationToken cancellationToken = default(CancellationToken))
+        Task<TResponse> Send<TResponse>(ICommand<TResponse> command,
+            CancellationToken cancellationToken = default(CancellationToken))            
             where TResponse : ICommandResponse;
     }
 
@@ -20,7 +20,7 @@ namespace Enbiso.NLib.Cqrs
             _mediator = mediator;
         }
 
-        public Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default(CancellationToken))            
             where TResponse : ICommandResponse
         {
             return _mediator.Send(command, cancellationToken);

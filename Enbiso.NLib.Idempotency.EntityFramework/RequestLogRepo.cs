@@ -18,9 +18,9 @@ namespace Enbiso.NLib.Idempotency.EntityFramework
             _context = context;
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
+        public async Task<RequestLog> FindAsync(Guid id)
         {
-            return await _context.Set<RequestLog>().CountAsync(r => r.Id == id) > 0;
+            return await _context.Set<RequestLog>().FirstOrDefaultAsync(rl => rl.Id == id);
         }
 
         public RequestLog Add(RequestLog requestLog)

@@ -23,7 +23,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj" />
     <ProjectReference Include="..\Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj" />
   </ItemGroup>
 </Project>

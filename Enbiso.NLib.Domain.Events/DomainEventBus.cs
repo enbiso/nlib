@@ -20,9 +20,9 @@ namespace Enbiso.NLib.Domain.Events
     /// </summary>
     public class DomainEventBus: IDomainEventBus
     {
-        private readonly Mediator _mediator;
+        private readonly IMediator _mediator;
 
-        public DomainEventBus(Mediator mediator)
+        public DomainEventBus(IMediator mediator)
         {
             _mediator = mediator;
         }        
