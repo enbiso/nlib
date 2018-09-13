@@ -11,9 +11,9 @@ namespace Enbiso.NLib.Cqrs
         where TCommand : ICommand<TResponse>
         where TResponse : ICommandResponse
     {
-        private readonly ICommandValidator<TCommand, TResponse>[] _validators;
+        private readonly ICommandValidator<TCommand>[] _validators;
 
-        public ValidatorBehavior(ICommandValidator<TCommand, TResponse>[] validators)
+        public ValidatorBehavior(ICommandValidator<TCommand>[] validators)
         {
             _validators = validators;
         }
@@ -36,11 +36,9 @@ namespace Enbiso.NLib.Cqrs
     /// <summary>
     /// Command validator
     /// </summary>
-    /// <typeparam name="TCommand"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
-    public interface ICommandValidator<in TCommand, TResponse> 
-        where TCommand: ICommand<TResponse>
-        where TResponse: ICommandResponse
+    /// <typeparam name="TCommand"></typeparam>    
+    public interface ICommandValidator<in TCommand> 
+        where TCommand: IBaseCommand        
     {
         IEnumerable<ValidationError> Validate(TCommand command);
     }

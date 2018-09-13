@@ -2,7 +2,11 @@
 
 namespace Enbiso.NLib.Cqrs
 {
-    public interface ICommand<out TResponse>: IRequest<TResponse> where TResponse: ICommandResponse
+    public interface IBaseCommand
+    {
+    }
+
+    public interface ICommand<out TResponse>: IRequest<TResponse>, IBaseCommand where TResponse: ICommandResponse
     {
     }
 
