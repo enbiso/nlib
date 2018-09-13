@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.DependencyInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Domain.Events", "Enbiso.NLib.Domain.Events\Enbiso.NLib.Domain.Events.csproj", "{5BE17225-4668-40C5-B8D7-D326D03476FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.OpenApi.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.OpenApi.Tests\Enbiso.NLib.OpenApi.Tests.csproj", "{E39F5413-2E24-47B8-B087-7012A6821FE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,12 +127,17 @@ Global
 		{5BE17225-4668-40C5-B8D7-D326D03476FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BE17225-4668-40C5-B8D7-D326D03476FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BE17225-4668-40C5-B8D7-D326D03476FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E39F5413-2E24-47B8-B087-7012A6821FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E39F5413-2E24-47B8-B087-7012A6821FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E39F5413-2E24-47B8-B087-7012A6821FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E39F5413-2E24-47B8-B087-7012A6821FE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
+		{E39F5413-2E24-47B8-B087-7012A6821FE4} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {348B7E76-5B7B-4B29-8DE3-C0D9B070765C}
