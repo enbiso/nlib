@@ -27,10 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Idempotency.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.HttpClient", "Enbiso.NLib.HttpClient\Enbiso.NLib.HttpClient.csproj", "{E0895114-A502-4FCD-992E-493EF527A03E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Logging.Behaviors", "Enbiso.NLib.Logging.Behaviors\Enbiso.NLib.Logging.Behaviors.csproj", "{F4E562D6-7505-4832-B325-64D09F9CE8F2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Validation.Behaviors", "Enbiso.NLib.Validation.Behaviors\Enbiso.NLib.Validation.Behaviors.csproj", "{21DCB9DC-FE24-45C1-92D0-9BBC8713511E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.OpenApi", "Enbiso.NLib.OpenApi\Enbiso.NLib.OpenApi.csproj", "{863C1D72-CF98-4A64-9A34-7DDDD73AC688}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Cqrs", "Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj", "{B2F44E3E-632D-4D5C-AEA4-20F649ACB414}"
@@ -43,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.DependencyInjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Domain.Events", "Enbiso.NLib.Domain.Events\Enbiso.NLib.Domain.Events.csproj", "{5BE17225-4668-40C5-B8D7-D326D03476FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.OpenApi.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.OpenApi.Tests\Enbiso.NLib.OpenApi.Tests.csproj", "{E39F5413-2E24-47B8-B087-7012A6821FE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.OpenApi.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.OpenApi.Tests\Enbiso.NLib.OpenApi.Tests.csproj", "{E39F5413-2E24-47B8-B087-7012A6821FE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,14 +91,6 @@ Global
 		{E0895114-A502-4FCD-992E-493EF527A03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4E562D6-7505-4832-B325-64D09F9CE8F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4E562D6-7505-4832-B325-64D09F9CE8F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4E562D6-7505-4832-B325-64D09F9CE8F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4E562D6-7505-4832-B325-64D09F9CE8F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21DCB9DC-FE24-45C1-92D0-9BBC8713511E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21DCB9DC-FE24-45C1-92D0-9BBC8713511E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21DCB9DC-FE24-45C1-92D0-9BBC8713511E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21DCB9DC-FE24-45C1-92D0-9BBC8713511E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Release|Any CPU.ActiveCfg = Release|Any CPU
