@@ -23,10 +23,8 @@ namespace Enbiso.NLib.Cqrs
         {
             var failures = _validators.SelectMany(v => v.Validate(request)).Where(error => error != null).ToArray();
 
-            if (failures.Any())
-                throw new Exception(
-                    $"Command Validation Errors for type {typeof(TCommand).Name}",
-                    new CommandValidationException("Validation exception", failures));
+            if (failures.Any())                                    
+                throw new CommandValidationException(typeof(TCommand), failures);
 
             var response = await next();
             return response;
@@ -64,7 +62,8 @@ namespace Enbiso.NLib.Cqrs
     public class CommandValidationException : Exception
     {
         public IEnumerable<ValidationError> Errors { get; }
-        public CommandValidationException(string validationException, IEnumerable<ValidationError> failures): base(validationException)
+        public CommandValidationException(Type command, IEnumerable<ValidationError> failures)
+            : base($"{command.Name} validation failed")
         {
             Errors = failures;
         }
