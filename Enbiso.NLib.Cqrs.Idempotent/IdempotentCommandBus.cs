@@ -53,8 +53,10 @@ namespace Enbiso.NLib.Cqrs.Idempotent
     /// </summary>
     public class InvalidRequestIdException : Exception
     {
-        public InvalidRequestIdException(string requestId) : base($"Error parsing request id {requestId}")
+        public string RequestId { get; private set; }
+        public InvalidRequestIdException(string requestId) : base($"Error parsing request ID")
         {
+            RequestId = requestId;
         }
     }
 }
