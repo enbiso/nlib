@@ -23,7 +23,7 @@ namespace Enbiso.NLib.Cqrs
         public Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default(CancellationToken))
             where TResponse : ICommandResponse
         {
-            command = command ?? throw new CommandValidationException(typeof(ICommand<TResponse>));
+            command = command ?? throw new CommandValidationException("Request command is empty");
             return _mediator.Send(command, cancellationToken);
         }
     }
