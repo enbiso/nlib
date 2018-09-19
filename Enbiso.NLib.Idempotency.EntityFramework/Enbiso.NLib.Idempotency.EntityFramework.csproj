@@ -10,7 +10,7 @@
     <Description>Simple Idempotency with Request Persistence with EF</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
-    <PackageTags>Enbiso Enbiso.Common Idempotency RequestLog</PackageTags>
+    <PackageTags>Enbiso Enbiso.NLib Idempotency RequestLog</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Owners>enbiso</Owners>    

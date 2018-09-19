@@ -11,7 +11,7 @@
         <Description>Resilient (and standard) http client library</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
         <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
-        <PackageTags>Enbiso Enbiso.Common Resilient Http</PackageTags>
+        <PackageTags>Enbiso Enbiso.NLib Resilient Http</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <NeutralLanguage>en-AU</NeutralLanguage>
         <Owners>enbiso</Owners>    
