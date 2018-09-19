@@ -62,10 +62,10 @@ namespace Enbiso.NLib.Cqrs
     public class CommandValidationException : Exception
     {
         public IEnumerable<ValidationError> Errors { get; }
-        public CommandValidationException(Type command, IEnumerable<ValidationError> failures)
+        public CommandValidationException(Type command, IEnumerable<ValidationError> failures = null)
             : base($"{command.Name} validation failed")
         {
-            Errors = failures;
+            Errors = failures ?? new List<ValidationError>();
         }
     }
 }
