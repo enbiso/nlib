@@ -11,6 +11,8 @@ namespace Enbiso.NLib.EventLogger.EntityFramework
     {
         public void Configure(EntityTypeBuilder<EventLog> builder)
         {
+            builder.Ignore(e => e.State);
+
             builder.HasKey(e => e.EventId);
 
             builder.Property(e => e.EventId)
@@ -22,8 +24,8 @@ namespace Enbiso.NLib.EventLogger.EntityFramework
             builder.Property(e => e.CreationTime)
                 .IsRequired();
 
-            builder.Property(e => e.State)
-                .IsRequired();
+            builder.Property("_state")
+                .IsRequired().HasColumnName("State");
 
             builder.Property(e => e.TimesSent)
                 .IsRequired();

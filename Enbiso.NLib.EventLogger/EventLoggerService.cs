@@ -6,7 +6,7 @@ using Enbiso.NLib.EventBus;
 namespace Enbiso.NLib.EventLogger
 {
     /// <summary>
-    /// EventLoger service
+    /// EventLogger service
     /// </summary>
     public interface IEventLoggerService
     {

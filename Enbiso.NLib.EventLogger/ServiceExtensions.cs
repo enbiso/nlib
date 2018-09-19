@@ -13,7 +13,7 @@ namespace Enbiso.NLib.EventLogger
             var eventService = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IEventService));
             if (eventService != null) services.Remove(eventService);
 
-            services.AddSingleton<IEventService, EventLoggerEventService>();
+            services.AddTransient<IEventService, EventLoggerEventService>();
         }
     }
 }

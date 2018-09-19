@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Enbiso.NLib.Exceptions
+namespace Enbiso.NLib.GlobalExceptions
 {
     public static class GlobalExceptionHandlerExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace Enbiso.NLib.Exceptions
+﻿namespace Enbiso.NLib.GlobalExceptions
 {
     /// <summary>
     /// Exception handler response

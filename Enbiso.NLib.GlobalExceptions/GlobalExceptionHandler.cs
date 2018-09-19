@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Enbiso.NLib.Exceptions
+namespace Enbiso.NLib.GlobalExceptions
 {
     /// <summary>
     /// Global exception handler interface

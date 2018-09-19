@@ -8,7 +8,7 @@ namespace Enbiso.NLib.EventLogger.EntityFramework
         public static void AddEventLogger<TDbContext>(this IServiceCollection services) where TDbContext: DbContext
         {
             services.AddEventLogger();
-            services.AddSingleton<IEventLogRepo, EntityEventLogRepo<TDbContext>>();
+            services.AddTransient<IEventLogRepo, EntityEventLogRepo<TDbContext>>();
         }
     }
 }

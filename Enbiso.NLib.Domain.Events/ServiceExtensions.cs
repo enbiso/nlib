@@ -16,7 +16,9 @@ namespace Enbiso.NLib.Domain.Events
 
         public static IServiceCollection AddDomainEvents(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddMediatR(assemblies);
+            if (services.All(s => s.ServiceType != typeof(IMediator)))
+                services.AddMediatR(assemblies);
+            
             services.AddScoped<IDomainEventBus, DomainEventBus>();
             return services;
         }
