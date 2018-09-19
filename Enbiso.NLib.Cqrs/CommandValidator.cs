@@ -65,7 +65,7 @@ namespace Enbiso.NLib.Cqrs
         public CommandValidationException(Type command, IEnumerable<ValidationError> failures = null)
             : this($"{command.Name} validation failed")
         {
-            Errors = failures ?? new List<ValidationError>();
+            Errors = failures;
         }
         public CommandValidationException(string message): base(message) {
 
