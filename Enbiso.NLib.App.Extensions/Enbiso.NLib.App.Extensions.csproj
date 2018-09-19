@@ -14,7 +14,8 @@
     <PackageTags>Enbiso Enbiso.NLib App.Extensions</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
-    <Owners>enbiso</Owners>    
+    <Owners>enbiso</Owners>
+    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple App Extensions in .NET Standard</Summary>
     <Title>Simple App Extensions</Title>

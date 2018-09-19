@@ -63,7 +63,7 @@ namespace Enbiso.NLib.OpenApi
                 c.RouteTemplate = "/{documentName}.json";
                 c.PreSerializeFilters.Add((swaggerDoc, httpReq) => { swaggerDoc.BasePath = settings.BasePath; });
             });
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"{settings.BasePath}/swagger.json", settings.Id?.ToUpper()); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"{settings.BasePath}swagger.json", settings.Id?.ToUpper()); });
         }
     }
 

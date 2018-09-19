@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.*" />
   </ItemGroup>
 
 </Project>
