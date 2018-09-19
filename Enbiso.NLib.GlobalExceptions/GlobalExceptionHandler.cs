@@ -8,7 +8,7 @@ namespace Enbiso.NLib.Exceptions
     /// </summary>
     public interface IGlobalExceptionHandler
     {
-        Type ValidType { get; }
+        Type[] ValidTypes { get; }
 
         Task<GlobalExceptionResponse> HandleException(Exception exception);
     }
@@ -17,10 +17,10 @@ namespace Enbiso.NLib.Exceptions
     /// Abstract Global exception handler
     /// </summary>
     /// <typeparam name="TException"></typeparam>
-    public abstract class AbstractGlobalExceptionHandler<TException> : IGlobalExceptionHandler
+    public abstract class GlobalExceptionHandler<TException> : IGlobalExceptionHandler
         where TException : Exception
     {
-        public Type ValidType => typeof(TException);
+        public Type[] ValidTypes => new [] { typeof(TException) };
         protected abstract Task<GlobalExceptionResponse> Handle(TException ex);
 
         public Task<GlobalExceptionResponse> HandleException(Exception exception)

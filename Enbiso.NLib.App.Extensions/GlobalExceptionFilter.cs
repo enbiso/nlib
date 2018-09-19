@@ -25,7 +25,7 @@ namespace Enbiso.NLib.App.Extensions
                 context.Exception,
                 context.Exception.Message);
 
-            var handler = _handlers.FirstOrDefault(h => h.ValidType == context.Exception.GetType());
+            var handler = _handlers.FirstOrDefault(h => h.ValidTypes.Contains(context.Exception.GetType()));
             if (handler != null)
             {
                 var result = await handler.HandleException(context.Exception);
