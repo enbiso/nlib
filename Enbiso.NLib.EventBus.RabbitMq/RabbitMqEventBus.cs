@@ -59,6 +59,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                 var eventName = ea.RoutingKey;
                 var message = Encoding.UTF8.GetString(ea.Body);
                 await ProcessEvent(eventName, message);
+                // ACK
+                _consumerChannel.BasicAck(ea.DeliveryTag, multiple:false);
             };
             _consumerChannel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
         }
