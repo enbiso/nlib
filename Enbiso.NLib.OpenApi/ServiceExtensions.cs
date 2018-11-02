@@ -29,10 +29,11 @@ namespace Enbiso.NLib.OpenApi
         {            
             var opts = new OpenApiOptions();
             optBuilder?.Invoke(opts);
-            services.Configure(optBuilder);
+            services.Configure(optBuilder);            
             services.AddSwaggerGen(options =>
             {
                 options.SchemaFilter<SchemaExtensionFilter>();
+                options.DocumentFilter<SecurityDocumentFilter>();
                 options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("swagger", new Info
                 {
