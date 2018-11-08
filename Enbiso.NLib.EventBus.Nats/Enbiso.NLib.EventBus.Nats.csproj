@@ -2,22 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Enbiso.NLib.EventBus</PackageId>
+    <PackageId>Enbiso.NLib.EventBus.Nats</PackageId>
 
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
 
     <Authors>Faraj Farook</Authors>
-    <Description>Simple Abstract event bus library</Description>
+    <Description>Simple Event bus implementation for NATs</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
-    <PackageTags>Enbiso Enbiso.NLib EventBus</PackageTags>
+    <PackageTags>Enbiso Enbiso.NLib EventBus NATS</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Owners>enbiso</Owners>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
-    <Summary>Enbiso - Simple Abstract EventBus Library in .NET Standard</Summary>
-    <Title>Simple Abstract EventBus</Title>
+    <Summary>Enbiso - Simple Event bus implementation for NATs in .NET Standard</Summary>
+    <Title>Simple NATs EventBus</Title>
 
     <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
@@ -25,13 +25,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.*" />
+    <PackageReference Include="NATS.Client" Version="0.8.1" />
+    <PackageReference Include="Polly" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />
+    <ProjectReference Include="..\Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj" />
   </ItemGroup>
 
 </Project>

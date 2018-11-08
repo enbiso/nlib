@@ -22,6 +22,7 @@ namespace Enbiso.NLib.EventBus
         public static void AddEventBus<TEventBusSubscriptionManager>(this IServiceCollection services) where TEventBusSubscriptionManager: class, IEventBusSubscriptionsManager
         {
             services.AddSingleton<IEventBusSubscriptionsManager, TEventBusSubscriptionManager>();
+            services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddSingleton<IEventService, EventService>();
         }
 

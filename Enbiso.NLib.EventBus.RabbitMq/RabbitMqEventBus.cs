@@ -25,26 +25,25 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
         private readonly IRabbitMqPersistentConnection _persistentConnection;
         private readonly ILogger<RabbitMqEventBus> _logger;
-        private readonly IEventBusSubscriptionsManager _subscriptionsManager;          
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IEventBusSubscriptionsManager _subscriptionsManager;                  
         private readonly int _retryCount;
         private IModel _consumerChannel;
         private readonly string _queueName;
+        private readonly IEventProcessor _eventProcessor;
 
         public RabbitMqEventBus(
             IRabbitMqPersistentConnection persistentConnection, 
             ILogger<RabbitMqEventBus> logger,            
             IEventBusSubscriptionsManager subscriptionManager,             
-            IOptions<RabbitMqOption> optionWrap,           
-            IServiceProvider serviceProvider)
+            IOptions<RabbitMqOption> optionWrap, IEventProcessor eventProcessor)
         {
             var option = optionWrap.Value;
             _queueName = option.Client ?? throw new ArgumentNullException(nameof(option.Client));
             _brokerName = option.Exchange ?? throw new ArgumentNullException(nameof(option.Exchange));            
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _subscriptionsManager = subscriptionManager;            
-            _serviceProvider = serviceProvider;            
+            _subscriptionsManager = subscriptionManager;
+            _eventProcessor = eventProcessor;
             _subscriptionsManager.OnEventRemoved += SubscriptionManager_OnEventRemoved;
             _consumerChannel = CreateConsumerChannel();
             _retryCount = option.PublishRetryCount;
@@ -58,7 +57,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             {
                 var eventName = ea.RoutingKey;
                 var message = Encoding.UTF8.GetString(ea.Body);
-                await ProcessEvent(eventName, message);
+                await _eventProcessor.ProcessEvent(eventName, message);
                 // ACK
                 _consumerChannel.BasicAck(ea.DeliveryTag, multiple:false);
             };
@@ -174,35 +173,6 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             };
 
             return channel;
-        }
-
-        private async Task ProcessEvent(string eventName, string message)
-        {            
-            if (!_subscriptionsManager.HasSubscriptionsForEvent(eventName)) return;
-
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var subscriptions = _subscriptionsManager.GetHandlersForEvent(eventName);
-                foreach (var subscription in subscriptions)
-                {
-                    if (subscription.IsDynamic)
-                    {
-                        var handler =
-                            scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
-                        dynamic eventData = JObject.Parse(message);
-                        if (handler != null) await handler.Handle(eventData);
-                        else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");
-                    }
-                    else
-                    {
-                        var eventType = _subscriptionsManager.GetEventTypeByName(eventName);
-                        var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
-                        var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
-                        var concreteHandlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                        await (Task)concreteHandlerType.GetMethod("Handle").Invoke(handler, new[] {integrationEvent});
-                    }
-                }
-            }
         }
 
         private void SubscriptionManager_OnEventRemoved(object sender, string eventName)

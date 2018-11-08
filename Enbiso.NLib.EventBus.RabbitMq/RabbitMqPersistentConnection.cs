@@ -52,8 +52,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             {
                 HostName = optVal.Server ?? throw new ArgumentNullException(nameof(optVal.Server)),
             };
-            if(!string.IsNullOrEmpty(optVal.UserName))
-                _connectionFactory.UserName = optVal.UserName;
+            if(!string.IsNullOrEmpty(optVal.Username))
+                _connectionFactory.UserName = optVal.Username;
             if(!string.IsNullOrEmpty(optVal.Password))
                 _connectionFactory.Password = optVal.Password;
             if (!string.IsNullOrEmpty(optVal.VirtualHost))
