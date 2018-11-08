@@ -22,23 +22,21 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         private readonly ILogger<ServiceBusEventBus> _logger;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly SubscriptionClient _subscriptionClient;
-        private readonly IServiceProvider _serviceProvider;
-
+        private readonly IEventProcessor _eventProcessor;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="serviceBusPersistenceConnection"></param>
         /// <param name="logger"></param>
         /// <param name="subsManager"></param>        
-        /// <param name="subscriptionClientName"></param>
-        /// <param name="autofac"></param>
+        /// <param name="subscriptionClientName"></param>        
         public ServiceBusEventBus(IServiceBusPersistenceConnection serviceBusPersistenceConnection,
             ILogger<ServiceBusEventBus> logger, IEventBusSubscriptionsManager subsManager,            
-            string subscriptionClientName,
-            IServiceProvider serviceProvider)
+            string subscriptionClientName, IEventProcessor eventProcessor)
         {
             _serviceBusPersistenceConnection = serviceBusPersistenceConnection;
             _logger = logger;
+            _eventProcessor = eventProcessor;
             _subsManager = subsManager ?? new EventBusSubscriptionsManager();
 
             _subscriptionClient = new SubscriptionClient(
@@ -46,7 +44,6 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                 subscriptionClientName);                     
 
             RemoveDefaultRule();
-            _serviceProvider = serviceProvider;
         }
 
         /// <inheritdoc />
@@ -158,7 +155,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
                 {
                     var eventName = $"{message.Label}{IntegrationEventSuffix}";
                     var messageData = Encoding.UTF8.GetString(message.Body);
-                    await ProcessEvent(eventName, messageData);
+                    await _eventProcessor.ProcessEvent(eventName, messageData);
 
                     // Complete the message so that it is not received again.
                     await _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
@@ -175,37 +172,6 @@ namespace Enbiso.NLib.EventBus.ServiceBus
             Console.WriteLine($"- Entity Path: {context.EntityPath}");
             Console.WriteLine($"- Executing Action: {context.Action}");
             return Task.CompletedTask;
-        }
-
-        private async Task ProcessEvent(string eventName, string message)
-        {
-            if (_subsManager.HasSubscriptionsForEvent(eventName))
-            {
-                using (var scope = _serviceProvider.CreateScope())
-                {
-                    var subscriptions = _subsManager.GetHandlersForEvent(eventName);
-                    foreach (var subscription in subscriptions)
-                    {
-                        if (subscription.IsDynamic)
-                        {
-                            var handler =
-                                scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
-                            dynamic eventData = JObject.Parse(message);
-                            if (handler != null) await handler.Handle(eventData);
-                            else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");
-                        }
-                        else
-                        {
-                            var eventType = _subsManager.GetEventTypeByName(eventName);
-                            var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
-                            var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
-                            var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                            await (Task) concreteType.GetMethod("Handle")
-                                .Invoke(handler, new[] {integrationEvent});
-                        }
-                    }
-                }
-            }
         }
 
         private void RemoveDefaultRule()
