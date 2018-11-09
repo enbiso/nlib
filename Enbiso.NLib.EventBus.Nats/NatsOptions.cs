@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Enbiso.NLib.EventBus.Nats
+﻿namespace Enbiso.NLib.EventBus.Nats
 {
     public class NatsOptions
     {
@@ -29,5 +27,9 @@ namespace Enbiso.NLib.EventBus.Nats
         /// Client broker name
         /// </summary>
         public string Exchange { get; set; }
+        /// <summary>
+        /// Connection token
+        /// </summary>
+        public string Token { get; set; }
     }
 }
