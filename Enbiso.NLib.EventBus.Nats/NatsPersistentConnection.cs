@@ -42,6 +42,8 @@ namespace Enbiso.NLib.EventBus.Nats
                 opts.User = _options.Username;
             if (!string.IsNullOrEmpty(_options.Password))
                 opts.Password = _options.Password;
+            if (!string.IsNullOrEmpty(_options.Token))
+                opts.Token = _options.Token;
             try
             {
                 _connection = _factory.CreateConnection(opts);                
