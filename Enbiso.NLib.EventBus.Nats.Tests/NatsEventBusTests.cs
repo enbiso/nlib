@@ -29,7 +29,7 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
             bus.Initialize();            
             bus.Publish(new TestEvent());
             Thread.Sleep(1000);
-            eventProcessor.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<string>());
+            eventProcessor.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
         }
 
         [Fact]
@@ -61,8 +61,8 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
             bus2.Initialize();
             bus1.Publish(new TestEvent());
             Thread.Sleep(1000);
-            eventProcessor2.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<string>());
-            eventProcessor1.DidNotReceive().ProcessEvent(typeof(TestEvent).Name, Arg.Any<string>());
+            eventProcessor2.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
+            eventProcessor1.DidNotReceive().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
         }
     }
 
