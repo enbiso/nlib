@@ -55,9 +55,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             var consumer = new EventingBasicConsumer(_consumerChannel);
             consumer.Received += async (model, ea) =>
             {
-                var eventName = ea.RoutingKey;
-                var message = Encoding.UTF8.GetString(ea.Body);
-                await _eventProcessor.ProcessEvent(eventName, message);
+                var eventName = ea.RoutingKey;                
+                await _eventProcessor.ProcessEvent(eventName, ea.Body);
                 // ACK
                 _consumerChannel.BasicAck(ea.DeliveryTag, multiple:false);
             };
