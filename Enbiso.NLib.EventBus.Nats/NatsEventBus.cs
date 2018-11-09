@@ -32,15 +32,13 @@ namespace Enbiso.NLib.EventBus.Nats
         {
             if (!_persistentConnection.TryConnect()) return;
 
-            var conn = _persistentConnection.GetConnection();
+            var conn = _persistentConnection.GetConnection();            
             conn.SubscribeAsync($"{_options.Exchange}.>", _options.Client, async (sender, args) =>
             {
                 var subject = args.Message.Subject;
                 var eventName = subject.StartsWith(_options.Exchange)
-                    ? subject
-                    : subject.Substring(_options.Exchange.Length + 1);
-                var message = Encoding.UTF8.GetString(args.Message.Data);
-                await _eventProcessor.ProcessEvent(eventName, message);
+                    ? subject.Substring(_options.Exchange.Length + 1) : subject;                
+                await _eventProcessor.ProcessEvent(eventName, args.Message.Data);
             });
         }
 
@@ -48,7 +46,7 @@ namespace Enbiso.NLib.EventBus.Nats
         {
             if (!_persistentConnection.IsConnected && !_persistentConnection.TryConnect()) return;
             var conn = _persistentConnection.GetConnection();
-            var eventName = @event.GetType().Name;
+            var eventName = $"{_options.Exchange}.{@event.GetType().Name}";
             var message = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(message);
 

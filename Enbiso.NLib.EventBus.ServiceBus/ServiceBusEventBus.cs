@@ -153,9 +153,8 @@ namespace Enbiso.NLib.EventBus.ServiceBus
             _subscriptionClient.RegisterMessageHandler(
                 async (message, token) =>
                 {
-                    var eventName = $"{message.Label}{IntegrationEventSuffix}";
-                    var messageData = Encoding.UTF8.GetString(message.Body);
-                    await _eventProcessor.ProcessEvent(eventName, messageData);
+                    var eventName = $"{message.Label}{IntegrationEventSuffix}";                    
+                    await _eventProcessor.ProcessEvent(eventName, message.Body);
 
                     // Complete the message so that it is not received again.
                     await _subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,7 @@ namespace Enbiso.NLib.EventBus
 {
     public interface IEventProcessor
     {
-        Task ProcessEvent(string eventName, string message);
+        Task ProcessEvent(string eventName, byte[] data);
     }
 
     public class EventProcessor: IEventProcessor
@@ -26,9 +27,11 @@ namespace Enbiso.NLib.EventBus
             _logger = logger;
         }
 
-        public async Task ProcessEvent(string eventName, string message)
+        public async Task ProcessEvent(string eventName, byte[] data)
         {
             if (!_subscriptionsManager.HasSubscriptionsForEvent(eventName)) return;
+
+            var message = Encoding.UTF8.GetString(data);
 
             using (var scope = _serviceProvider.CreateScope())
             {
