@@ -6,10 +6,14 @@ namespace Enbiso.NLib.Cqrs.Idempotent
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services)
+        public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services, bool autoLoadHandlers = true)
         {
-            var assembly = Assembly.GetCallingAssembly();
-            return services.AddCqrsIdempotent(assembly);
+            if(autoLoadHandlers) return services.AddCqrsIdempotent(Assembly.GetCallingAssembly());              
+
+            services.AddIdempotency();
+            services.AddCqrs();
+            services.AddScoped<IIdempotentCommandBus, IdempotentCommandBus>();
+            return services;
         }
 
         public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services,
