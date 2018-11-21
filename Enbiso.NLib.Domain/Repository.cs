@@ -4,15 +4,24 @@ using System.Threading.Tasks;
 
 namespace Enbiso.NLib.Domain
 {
+    /// <inheritdoc />
     /// <summary>
     /// Repository
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IRepository<T> where T : IRootEntity
+    public interface IRepository<T> : IRepository where T : IRootEntity
+    {        
+    }
+
+    /// <summary>
+    /// Repository
+    /// </summary>    
+    public interface IRepository
     {
         IUnitOfWork UnitOfWork { get; }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Unit of work
     /// </summary>
