@@ -8,8 +8,10 @@ namespace Enbiso.NLib.Cqrs
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddCqrs(this IServiceCollection services)
+        public static IServiceCollection AddCqrs(this IServiceCollection services, bool autoLoadHandlers = true)
         {
+            if(!autoLoadHandlers) return services.AddCqrs();
+
             var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => !a.IsDynamic);
             return services.AddCqrs(assembly);
         }
