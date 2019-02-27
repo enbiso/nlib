@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.GlobalException
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Nats", "Enbiso.NLib.EventBus.Nats\Enbiso.NLib.EventBus.Nats.csproj", "{D1977F58-BDF0-406D-A0AC-58E47B81BDEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.Nats.Tests", "Enbiso.NLib.EventBus.Nats.Tests\Enbiso.NLib.EventBus.Nats.Tests.csproj", "{0F5932D0-629F-44A5-A9B1-D6599236BD12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.Nats.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.EventBus.Nats.Tests\Enbiso.NLib.EventBus.Nats.Tests.csproj", "{0F5932D0-629F-44A5-A9B1-D6599236BD12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
