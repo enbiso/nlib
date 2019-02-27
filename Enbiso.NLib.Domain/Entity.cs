@@ -23,7 +23,24 @@ namespace Enbiso.NLib.Domain
     /// </summary>
     public interface IEntity
     {
-        List<IEntityEvent> Events { get; set; }
+        List<IEntityEvent> GetEvents();
+    }
+
+    public abstract class Entity: IEntity
+    {
+        private readonly List<IEntityEvent> _events = new List<IEntityEvent>();
+        
+        public void AddEvent(IEntityEvent @event)
+        {            
+            _events.Add(@event?? throw new ArgumentNullException());
+        }
+        
+        public void RemoveEvent(IEntityEvent @event)
+        {            
+            _events.Remove(@event ?? throw new ArgumentNullException());
+        }
+
+        public List<IEntityEvent> GetEvents() => _events;
     }
 
     /// <inheritdoc />
@@ -31,23 +48,10 @@ namespace Enbiso.NLib.Domain
     /// Domain Entity abstraction
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    public abstract class Entity<TKey>: IEntity
+    public abstract class Entity<TKey>: Entity
     {
         private int? _requestedHashCode;
         public virtual TKey Id { get; set; }
-
-
-        public List<IEntityEvent> Events { get; set; } = new List<IEntityEvent>();
-
-        public void AddEvent(IEntityEvent @event)
-        {            
-            Events.Add(@event?? throw new ArgumentNullException());
-        }
-        
-        public void RemoveEvent(IEntityEvent @event)
-        {            
-            Events.Remove(@event ?? throw new ArgumentNullException());
-        }
 
         public bool IsTransient()
         {
@@ -103,13 +107,13 @@ namespace Enbiso.NLib.Domain
         {
             foreach (var entity in entities)
             {
-                entity.Events.Clear();
+                entity.GetEvents().Clear();
             }
         }
 
         public static IEnumerable<TEvent> GetEvents<TEvent>(this IEnumerable<IEntity> entities) where TEvent: IEntityEvent
         {
-            return entities.ToList().SelectMany(e => e.Events).OfType<TEvent>();
+            return entities.ToList().SelectMany(e => e.GetEvents()).OfType<TEvent>();
         }
     }
 }

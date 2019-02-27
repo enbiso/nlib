@@ -43,10 +43,10 @@ namespace Enbiso.NLib.Domain.Tests
         {            
             var entity = _fixture.Create<Entity<Guid>>();
             var events = _fixture.Create<List<IEntityEvent>>();
-            entity.Events.Clear();
+            entity.GetEvents().Clear();
 
             events.ForEach(entity.AddEvent);
-            Assert.Equal(entity.Events.Count, events.Count);
+            Assert.Equal(entity.GetEvents().Count, events.Count);
         }
         
         [Fact]        
@@ -57,7 +57,7 @@ namespace Enbiso.NLib.Domain.Tests
 
             events.ForEach(entity.AddEvent);
             entity.RemoveEvent(events.First());
-            Assert.Equal(entity.Events.Count, events.Count - 1);
+            Assert.Equal(entity.GetEvents().Count, events.Count - 1);
         }
         
                 
