@@ -63,7 +63,7 @@ namespace Enbiso.NLib.EventLogger
         /// <returns></returns>
         public async Task MarkEventAsPublishedAsync(IEvent @event)
         {
-            var eventLogEntry = await _repo.FindByIdAsync(@event.Id);
+            var eventLogEntry = await _repo.FindByIdAsync(@event.EventId);
             eventLogEntry.TimesSent++;
             eventLogEntry.State = EventState.Published;
             _repo.Update(eventLogEntry);
@@ -77,7 +77,7 @@ namespace Enbiso.NLib.EventLogger
         /// <returns></returns>
         public async Task MarkEventAsFailedAsync(IEvent @event)
         {
-            var eventLogEntry = await _repo.FindByIdAsync(@event.Id);            
+            var eventLogEntry = await _repo.FindByIdAsync(@event.EventId);            
             eventLogEntry.State = EventState.Failed;
             _repo.Update(eventLogEntry);
             await _repo.SaveChangesAsync();

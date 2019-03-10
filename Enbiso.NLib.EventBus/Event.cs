@@ -9,11 +9,11 @@ namespace Enbiso.NLib.EventBus
     {
         protected Event()
         {
-            Id = Guid.NewGuid();
-            CreationDate = DateTime.UtcNow;
+            EventId = Guid.NewGuid();
+            EventCreationDate = DateTime.UtcNow;
         }
 
-        public Guid Id { get; }
-        public DateTime CreationDate { get; }
+        public Guid EventId { get; }
+        public DateTime EventCreationDate { get; }
     }
 }
