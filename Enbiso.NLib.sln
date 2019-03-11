@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Nats",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.Nats.Tests", "Enbiso.NLib.EventBus.Nats.Tests\Enbiso.NLib.EventBus.Nats.Tests.csproj", "{0F5932D0-629F-44A5-A9B1-D6599236BD12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventLogger.Mongo", "Enbiso.NLib.EventLogger.Mongo\Enbiso.NLib.EventLogger.Mongo.csproj", "{F4592242-6555-4253-BAFE-A0B021836DE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4592242-6555-4253-BAFE-A0B021836DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4592242-6555-4253-BAFE-A0B021836DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4592242-6555-4253-BAFE-A0B021836DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4592242-6555-4253-BAFE-A0B021836DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
