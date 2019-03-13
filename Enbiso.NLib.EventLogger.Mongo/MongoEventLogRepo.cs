@@ -30,7 +30,7 @@ namespace Enbiso.NLib.EventLogger.Mongo
         {
             _logs.InsertOne(new MongoEventLog
             {
-                Id = eventLog.ToString(),
+                Id = eventLog.EventId.ToString(),
                 Log = eventLog
             });
             return eventLog;
