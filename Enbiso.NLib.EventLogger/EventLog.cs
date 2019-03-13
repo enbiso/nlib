@@ -9,8 +9,8 @@ namespace Enbiso.NLib.EventLogger
         private EventLog() { }
         public EventLog(IEvent @event)
         {
-            EventId = @event.Id;
-            CreationTime = @event.CreationDate;
+            EventId = @event.EventId;
+            CreationTime = @event.EventCreationDate;
             EventTypeName = @event.GetType().FullName;
             Content = JsonConvert.SerializeObject(@event);
             State = EventState.NotPublished;

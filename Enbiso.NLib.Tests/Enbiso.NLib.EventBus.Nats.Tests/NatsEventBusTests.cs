@@ -68,8 +68,8 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
 
     internal class TestEvent : IEvent
     {
-        public Guid Id { get; } = Guid.NewGuid();
-        public DateTime CreationDate { get; } = DateTime.Now;
+        public Guid EventId { get; } = Guid.NewGuid();
+        public DateTime EventCreationDate { get; } = DateTime.Now;
     }
 
     internal class TestEventHandler: IEventHandler<TestEvent>
