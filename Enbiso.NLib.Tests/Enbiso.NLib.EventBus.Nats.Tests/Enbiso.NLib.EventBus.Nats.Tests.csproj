@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Enbiso.NLib.EventBus.Nats\Enbiso.NLib.EventBus.Nats.csproj" />
+    <ProjectReference Include="..\..\Enbiso.NLib.EventBus.Nats\Enbiso.NLib.EventBus.Nats.csproj" />
   </ItemGroup>
 
 </Project>

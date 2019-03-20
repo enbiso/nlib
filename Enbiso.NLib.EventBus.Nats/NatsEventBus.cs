@@ -56,7 +56,10 @@ namespace Enbiso.NLib.EventBus.Nats
                     retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                     (ex, time) => { _logger.LogWarning(ex.ToString()); });
 
-            policy.Execute(() => { conn.Publish(eventName, body); });
+            policy.Execute(() => {
+                conn.Publish(eventName, body);
+                conn.Flush();
+            });
         }
 
         /// <inheritdoc />

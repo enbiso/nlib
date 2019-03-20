@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,24 +15,30 @@ namespace Enbiso.NLib.App.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <param name="authorizationBuilder"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration, Action<AuthorizationOptions> authorizationBuilder = null)
         {
-            return services.AddAuth(configuration.Bind);
+            return services.AddAuth(configuration.Bind, authorizationBuilder);
         }
 
         /// <summary>
-        /// Add auth with settings
+        /// Add auth with authBuilder
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="settings"></param>
+        /// <param name="authBuilder"></param>
+        /// <param name="authorizationBuilder"></param>
         /// <returns></returns>
-        public static IServiceCollection AddAuth(this IServiceCollection services, Action<AuthOptions> settings)
+        public static IServiceCollection AddAuth(this IServiceCollection services, Action<AuthOptions> authBuilder, Action<AuthorizationOptions> authorizationBuilder = null)
         {                        
             var authOpt = new AuthOptions();
-            settings?.Invoke(authOpt);
+            authBuilder?.Invoke(authOpt);
 
-            services.AddAuthorization();
+            if (authorizationBuilder == null)
+                services.AddAuthorization();
+            else
+                services.AddAuthorization(authorizationBuilder);
+
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
@@ -48,5 +57,14 @@ namespace Enbiso.NLib.App.Extensions
         public bool EnableCaching { get; set; } = true;
         public string Authority { get; set; } = "https://id.enbiso.com";
         public string ApiName { get; set; }
+    }
+
+    public class PolicyOptions
+    {
+        internal readonly Dictionary<string, AuthorizationPolicy> Policies = new Dictionary<string, AuthorizationPolicy>();
+        internal readonly Dictionary<string, Action<AuthorizationPolicyBuilder>> ConfigPolicies = new Dictionary<string, Action<AuthorizationPolicyBuilder>>();
+
+        public void AddPolicy(string name, AuthorizationPolicy policy) => Policies.Add(name, policy);
+        public void AddPolicy(string name, Action<AuthorizationPolicyBuilder> configPolicy) => ConfigPolicies.Add(name, configPolicy);
     }
 }
