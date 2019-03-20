@@ -46,7 +46,6 @@ namespace Enbiso.NLib.App.Extensions
                     options.RequireHttpsMetadata = authOpt.RequireHttpsMetadata;
                     options.EnableCaching = authOpt.EnableCaching;
                     options.ApiName = authOpt.ApiName;
-                    options.RoleClaimType = ClaimTypes.Role;
                 });
             return services;
         }        
