@@ -8,19 +8,15 @@ namespace Enbiso.NLib.Cqrs.Idempotent
     {
         public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services, bool autoLoadHandlers = true)
         {
-            if(autoLoadHandlers) return services.AddCqrsIdempotent(Assembly.GetCallingAssembly());              
-
-            services.AddIdempotency();
-            services.AddCqrs();
-            services.AddScoped<IIdempotentCommandBus, IdempotentCommandBus>();
-            return services;
+            if (autoLoadHandlers) return services.AddCqrsIdempotent(Assembly.GetCallingAssembly());
+            return services.AddCqrsIdempotent(new Assembly[0]);
         }
 
         public static IServiceCollection AddCqrsIdempotent(this IServiceCollection services,
             params Assembly[] assemblies)
         {
             services.AddIdempotency();
-            services.AddCqrs(assemblies);            
+            services.AddCqrs(assemblies);
             services.AddScoped<IIdempotentCommandBus, IdempotentCommandBus>();
             return services;
         }

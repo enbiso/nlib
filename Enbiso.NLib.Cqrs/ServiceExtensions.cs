@@ -10,21 +10,19 @@ namespace Enbiso.NLib.Cqrs
     {
         public static IServiceCollection AddCqrs(this IServiceCollection services, bool autoLoadHandlers = true)
         {
-            if(!autoLoadHandlers) return services.AddCqrs();
-
-            var assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => !a.IsDynamic);
-            return services.AddCqrs(assembly);
+            if (!autoLoadHandlers) return services.AddCqrs(new Assembly[0]);
+            return services.AddCqrs(Assembly.GetCallingAssembly());
         }
 
         public static IServiceCollection AddCqrs(this IServiceCollection services, params Assembly[] assemblies)
         {
             if (services.All(s => s.ServiceType != typeof(IMediator)))
                 services.AddMediatR(assemblies);
-            
+
             services.AddScoped<ICommandBus, CommandBus>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
             return services;
-        }        
+        }
     }
 }
