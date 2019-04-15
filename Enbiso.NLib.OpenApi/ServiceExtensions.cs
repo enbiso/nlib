@@ -41,18 +41,17 @@ namespace Enbiso.NLib.OpenApi
                     Version = opts.Version,
                     Description = opts.Description
                 });
-
-                options.AddSecurityDefinition("oauth2", new OAuth2Scheme
-                {
-                    Type = "oauth2",
-                    Flow = "implicit",
-                    AuthorizationUrl = $"{opts.Authority}/connect/authorize",
-                    TokenUrl = $"{opts.Authority}/connect/token",
-                    Scopes = new Dictionary<string, string>
-                    {
-                        {opts.Id, opts.Id?.ToUpper()}
-                    }
-                });
+               if (!string.IsNullOrEmpty(opts.Authority)) {
+                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme {
+                        Type = "oauth2",
+                        Flow = "implicit",
+                        AuthorizationUrl = $"{opts.Authority}/connect/authorize",
+                        TokenUrl = $"{opts.Authority}/connect/token",
+                        Scopes = new Dictionary<string, string> {
+                            {opts.Id, opts.Id?.ToUpper()}
+                        }
+                    });
+                }
             });
         }
 
