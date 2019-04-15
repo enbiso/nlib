@@ -44,17 +44,18 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// <param name="logger"></param>
         /// <param name="option"></param>
         public RabbitMqPersistentConnection(
-            ILogger<RabbitMqPersistentConnection> logger, 
+            ILogger<RabbitMqPersistentConnection> logger,
             IOptions<RabbitMqOption> option)
         {
             var optVal = option.Value;
             _connectionFactory = new ConnectionFactory
             {
                 HostName = optVal.Server ?? throw new ArgumentNullException(nameof(optVal.Server)),
+                Port = optVal.Port
             };
-            if(!string.IsNullOrEmpty(optVal.Username))
+            if (!string.IsNullOrEmpty(optVal.Username))
                 _connectionFactory.UserName = optVal.Username;
-            if(!string.IsNullOrEmpty(optVal.Password))
+            if (!string.IsNullOrEmpty(optVal.Password))
                 _connectionFactory.Password = optVal.Password;
             if (!string.IsNullOrEmpty(optVal.VirtualHost))
                 _connectionFactory.VirtualHost = optVal.VirtualHost;
@@ -63,7 +64,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public bool IsConnected 
+        public bool IsConnected
             => _connection != null && _connection.IsOpen && !_disposed;
 
         /// <inheritdoc />
@@ -77,7 +78,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex.ToString());                
+                _logger.LogCritical(ex.ToString());
             }
         }
 

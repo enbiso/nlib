@@ -7,6 +7,10 @@
         /// </summary>
         public string Server { get; set; } = "localhost";
         /// <summary>
+        /// Server Port
+        /// </summary>
+        public int Port { get; set; } = 5672;
+        /// <summary>
         /// Username
         /// </summary>
         public string Username { get; set; }
