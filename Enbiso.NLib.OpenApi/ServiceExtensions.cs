@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,17 +42,21 @@ namespace Enbiso.NLib.OpenApi
                     Version = opts.Version,
                     Description = opts.Description
                 });
-               if (!string.IsNullOrEmpty(opts.Authority)) {
-                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme {
-                        Type = "oauth2",
-                        Flow = "implicit",
-                        AuthorizationUrl = $"{opts.Authority}/connect/authorize",
-                        TokenUrl = $"{opts.Authority}/connect/token",
-                        Scopes = new Dictionary<string, string> {
-                            {opts.Id, opts.Id?.ToUpper()}
-                        }
-                    });
-                }
+                
+                if (string.IsNullOrEmpty(opts.Authority)) return;
+                
+                var scopes = opts.ExtraScopes?.ToDictionary(s => s, s => s.ToUpper()) ??
+                            new Dictionary<string, string>();
+                   
+               if(opts.Id != null) scopes.Add(opts.Id, opts.Id.ToUpper());
+                   
+               options.AddSecurityDefinition("oauth2", new OAuth2Scheme {
+                   Type = "oauth2",
+                   Flow = "implicit",
+                   AuthorizationUrl = $"{opts.Authority}/connect/authorize",
+                   TokenUrl = $"{opts.Authority}/connect/token",
+                   Scopes = scopes
+               });
             });
         }
 
@@ -89,5 +94,9 @@ namespace Enbiso.NLib.OpenApi
         /// Api base path
         /// </summary>
         public string BasePath { get; set; }
+        /// <summary>
+        /// Extra scopes to add to Swagger UI
+        /// </summary>
+        public string[] ExtraScopes { get; set; }
     }
 }
