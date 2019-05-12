@@ -31,6 +31,33 @@ namespace Enbiso.NLib.HttpClient
         }
 
 
+        public Task<HttpResponseMessage> GetAsync(string uri, string authorizationToken = null, string requestId = null,
+            string authorizationMethod = "Bearer")
+        {
+            var origin = GetOriginFromUri(uri);
+
+            return HttpInvoker(origin, async ctx =>
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+                SetAuthorizationHeader(requestMessage);
+
+                if (authorizationToken != null)
+                    requestMessage.Headers.Authorization =
+                        new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
+
+                var response = await _client.SendAsync(requestMessage);
+
+                // raise exception if HttpResponseCode 500 
+                // needed for circuit breaker to track fails
+
+                if (response.StatusCode == HttpStatusCode.InternalServerError)
+                    throw new HttpRequestException();
+
+                return response;
+            });
+        }
+
         public Task<HttpResponseMessage> PostAsync<T>(string uri, T item, string authorizationToken = null,
             string requestId = null, string authorizationMethod = "Bearer")
         {
@@ -66,31 +93,11 @@ namespace Enbiso.NLib.HttpClient
         }
 
 
-        public Task<string> GetStringAsync(string uri, string authorizationToken = null,
+        public async Task<string> GetStringAsync(string uri, string authorizationToken = null,
             string authorizationMethod = "Bearer")
         {
-            var origin = GetOriginFromUri(uri);
-
-            return HttpInvoker(origin, async ctx =>
-            {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-                SetAuthorizationHeader(requestMessage);
-
-                if (authorizationToken != null)
-                    requestMessage.Headers.Authorization =
-                        new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
-
-                var response = await _client.SendAsync(requestMessage);
-
-                // raise exception if HttpResponseCode 500 
-                // needed for circuit breaker to track fails
-
-                if (response.StatusCode == HttpStatusCode.InternalServerError)
-                    throw new HttpRequestException();
-
-                return await response.Content.ReadAsStringAsync();
-            });
+            var resp = await GetAsync(uri, authorizationToken);
+            return await resp.Content.ReadAsStringAsync();
         }
 
         private Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item,

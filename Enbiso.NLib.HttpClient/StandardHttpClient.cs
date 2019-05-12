@@ -24,6 +24,14 @@ namespace Enbiso.NLib.HttpClient
         public async Task<string> GetStringAsync(string uri, string authorizationToken = null,
             string authorizationMethod = "Bearer")
         {
+            
+            var result = await GetAsync(uri, authorizationToken);
+            return await result.Content.ReadAsStringAsync();
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string uri, string authorizationToken = null, string requestId = null,
+            string authorizationMethod = "Bearer")
+        {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             SetAuthorizationHeader(requestMessage);
@@ -32,11 +40,8 @@ namespace Enbiso.NLib.HttpClient
                 requestMessage.Headers.Authorization =
                     new AuthenticationHeaderValue(authorizationMethod, authorizationToken);
 
-            var response = await _client.SendAsync(requestMessage);
-
-            return await response.Content.ReadAsStringAsync();
+            return await _client.SendAsync(requestMessage);
         }
-
 
         public async Task<HttpResponseMessage> PostAsync<T>(string uri, T item, string authorizationToken = null,
             string requestId = null, string authorizationMethod = "Bearer")

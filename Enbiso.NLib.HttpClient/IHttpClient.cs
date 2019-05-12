@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.HttpClient
@@ -17,6 +18,18 @@ namespace Enbiso.NLib.HttpClient
         /// <returns></returns>
         Task<string> GetStringAsync(string uri, string authorizationToken = null,
             string authorizationMethod = "Bearer");
+
+        /// <summary>
+        /// Get
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uri"></param>
+        /// <param name="authorizationToken"></param>
+        /// <param name="requestId"></param>
+        /// <param name="authorizationMethod"></param>
+        /// <returns></returns>
+        Task<HttpResponseMessage> GetAsync(string uri, string authorizationToken = null,
+            string requestId = null, string authorizationMethod = "Bearer");
 
         /// <summary>
         /// Post
