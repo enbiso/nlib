@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Idempotency", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Idempotency.EntityFramework", "Enbiso.NLib.Idempotency.EntityFramework\Enbiso.NLib.Idempotency.EntityFramework.csproj", "{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.HttpClient", "Enbiso.NLib.HttpClient\Enbiso.NLib.HttpClient.csproj", "{E0895114-A502-4FCD-992E-493EF527A03E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.OpenApi", "Enbiso.NLib.OpenApi\Enbiso.NLib.OpenApi.csproj", "{863C1D72-CF98-4A64-9A34-7DDDD73AC688}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.Cqrs", "Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj", "{B2F44E3E-632D-4D5C-AEA4-20F649ACB414}"
@@ -95,10 +93,6 @@ Global
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{366C6E48-E7DD-4B2D-BC55-D4B53EF9924C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0895114-A502-4FCD-992E-493EF527A03E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0895114-A502-4FCD-992E-493EF527A03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0895114-A502-4FCD-992E-493EF527A03E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{863C1D72-CF98-4A64-9A34-7DDDD73AC688}.Release|Any CPU.ActiveCfg = Release|Any CPU
