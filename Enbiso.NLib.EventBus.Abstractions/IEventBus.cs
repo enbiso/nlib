@@ -14,7 +14,8 @@
         /// Publish @event
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IEvent @event);
+        /// <param name="exchange"></param>
+        void Publish(IEvent @event, string exchange = null);
 
         /// <summary>
         /// Subscribe to events

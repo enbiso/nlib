@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
     /// </summary>
     public class RabbitMqEventBus : IEventBus
     {
-        private readonly string _brokerName;        
+        private readonly string[] _exchanges;        
 
         private readonly IRabbitMqPersistentConnection _persistentConnection;
         private readonly ILogger<RabbitMqEventBus> _logger;
@@ -39,7 +40,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         {
             var option = optionWrap.Value;
             _queueName = option.Client ?? throw new ArgumentNullException(nameof(option.Client));
-            _brokerName = option.Exchange ?? throw new ArgumentNullException(nameof(option.Exchange));            
+            _exchanges = option.Exchanges ?? throw new ArgumentNullException(nameof(option.Exchanges));            
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _subscriptionsManager = subscriptionManager;
@@ -64,7 +65,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Publish(IEvent @event)
+        public void Publish(IEvent @event, string exchange = null)
         {            
             if (!_persistentConnection.IsConnected)
             {
@@ -80,15 +81,16 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                var eventName = @event.GetType().Name;
-                channel.ExchangeDeclare(exchange: _brokerName, type: "direct");
+                channel.ExchangeDeclare(exchange: exchange, type: "direct");
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
 
+                var eventName = @event.GetType().Name;
+                exchange = exchange ?? _exchanges.FirstOrDefault();
                 policy.Execute(() =>
                 {
-                    channel.BasicPublish(exchange: _brokerName, routingKey: eventName, basicProperties: null, body: body);
+                    channel.BasicPublish(exchange: exchange, routingKey: eventName, basicProperties: null, body: body);
                 });
             }            
         }
@@ -152,7 +154,10 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                channel.QueueBind(queue: _queueName, exchange: _brokerName, routingKey: eventName);
+                foreach (var exchange in _exchanges)
+                {
+                    channel.QueueBind(queue: _queueName, exchange: exchange, routingKey: eventName);
+                }
             }
         }
         
@@ -162,7 +167,12 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                 _persistentConnection.TryConnect();
 
             var channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(exchange: _brokerName, type: "direct");
+
+            foreach (var exchange in _exchanges)
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: "direct");
+            }
+
             channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             channel.CallbackException += (sender, ea) =>
@@ -181,7 +191,10 @@ namespace Enbiso.NLib.EventBus.RabbitMq
 
             using (var channel = _persistentConnection.CreateModel())
             {
-                channel.QueueUnbind(_queueName, _brokerName, eventName);
+                foreach (var exchange in _exchanges)
+                {
+                    channel.QueueUnbind(_queueName, exchange, eventName);
+                }
             }
         }
 

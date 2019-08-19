@@ -18,7 +18,7 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
             var opts = Options.Create(new NatsOptions
             {
                 Servers = new [] { "nats://localhost:4222" },
-                Exchange = "testEx",
+                Exchanges = new [] {"testEx"},
                 Client = "tClient"
             });
             var pConnLogger = new Logger<NatsPersistentConnection>(new NullLoggerFactory());
@@ -38,14 +38,14 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
             var opts1 = Options.Create(new NatsOptions
             {
                 Servers = new[] { "nats://localhost:4222" },
-                Exchange = "testEx",
+                Exchanges = new [] {"testEx"},
                 Client = "tClient1"
             });
 
             var opts2 = Options.Create(new NatsOptions
             {
                 Servers = new[] { "nats://localhost:4222" },
-                Exchange = "testEx",
+                Exchanges = new [] {"testEx"},
                 Client = "tClient2"
             });
 

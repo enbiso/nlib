@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -32,21 +33,25 @@ namespace Enbiso.NLib.EventBus.Nats
         {
             if (!_persistentConnection.TryConnect()) return;
 
-            var conn = _persistentConnection.GetConnection();            
-            conn.SubscribeAsync($"{_options.Exchange}.>", _options.Client, async (sender, args) =>
+            var conn = _persistentConnection.GetConnection();
+
+            foreach (var exchange in _options.Exchanges)
             {
-                var subject = args.Message.Subject;
-                var eventName = subject.StartsWith(_options.Exchange)
-                    ? subject.Substring(_options.Exchange.Length + 1) : subject;                
-                await _eventProcessor.ProcessEvent(eventName, args.Message.Data);
-            });
+                conn.SubscribeAsync($"{exchange}.>", _options.Client, async (sender, args) =>
+                {
+                    var subject = args.Message.Subject;
+                    var eventName = subject.StartsWith(exchange)
+                        ? subject.Substring(exchange.Length + 1) : subject;                
+                    await _eventProcessor.ProcessEvent(eventName, args.Message.Data);
+                });
+            }
         }
 
-        public void Publish(IEvent @event)
+        public void Publish(IEvent @event, string exchange = null)
         {
             if (!_persistentConnection.IsConnected && !_persistentConnection.TryConnect()) return;
             var conn = _persistentConnection.GetConnection();
-            var eventName = $"{_options.Exchange}.{@event.GetType().Name}";
+            var eventName = $"{exchange ?? _options.Exchanges.FirstOrDefault()}.{@event.GetType().Name}";
             var message = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(message);
 

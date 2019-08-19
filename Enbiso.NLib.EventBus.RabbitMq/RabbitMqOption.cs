@@ -35,8 +35,8 @@
         /// </summary>
         public string Client { get; set; }
         /// <summary>
-        /// Client broker name
-        /// </summary>
-        public string Exchange { get; set; }
+        /// Client brokers name
+        /// </summary>        
+        public string[] Exchanges { get; set; }
     }
 }
