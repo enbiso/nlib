@@ -23,7 +23,7 @@
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />
