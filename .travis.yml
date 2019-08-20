@@ -1,12 +1,12 @@
 env:
   global:
-    - PACKAGE_VERSION="1.2.1"
+    - PACKAGE_VERSION="1.2.2"
     - PACKAGE_ICON="https://www.enbiso.com/logo.svg"
     - PACKAGE_PROJECT="https://nlib.enbiso.com"
     - PACKAGE_REPO="https://github.com/enbiso/Enbiso.NLib"
 language: csharp
 mono: none
-dotnet: 2.1.302
+dotnet: 2.2.401
 script:
   - dotnet restore
   - dotnet build -c release -o ../bin
