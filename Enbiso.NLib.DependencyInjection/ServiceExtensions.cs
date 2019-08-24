@@ -9,7 +9,9 @@ namespace Enbiso.NLib.DependencyInjection
     public static class ServiceExtensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services, params Type[] typeReferences)
-            => services.AddServices(typeReferences.Select(t => t.Assembly).ToArray());
+        {
+            return services.AddServices(typeReferences.Select(t => t.Assembly).ToArray());
+        }
 
         public static IServiceCollection AddServices(this IServiceCollection services, params Assembly[] assemblies)
         {
@@ -19,8 +21,10 @@ namespace Enbiso.NLib.DependencyInjection
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies().Select(Assembly.Load).ToArray();
-            return services.AddServices(assemblies);
+            var entry = Assembly.GetEntryAssembly();
+            var assemblies = entry.GetReferencedAssemblies().Select(Assembly.Load).ToList();
+            assemblies.Add(entry);
+            return services.AddServices(assemblies.ToArray());
         }
 
         private static void AddServicesForAssembly(this IServiceCollection services, Assembly assembly)
