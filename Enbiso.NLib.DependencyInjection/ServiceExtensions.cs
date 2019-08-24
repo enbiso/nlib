@@ -8,6 +8,9 @@ namespace Enbiso.NLib.DependencyInjection
 {
     public static class ServiceExtensions
     {
+        public static IServiceCollection AddServices(this IServiceCollection services, params Type[] typeReferences)
+            => services.AddServices(typeReferences.Select(t => t.Assembly).ToArray());
+
         public static IServiceCollection AddServices(this IServiceCollection services, params Assembly[] assemblies)
         {
             assemblies.ToList().ForEach(services.AddServicesForAssembly);
@@ -16,7 +19,7 @@ namespace Enbiso.NLib.DependencyInjection
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = Assembly.GetEntryAssembly().GetReferencedAssemblies().Select(Assembly.Load).ToArray();
             return services.AddServices(assemblies);
         }
 
@@ -28,7 +31,7 @@ namespace Enbiso.NLib.DependencyInjection
                 if (service == null) continue;
                 // Get defined interfaces
                 var interfaces = service.ServiceTypes.ToList();
-                // If not specificed add implemented interfaces
+                // If not specified add implemented interfaces
                 if (!interfaces.Any()) interfaces.AddRange(type.GetInterfaces());
                 // If not then self bind
                 if (!interfaces.Any()) interfaces.Add(type);
