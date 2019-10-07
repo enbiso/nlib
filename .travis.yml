@@ -9,8 +9,7 @@ language: csharp
 mono: none
 dotnet: 3.0.100
 script:
-  - dotnet restore
-  - dotnet build -c release -o ../bin
+  - dotnet build -c release -o ./bin
 after_success:
   - rm ./bin/*.0.0.1-local.nupkg;
   - if [ "$TRAVIS_BRANCH" = "master" ]; then
