@@ -10,7 +10,7 @@
     <Authors>Faraj Farook</Authors>
     <Description>Simple Event bus implementation for NATs</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib EventBus NATS</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
@@ -28,7 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.*" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.*" />
     <PackageReference Include="NATS.Client" Version="0.9.*" />
-    <PackageReference Include="Polly" Version="7.1.0" />
+    <PackageReference Include="Polly" Version="7.1.*" />
   </ItemGroup>
 
   <ItemGroup>

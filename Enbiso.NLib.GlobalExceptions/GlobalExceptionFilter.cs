@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Enbiso.NLib.GlobalExceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace Enbiso.NLib.App.Extensions
+namespace Enbiso.NLib.GlobalExceptions
 {
     public class GlobalExceptionFilter : IAsyncExceptionFilter
     {

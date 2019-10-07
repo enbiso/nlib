@@ -10,7 +10,7 @@
     <Company>enbiso</Company>
     <Authors>Faraj Farook</Authors>
     <Description>Simple domain SeedWork library</Description>
-    <Copyright>Copyright 2017 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib Domain SeedWork</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
