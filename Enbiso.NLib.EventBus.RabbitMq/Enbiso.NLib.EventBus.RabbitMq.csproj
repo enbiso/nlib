@@ -9,7 +9,7 @@
     <Authors>Faraj Farook</Authors>
     <Description>RabbitMq Implementation of EventBus</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib EventBus RabbitMq</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
@@ -23,9 +23,9 @@
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.*" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.*" />
-    <PackageReference Include="Polly" Version="7.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.*" />
+    <PackageReference Include="Polly" Version="7.1.*" />
     <PackageReference Include="RabbitMQ.Client" Version="5.1.*" />
   </ItemGroup>
   <ItemGroup>

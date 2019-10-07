@@ -10,7 +10,7 @@
     <Company>enbiso</Company>
     <Authors>Faraj Farook</Authors>
     <Description>Simple CQRS</Description>
-    <Copyright>Copyright 2017 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib CQRS</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.*" />
   </ItemGroup>
 
 </Project>

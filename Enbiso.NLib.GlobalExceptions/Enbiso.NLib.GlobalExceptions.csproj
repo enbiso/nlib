@@ -9,7 +9,7 @@
     <Authors>Faraj Farook</Authors>
     <Description>Simple Global Exception handler</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib GlobalExceptions</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>

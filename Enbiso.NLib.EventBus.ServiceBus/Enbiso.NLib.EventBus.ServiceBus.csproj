@@ -9,7 +9,7 @@
     <Authors>Faraj Farook</Authors>
     <Description>Azure ServiceBus Implementation of EventBus</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib EventBus Azure ServiceBus</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>

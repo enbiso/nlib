@@ -9,7 +9,7 @@
     <Authors>Faraj Farook</Authors>
     <Description>EventLogs for integration events</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2018 (c) enbiso. All rights reserved.</Copyright>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
     <PackageTags>Enbiso Enbiso.NLib EventLog</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
