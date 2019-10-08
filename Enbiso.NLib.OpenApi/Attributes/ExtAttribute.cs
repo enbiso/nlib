@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.OpenApi.Any;
 
 namespace Enbiso.NLib.OpenApi.Attributes
 {
@@ -7,9 +8,9 @@ namespace Enbiso.NLib.OpenApi.Attributes
     public class ExtAttribute : Attribute
     {
         public readonly string Name;
-        public readonly object Value;
+        public readonly IOpenApiAny Value;
 
-        public ExtAttribute(string name, object value)
+        public ExtAttribute(string name, IOpenApiAny value)
         {
             Name = name.StartsWith("x-") ? name : "x-" + name;
             Value = value;
