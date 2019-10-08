@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Enbiso.NLib.OpenApi
 {
@@ -27,36 +27,39 @@ namespace Enbiso.NLib.OpenApi
         /// <param name="services"></param>
         /// <param name="optBuilder"></param>
         public static void AddOpenApi(this IServiceCollection services, Action<OpenApiOptions> optBuilder)
-        {            
+        {
             var opts = new OpenApiOptions();
             optBuilder?.Invoke(opts);
-            services.Configure(optBuilder);            
-            services.AddSwaggerGen(options =>
+            services.Configure(optBuilder);
+            services.AddSwaggerGen(c =>
             {
-                options.SchemaFilter<SchemaExtensionFilter>();
-                options.DocumentFilter<SecurityDocumentFilter>();
-                options.DescribeAllEnumsAsStrings();
-                options.SwaggerDoc("swagger", new Info
+                c.SchemaFilter<SchemaExtensionFilter>();
+                c.SwaggerDoc("swagger", new OpenApiInfo
                 {
                     Title = opts.Id?.ToUpper(),
                     Version = opts.Version,
                     Description = opts.Description
                 });
-                
                 if (string.IsNullOrEmpty(opts.Authority)) return;
-                
+
                 var scopes = opts.ExtraScopes?.ToDictionary(s => s, s => s.ToUpper()) ??
-                            new Dictionary<string, string>();
-                   
-               if(opts.Id != null) scopes.Add(opts.Id, opts.Id.ToUpper());
-                   
-               options.AddSecurityDefinition("oauth2", new OAuth2Scheme {
-                   Type = "oauth2",
-                   Flow = "implicit",
-                   AuthorizationUrl = $"{opts.Authority}/connect/authorize",
-                   TokenUrl = $"{opts.Authority}/connect/token",
-                   Scopes = scopes
-               });
+                             new Dictionary<string, string>();
+
+                if (opts.Id != null) scopes.Add(opts.Id, opts.Description);
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{opts.Authority}/connect/authorize"),
+                            TokenUrl = new Uri($"{opts.Authority}/connect/token"),
+                            Scopes = scopes
+                        }
+                    },
+                });
             });
         }
 
@@ -66,9 +69,18 @@ namespace Enbiso.NLib.OpenApi
             app.UseSwagger(c =>
             {
                 c.RouteTemplate = "/{documentName}.json";
-                c.PreSerializeFilters.Add((swaggerDoc, httpReq) => { swaggerDoc.BasePath = settings.BasePath; });
+                c.PreSerializeFilters.Add(((document, request) =>
+                {
+                    document.Servers = new List<OpenApiServer>
+                    {
+                        new OpenApiServer
+                        {
+                            Url = settings.BasePath
+                        }
+                    };
+                }));
             });
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"{settings.BasePath}swagger.json", settings.Id?.ToUpper()); });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint($"{settings.BasePath}swagger.json", settings.Id.ToUpper());});
         }
     }
 
