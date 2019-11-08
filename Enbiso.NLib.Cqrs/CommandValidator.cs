@@ -21,8 +21,11 @@ namespace Enbiso.NLib.Cqrs
         public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
         {
-            var failures = _validators.SelectMany(v => v.Validate(request)).Where(error => error != null).ToArray();
 
+            var validatorTasks = _validators.Select(v => v.Validate(request)).ToArray();
+            await Task.WhenAll(validatorTasks);
+            var failures = validatorTasks.SelectMany(t => t.Result).Where(error => error != null).ToArray();
+            
             if (failures.Any())                                    
                 throw new CommandValidationException(typeof(TCommand), failures);
 
@@ -38,7 +41,7 @@ namespace Enbiso.NLib.Cqrs
     public interface ICommandValidator<TCommand> 
         where TCommand: IBaseCommand        
     {
-        IEnumerable<ValidationError> Validate(TCommand command);
+        Task<IEnumerable<ValidationError>> Validate(TCommand command);
     }
     
     /// <summary>
