@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
@@ -47,13 +48,12 @@ namespace Enbiso.NLib.EventBus.Nats
             }
         }
 
-        public void Publish(IEvent @event, string exchange = null)
+        public Task Publish<T>(T @event, string exchange = null) where T: IEvent
         {
-            if (!_persistentConnection.IsConnected && !_persistentConnection.TryConnect()) return;
+            if (!_persistentConnection.IsConnected && !_persistentConnection.TryConnect()) return Task.CompletedTask;
             var conn = _persistentConnection.GetConnection();
             var eventName = $"{exchange ?? _options.Exchanges.FirstOrDefault()}.{@event.GetType().Name}";
-            var message = JsonSerializer.Serialize(@event);
-            var body = Encoding.UTF8.GetBytes(message);
+            var body = JsonSerializer.SerializeToUtf8Bytes(@event);
 
             var policy = Policy.Handle<NATSTimeoutException>()
                 .Or<SocketException>()
@@ -65,6 +65,7 @@ namespace Enbiso.NLib.EventBus.Nats
                 conn.Publish(eventName, body);
                 conn.Flush();
             });
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

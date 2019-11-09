@@ -1,4 +1,6 @@
-﻿namespace Enbiso.NLib.EventBus
+﻿using System.Threading.Tasks;
+
+namespace Enbiso.NLib.EventBus
 {
     /// <summary>
     /// Event bus interface
@@ -15,7 +17,7 @@
         /// </summary>
         /// <param name="event"></param>
         /// <param name="exchange"></param>
-        void Publish(IEvent @event, string exchange = null);
+        Task Publish<T>(T @event, string exchange = null) where T : IEvent;
 
         /// <summary>
         /// Subscribe to events

@@ -15,12 +15,12 @@ namespace Enbiso.NLib.EventLogger
             _service = service;
         }
 
-        public async Task PublishToBus(IEvent @event)
+        public async Task PublishToBus<T>(T @event, string exchange = null) where T: IEvent
         {
             await _service.SaveEventAsync(@event);
             try
             {
-                _bus.Publish(@event);
+                await _bus.Publish(@event, exchange);
                 await _service.MarkEventAsPublishedAsync(@event);
             }
             catch (Exception)

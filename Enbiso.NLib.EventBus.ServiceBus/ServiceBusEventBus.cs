@@ -52,7 +52,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         }
 
         /// <inheritdoc />
-        public void Publish(IEvent @event, string exchange = null)
+        public Task Publish<T>(T @event, string exchange = null) where T:IEvent
         {            
             var eventName = @event.GetType().Name.Replace(IntegrationEventSuffix, "");
             var jsonMessage = JsonSerializer.Serialize(@event);
@@ -68,7 +68,9 @@ namespace Enbiso.NLib.EventBus.ServiceBus
 
             topicClient.SendAsync(message)
                 .GetAwaiter()
-                .GetResult();            
+                .GetResult();       
+            
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

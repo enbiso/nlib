@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -61,7 +62,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         }
 
         /// <inheritdoc />
-        public void Publish(IEvent @event, string exchange = null)
+        public Task Publish<T>(T @event, string exchange = null) where T:IEvent
         {            
             if (!_persistentConnection.IsConnected)
             {
@@ -75,20 +76,20 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                     _logger.LogWarning(ex.ToString());
                 });
 
-            using (var channel = _persistentConnection.CreateModel())
+            using var channel = _persistentConnection.CreateModel();
+            channel.ExchangeDeclare(exchange: exchange, type: "direct");
+
+            var message = JsonSerializer.Serialize(@event);
+            var body = Encoding.UTF8.GetBytes(message);
+
+            var eventName = @event.GetType().Name;
+            exchange ??= _exchanges.FirstOrDefault();
+            policy.Execute(() =>
             {
-                channel.ExchangeDeclare(exchange: exchange, type: "direct");
-
-                var message = JsonSerializer.Serialize(@event);
-                var body = Encoding.UTF8.GetBytes(message);
-
-                var eventName = @event.GetType().Name;
-                exchange = exchange ?? _exchanges.FirstOrDefault();
-                policy.Execute(() =>
-                {
-                    channel.BasicPublish(exchange: exchange, routingKey: eventName, basicProperties: null, body: body);
-                });
-            }            
+                channel.BasicPublish(exchange: exchange, routingKey: eventName, basicProperties: null, body: body);
+            });
+                
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

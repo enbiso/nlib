@@ -11,10 +11,7 @@ namespace Enbiso.NLib.EventBus
             _bus = bus;
         }
 
-        public Task PublishToBus(IEvent @event)
-        {
-            _bus.Publish(@event);
-            return Task.CompletedTask;
-        }
+        public Task PublishToBus<T>(T @event, string exchange = null) where T : IEvent =>
+            _bus.Publish(@event, exchange);
     }
 }
