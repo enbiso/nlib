@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
-using Newtonsoft.Json;
 using Polly;
 
 namespace Enbiso.NLib.EventBus.Nats
@@ -52,7 +52,7 @@ namespace Enbiso.NLib.EventBus.Nats
             if (!_persistentConnection.IsConnected && !_persistentConnection.TryConnect()) return;
             var conn = _persistentConnection.GetConnection();
             var eventName = $"{exchange ?? _options.Exchanges.FirstOrDefault()}.{@event.GetType().Name}";
-            var message = JsonConvert.SerializeObject(@event);
+            var message = JsonSerializer.Serialize(@event);
             var body = Encoding.UTF8.GetBytes(message);
 
             var policy = Policy.Handle<NATSTimeoutException>()

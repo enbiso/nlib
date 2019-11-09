@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Enbiso.NLib.EventBus.ServiceBus
 {
@@ -23,13 +20,15 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly SubscriptionClient _subscriptionClient;
         private readonly IEventProcessor _eventProcessor;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="serviceBusPersistenceConnection"></param>
         /// <param name="logger"></param>
         /// <param name="subsManager"></param>        
-        /// <param name="subscriptionClientName"></param>        
+        /// <param name="subscriptionClientName"></param>
+        /// <param name="eventProcessor"></param>        
         public ServiceBusEventBus(IServiceBusPersistenceConnection serviceBusPersistenceConnection,
             ILogger<ServiceBusEventBus> logger, IEventBusSubscriptionsManager subsManager,            
             string subscriptionClientName, IEventProcessor eventProcessor)
@@ -56,7 +55,7 @@ namespace Enbiso.NLib.EventBus.ServiceBus
         public void Publish(IEvent @event, string exchange = null)
         {            
             var eventName = @event.GetType().Name.Replace(IntegrationEventSuffix, "");
-            var jsonMessage = JsonConvert.SerializeObject(@event);
+            var jsonMessage = JsonSerializer.Serialize(@event);
 
             var message = new Message
             {

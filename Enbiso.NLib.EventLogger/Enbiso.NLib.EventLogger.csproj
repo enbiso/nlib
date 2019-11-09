@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>Enbiso.NLib.EventLogger</PackageId>
 
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
@@ -23,7 +23,7 @@
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.*" />
+    <PackageReference Include="System.Text.Json" Version="4.6.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />

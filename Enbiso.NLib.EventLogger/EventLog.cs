@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Text.Json;
 using Enbiso.NLib.EventBus;
-using Newtonsoft.Json;
 
 namespace Enbiso.NLib.EventLogger
 {
@@ -12,7 +12,7 @@ namespace Enbiso.NLib.EventLogger
             EventId = @event.EventId;
             CreationTime = @event.EventCreationDate;
             EventTypeName = @event.GetType().FullName;
-            Content = JsonConvert.SerializeObject(@event);
+            Content = JsonSerializer.Serialize(@event);
             State = EventState.NotPublished;
             TimesSent = 0;
         }        

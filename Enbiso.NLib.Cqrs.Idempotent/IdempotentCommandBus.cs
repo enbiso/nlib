@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Enbiso.NLib.Idempotency;
-using Newtonsoft.Json;
 
 namespace Enbiso.NLib.Cqrs.Idempotent
 {
@@ -40,10 +40,10 @@ namespace Enbiso.NLib.Cqrs.Idempotent
             var reqLog = await _requestManager.FindAsync(reqGuid);
             if (reqLog != null)
             {
-                return JsonConvert.DeserializeObject<TResponse>(reqLog.Response);
+                return JsonSerializer.Deserialize<TResponse>(reqLog.Response);
             }
             var response = await _bus.Send(command, cancellationToken);
-            await _requestManager.CreateRequestAsync(reqGuid, command.GetType().Name, JsonConvert.SerializeObject(response));
+            await _requestManager.CreateRequestAsync(reqGuid, command.GetType().Name, JsonSerializer.Serialize(response));
             return response;
         }
     }

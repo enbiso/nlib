@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Enbiso.NLib.EventBus
 {
@@ -42,17 +41,17 @@ namespace Enbiso.NLib.EventBus
                     {
                         var handler =
                             scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
-                        dynamic eventData = JObject.Parse(message);
+                        var eventData = JsonSerializer.Deserialize<dynamic>(message);
                         if (handler != null) await handler.Handle(eventData);
                         else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");
                     }
                     else
                     {
                         var eventType = _subscriptionsManager.GetEventTypeByName(eventName);
-                        var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
+                        var integrationEvent = JsonSerializer.Deserialize(message, eventType);
                         var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
                         var concreteHandlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                        await (Task)concreteHandlerType.GetMethod("Handle").Invoke(handler, new[] { integrationEvent });
+                        concreteHandlerType.GetMethod("Handle")?.Invoke(handler, new[] { integrationEvent });
                     }
                 }
             }

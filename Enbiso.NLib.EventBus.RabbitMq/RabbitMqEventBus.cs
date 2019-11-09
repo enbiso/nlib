@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Polly;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -83,7 +79,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             {
                 channel.ExchangeDeclare(exchange: exchange, type: "direct");
 
-                var message = JsonConvert.SerializeObject(@event);
+                var message = JsonSerializer.Serialize(@event);
                 var body = Encoding.UTF8.GetBytes(message);
 
                 var eventName = @event.GetType().Name;
