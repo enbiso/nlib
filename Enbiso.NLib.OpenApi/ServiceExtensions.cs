@@ -6,21 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Enbiso.NLib.OpenApi
 {
     public static class ServiceExtensions
     {
-        /// <summary>
-        /// Add open api with configuration
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        public static void AddOpenApi(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOpenApi(configuration.Bind);
-        }
-
         /// <summary>
         /// Add open Api with builder
         /// </summary>
@@ -30,7 +21,7 @@ namespace Enbiso.NLib.OpenApi
         {
             var opts = new OpenApiOptions();
             optBuilder?.Invoke(opts);
-            services.Configure(optBuilder);
+
             services.AddSwaggerGen(c =>
             {
                 c.SchemaFilter<SchemaExtensionFilter>();
@@ -46,19 +37,37 @@ namespace Enbiso.NLib.OpenApi
                              new Dictionary<string, string>();
 
                 if (opts.Id != null) scopes.Add(opts.Id, opts.Description);
-
-                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                
+                c.AddSecurityDefinition("OAuth2", new OpenApiSecurityScheme
                 {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
+                   Type = SecuritySchemeType.OAuth2,
+                   Flows = new OpenApiOAuthFlows
+                   {
+                       Implicit = new OpenApiOAuthFlow
+                       {
+                           AuthorizationUrl = new Uri($"{opts.Authority}/connect/authorize"),
+                           TokenUrl = new Uri($"{opts.Authority}/connect/token"),
+                           Scopes = scopes
+                       }
+                   },
+                });
+               
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
-                        Implicit = new OpenApiOAuthFlow
+                        new OpenApiSecurityScheme
                         {
-                            AuthorizationUrl = new Uri($"{opts.Authority}/connect/authorize"),
-                            TokenUrl = new Uri($"{opts.Authority}/connect/token"),
-                            Scopes = scopes
-                        }
-                    },
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "OAuth2"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        scopes.Keys.ToList()
+                    }
                 });
             });
         }
