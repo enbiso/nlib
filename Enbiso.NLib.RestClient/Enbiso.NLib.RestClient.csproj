@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageId>Enbiso.NLib.RestClient</PackageId>
+
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+
+        <Authors>Faraj Farook</Authors>
+        <Description>Simple REST Client with OpenID Connect Client Credential Security</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
+        <PackageTags>Enbiso Enbiso.NLib RestClient</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <NeutralLanguage>en-AU</NeutralLanguage>
+        <Owners>enbiso</Owners>
+        <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+        <Summary>Enbiso - Simple REST Client with OpenID Connect Client Credential Security</Summary>
+        <Title>Simple REST Client</Title>
+
+        <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+        <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+        <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.*" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.*" />
+        <PackageReference Include="System.Text.Json" Version="4.6.0" />
+    </ItemGroup>
+
+</Project>
