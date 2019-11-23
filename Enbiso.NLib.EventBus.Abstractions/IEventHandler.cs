@@ -1,36 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Integration event handler with type event
-    /// </summary>
-    /// <typeparam name="TEvent"></typeparam>
-    public interface IEventHandler<in TEvent> : IEventHandler where TEvent: IEvent
-    {
-        Task Handle(TEvent @event);
-    }
-
     /// <summary>
     /// Integration event handler
     /// </summary>
     public interface IEventHandler
     {
-
+        Type GetEventType();
+        Task Handle(object @event);
     }
-
-    /// <inheritdoc />
+    
     /// <summary>
-    /// Dynamic integration event handler interface
+    /// Abstract event handler
     /// </summary>
-    public interface IDynamicEventHandler: IEventHandler
+    /// <typeparam name="TEvent"></typeparam>
+    public abstract class EventHandler<TEvent>: IEventHandler where TEvent : class, IEvent
     {
-        /// <summary>
-        /// Handle dynamic event
-        /// </summary>
-        /// <param name="eventData"></param>
-        /// <returns></returns>
-        Task Handle(dynamic eventData);
+        protected abstract Task Handle(TEvent @event);
+        public Type GetEventType() => typeof(TEvent);
+        public Task Handle(object @event) => Handle(@event as TEvent);
     }
 }

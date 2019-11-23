@@ -21,48 +21,14 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
                 Exchanges = new [] {"testEx"},
                 Client = "tClient"
             });
-            var pConnLogger = new Logger<NatsPersistentConnection>(new NullLoggerFactory());
-            var pConn = new NatsPersistentConnection(new ConnectionFactory(), opts, pConnLogger);
+            var pConnLogger = new Logger<NatsConnection>(new NullLoggerFactory());
+            var pConn = new NatsConnection(new ConnectionFactory(), opts, pConnLogger);
             var eventProcessor = Substitute.For<IEventProcessor>();            
-            var busLogger = new Logger<NatsEventBus>(new NullLoggerFactory());
-            var bus = new NatsEventBus(opts, pConn, eventProcessor, new EventBusSubscriptionsManager(), busLogger);            
-            bus.Initialize();            
+            var busLogger = new Logger<NatsEventPublisher>(new NullLoggerFactory());
+            var bus = new NatsEventPublisher(opts, pConn, busLogger);
             bus.Publish(new TestEvent());
             Thread.Sleep(1000);
             eventProcessor.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
-        }
-
-        [Fact]
-        public void SeperatePublishSubscribeTests()
-        {
-            var opts1 = Options.Create(new NatsOptions
-            {
-                Servers = new[] { "nats://localhost:4222" },
-                Exchanges = new [] {"testEx"},
-                Client = "tClient1"
-            });
-
-            var opts2 = Options.Create(new NatsOptions
-            {
-                Servers = new[] { "nats://localhost:4222" },
-                Exchanges = new [] {"testEx"},
-                Client = "tClient2"
-            });
-
-            var pConnLogger = new Logger<NatsPersistentConnection>(new NullLoggerFactory());
-            var pConn = new NatsPersistentConnection(new ConnectionFactory(), opts1, pConnLogger);
-            var eventProcessor1 = Substitute.For<IEventProcessor>();
-            var eventProcessor2 = Substitute.For<IEventProcessor>();
-            var busLogger = new Logger<NatsEventBus>(new NullLoggerFactory());
-            var bus1 = new NatsEventBus(opts1, pConn, eventProcessor1, new EventBusSubscriptionsManager(), busLogger);
-            var bus2 = new NatsEventBus(opts2, pConn, eventProcessor2, new EventBusSubscriptionsManager(), busLogger);
-            bus2.Subscribe<TestEvent, TestEventHandler>();
-            bus1.Initialize();
-            bus2.Initialize();
-            bus1.Publish(new TestEvent());
-            Thread.Sleep(1000);
-            eventProcessor2.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
-            eventProcessor1.DidNotReceive().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
         }
     }
 
@@ -72,8 +38,8 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
         public DateTime EventCreationDate { get; } = DateTime.Now;
     }
 
-    internal class TestEventHandler: IEventHandler<TestEvent>
+    internal class TestEventHandler: EventHandler<TestEvent>
     {
-        public Task Handle(TestEvent @event) => Task.CompletedTask;        
+        protected override Task Handle(TestEvent @event) => Task.CompletedTask;        
     }
 }

@@ -4,14 +4,14 @@ namespace Enbiso.NLib.EventBus
 {
     public class EventService : IEventService
     {
-        private readonly IEventBus _bus;
+        private readonly IEventPublisher _publisher;
 
-        public EventService(IEventBus bus)
+        public EventService(IEventPublisher publisher)
         {
-            _bus = bus;
+            _publisher = publisher;
         }
 
         public Task PublishToBus<T>(T @event, string exchange = null) where T : IEvent =>
-            _bus.Publish(@event, exchange);
+            _publisher.Publish(@event, exchange);
     }
 }

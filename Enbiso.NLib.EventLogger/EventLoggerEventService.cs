@@ -6,10 +6,10 @@ namespace Enbiso.NLib.EventLogger
 {
     public class EventLoggerEventService: IEventService
     {
-        private readonly IEventBus _bus;
+        private readonly IEventPublisher _bus;
         private readonly IEventLoggerService _service;
 
-        public EventLoggerEventService(IEventBus bus, IEventLoggerService service)
+        public EventLoggerEventService(IEventPublisher bus, IEventLoggerService service)
         {
             _bus = bus;
             _service = service;

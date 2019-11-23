@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
-using Options = NATS.Client.Options;
 
 namespace Enbiso.NLib.EventBus.Nats
 {
-    public interface INatsPersistentConnection : IDisposable
+    public interface INatsConnection : IDisposable
     {
         bool IsConnected { get; }
         IConnection GetConnection();
         bool TryConnect();
     }
 
-    public class NatsPersistentConnection: INatsPersistentConnection
+    public class NatsConnection: INatsConnection
     {
         private IConnection _connection;
         private readonly ConnectionFactory _factory;
@@ -21,7 +21,7 @@ namespace Enbiso.NLib.EventBus.Nats
         private readonly ILogger _logger;
         private bool _disposed;
 
-        public NatsPersistentConnection(ConnectionFactory factory, IOptions<NatsOptions> options, ILogger<NatsPersistentConnection> logger)
+        public NatsConnection(ConnectionFactory factory, IOptions<NatsOptions> options, ILogger<NatsConnection> logger)
         {
             _logger = logger;
             _options = options.Value;
@@ -46,7 +46,7 @@ namespace Enbiso.NLib.EventBus.Nats
                 opts.Token = _options.Token;
             try
             {
-                _connection = _factory.CreateConnection(opts);                
+                _connection = _factory.CreateConnection(opts);
                 return IsConnected;
             }
             catch (Exception e)

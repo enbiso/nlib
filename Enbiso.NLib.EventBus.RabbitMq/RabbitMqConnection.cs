@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -9,7 +10,7 @@ using RabbitMQ.Client.Exceptions;
 
 namespace Enbiso.NLib.EventBus.RabbitMq
 {
-    public interface IRabbitMqPersistentConnection : IDisposable
+    public interface IRabbitMqConnection : IDisposable
     {
         /// <summary>
         /// Check if connection to rabbit is success
@@ -29,12 +30,12 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         IModel CreateModel();
     }
 
-    public class RabbitMqPersistentConnection : IRabbitMqPersistentConnection
+    public class RabbitMqConnection : IRabbitMqConnection
     {
         private IConnection _connection;
         private bool _disposed;
         private readonly IConnectionFactory _connectionFactory;
-        private readonly ILogger<RabbitMqPersistentConnection> _logger;
+        private readonly ILogger<RabbitMqConnection> _logger;
         private readonly int _retryCount;
         private readonly object _syncRoot = new object();
 
@@ -43,8 +44,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="option"></param>
-        public RabbitMqPersistentConnection(
-            ILogger<RabbitMqPersistentConnection> logger,
+        public RabbitMqConnection(
+            ILogger<RabbitMqConnection> logger,
             IOptions<RabbitMqOption> option)
         {
             var optVal = option.Value;
@@ -81,8 +82,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                 _logger.LogCritical(ex.ToString());
             }
         }
-
-        /// <inheritdoc />
+        
         public bool TryConnect()
         {
             _logger.LogInformation("RabbitMQ Client is trying to connect");

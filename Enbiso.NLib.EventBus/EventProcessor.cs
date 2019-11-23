@@ -1,9 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Enbiso.NLib.EventBus
 {
@@ -14,46 +12,38 @@ namespace Enbiso.NLib.EventBus
 
     public class EventProcessor: IEventProcessor
     {
-        private readonly IEventBusSubscriptionsManager _subscriptionsManager;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly ILogger _logger;
-
-
-        public EventProcessor(IEventBusSubscriptionsManager subscriptionsManager, IServiceProvider serviceProvider, ILogger<EventProcessor> logger)
+        private readonly Dictionary<string, List<IEventHandler>> _eventHandlers =
+            new Dictionary<string, List<IEventHandler>>();
+        
+        public EventProcessor(IEnumerable<IEventHandler> eventHandlers)
         {
-            _subscriptionsManager = subscriptionsManager;
-            _serviceProvider = serviceProvider;
-            _logger = logger;
+            foreach (var eventHandler in eventHandlers)
+            {
+                var eventName = eventHandler.GetEventType().Name;
+                if (_eventHandlers.TryGetValue(eventName, out var currentHandlers))
+                {
+                    currentHandlers.Add(eventHandler);
+                    _eventHandlers[eventName] = currentHandlers;
+                }
+                else
+                {
+                    _eventHandlers.Add(eventName, new List<IEventHandler> {eventHandler});
+                }
+            }
         }
 
         public async Task ProcessEvent(string eventName, byte[] data)
         {
-            if (!_subscriptionsManager.HasSubscriptionsForEvent(eventName)) return;
-
             var message = Encoding.UTF8.GetString(data);
-
-            using (var scope = _serviceProvider.CreateScope())
+            
+            if(!_eventHandlers.ContainsKey(eventName)) return;
+            
+            var eventHandlers = _eventHandlers[eventName];
+            foreach (var eventHandler in eventHandlers)
             {
-                var subscriptions = _subscriptionsManager.GetHandlersForEvent(eventName);
-                foreach (var subscription in subscriptions)
-                {
-                    if (subscription.IsDynamic)
-                    {
-                        var handler =
-                            scope.ServiceProvider.GetService(subscription.HandlerType) as IDynamicEventHandler;
-                        var eventData = JsonSerializer.Deserialize<dynamic>(message);
-                        if (handler != null) await handler.Handle(eventData);
-                        else _logger.LogWarning($"Handler not found for {subscription.HandlerType} on {eventName}.");
-                    }
-                    else
-                    {
-                        var eventType = _subscriptionsManager.GetEventTypeByName(eventName);
-                        var integrationEvent = JsonSerializer.Deserialize(message, eventType);
-                        var handler = scope.ServiceProvider.GetService(subscription.HandlerType);
-                        var concreteHandlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                        concreteHandlerType.GetMethod("Handle")?.Invoke(handler, new[] { integrationEvent });
-                    }
-                }
+                var eventType = eventHandler.GetEventType();
+                var @event = JsonSerializer.Deserialize(message, eventType);
+                await eventHandler.Handle(@event);
             }
         }
     }
