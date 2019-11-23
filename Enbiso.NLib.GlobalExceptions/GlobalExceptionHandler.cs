@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.GlobalExceptions
@@ -8,7 +9,7 @@ namespace Enbiso.NLib.GlobalExceptions
     /// </summary>
     public interface IGlobalExceptionHandler
     {
-        Type[] ValidTypes { get; }
+        IEnumerable<Type> ValidTypes { get; }
 
         Task<GlobalExceptionResponse> HandleException(Exception exception);
     }
@@ -20,7 +21,7 @@ namespace Enbiso.NLib.GlobalExceptions
     public abstract class GlobalExceptionHandler<TException> : IGlobalExceptionHandler
         where TException : Exception
     {
-        public Type[] ValidTypes => new [] { typeof(TException) };
+        public IEnumerable<Type> ValidTypes => new [] { typeof(TException) };
         protected abstract Task<GlobalExceptionResponse> Handle(TException ex);
 
         public Task<GlobalExceptionResponse> HandleException(Exception exception)

@@ -18,6 +18,7 @@
     <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.*" />

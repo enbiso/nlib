@@ -19,8 +19,13 @@ namespace Enbiso.NLib.OpenApi
         /// <param name="optBuilder"></param>
         public static void AddOpenApi(this IServiceCollection services, Action<OpenApiOptions> optBuilder)
         {
+            services.AddOptions();
+            
+            optBuilder ??= options => {};
+            services.Configure(optBuilder);
+
             var opts = new OpenApiOptions();
-            optBuilder?.Invoke(opts);
+            optBuilder.Invoke(opts);
 
             services.AddSwaggerGen(c =>
             {
