@@ -24,7 +24,7 @@
     <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="4.6.*" />
+    <PackageReference Include="System.Text.Json" Version="4.7.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />

@@ -25,8 +25,8 @@ namespace Enbiso.NLib.EventBus.Nats.Tests
             var pConn = new NatsConnection(new ConnectionFactory(), opts, pConnLogger);
             var eventProcessor = Substitute.For<IEventProcessor>();            
             var busLogger = new Logger<NatsEventPublisher>(new NullLoggerFactory());
-            var bus = new NatsEventPublisher(opts, pConn, busLogger);
-            bus.Publish(new TestEvent());
+            var bus = new NatsEventPublisher(pConn, opts, busLogger);
+            bus.Publish(new TestEvent(), null, CancellationToken.None);
             Thread.Sleep(1000);
             eventProcessor.Received().ProcessEvent(typeof(TestEvent).Name, Arg.Any<byte[]>());
         }

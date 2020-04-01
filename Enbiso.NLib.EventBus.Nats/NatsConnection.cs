@@ -1,61 +1,79 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
+using NATS.Client.Rx;
+using Polly;
+using Options = NATS.Client.Options;
 
 namespace Enbiso.NLib.EventBus.Nats
 {
     public interface INatsConnection : IDisposable
     {
-        bool IsConnected { get; }
         IConnection GetConnection();
-        bool TryConnect();
+        void VerifyConnection();
+        event ConnectedEventHandler Connected;
     }
+
+    public delegate void ConnectedEventHandler(IConnection connection);
 
     public class NatsConnection: INatsConnection
     {
         private IConnection _connection;
         private readonly ConnectionFactory _factory;
-        private readonly NatsOptions _options;
+        private readonly Options _opts;
         private readonly ILogger _logger;
         private bool _disposed;
+        public event ConnectedEventHandler Connected;
 
         public NatsConnection(ConnectionFactory factory, IOptions<NatsOptions> options, ILogger<NatsConnection> logger)
         {
             _logger = logger;
-            _options = options.Value;
             _factory = factory;
-        }
+            
+            var settings = options.Value;
+            _opts = ConnectionFactory.GetDefaultOptions();
+            _opts.Servers = settings.Servers;
+            
+            _opts.MaxReconnect = settings.RetryCount;
+            if (!string.IsNullOrEmpty(settings.Username))
+                _opts.User = settings.Username;
+            if (!string.IsNullOrEmpty(settings.Password))
+                _opts.Password = settings.Password;
+            if (!string.IsNullOrEmpty(settings.Token))
+                _opts.Token = settings.Token;
 
-        public bool IsConnected
-            => _connection != null && _connection.State == ConnState.CONNECTED && !_disposed;
+            _opts.DisconnectedEventHandler += (sender, args) =>
+            {
+                _logger.LogWarning("Connection to NATS disconnected. Trying to reconnect...");
+                VerifyConnection();
+            };
+        }
 
         public IConnection GetConnection() => _connection;
 
-        public bool TryConnect()
+        private bool IsConnected => _connection?.State == ConnState.CONNECTED && !_disposed;
+        public void VerifyConnection()
         {
-            var opts = ConnectionFactory.GetDefaultOptions();
-            opts.Servers = _options.Servers;
-            opts.MaxReconnect = _options.RetryCount;
-            if (!string.IsNullOrEmpty(_options.Username))
-                opts.User = _options.Username;
-            if (!string.IsNullOrEmpty(_options.Password))
-                opts.Password = _options.Password;
-            if (!string.IsNullOrEmpty(_options.Token))
-                opts.Token = _options.Token;
-            try
-            {
-                _connection = _factory.CreateConnection(opts);
-                return IsConnected;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to connect to NAT server");
-                return false;
-            }
-        }
+            if (IsConnected) return;
+            
+            var policy = Policy.Handle<NATSNoServersException>()
+                .WaitAndRetryForever(
+                    _ => TimeSpan.FromSeconds(2),
+                    (ex, time) => _logger.LogWarning(ex.Message) );
 
+            policy.Execute(() => {
+                _connection = _factory.CreateConnection(_opts);
+                if (IsConnected)
+                {
+                    _logger.LogInformation("Connected to NATS.");
+                    Connected?.Invoke(_connection);
+                } 
+            });
+        }
+ 
         public void Dispose()
         {
             if (_disposed) return;

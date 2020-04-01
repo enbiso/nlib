@@ -1,49 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
+    public delegate void EventHandler(string eventName);
+    
     public interface IEventProcessor
     {
         Task ProcessEvent(string eventName, byte[] data);
+        void Setup(Action<string> onAddSubscription = null);
     }
 
     public class EventProcessor: IEventProcessor
     {
-        private readonly Dictionary<string, List<IEventHandler>> _eventHandlers =
+        private readonly Dictionary<string, List<IEventHandler>> _subscriptions =
             new Dictionary<string, List<IEventHandler>>();
+        
+        private readonly IEnumerable<IEventHandler> _eventHandlers;
         
         public EventProcessor(IEnumerable<IEventHandler> eventHandlers)
         {
-            foreach (var eventHandler in eventHandlers)
-            {
-                var eventName = eventHandler.GetEventType().Name;
-                if (_eventHandlers.TryGetValue(eventName, out var currentHandlers))
-                {
-                    currentHandlers.Add(eventHandler);
-                    _eventHandlers[eventName] = currentHandlers;
-                }
-                else
-                {
-                    _eventHandlers.Add(eventName, new List<IEventHandler> {eventHandler});
-                }
-            }
+            _eventHandlers = eventHandlers;
         }
 
         public async Task ProcessEvent(string eventName, byte[] data)
         {
             var message = Encoding.UTF8.GetString(data);
             
-            if(!_eventHandlers.ContainsKey(eventName)) return;
+            if(!_subscriptions.ContainsKey(eventName)) return;
             
-            var eventHandlers = _eventHandlers[eventName];
+            var eventHandlers = _subscriptions[eventName];
             foreach (var eventHandler in eventHandlers)
             {
                 var eventType = eventHandler.GetEventType();
                 var @event = JsonSerializer.Deserialize(message, eventType);
                 await eventHandler.Handle(@event);
+            }
+        }
+
+        public void Setup(Action<string> onAddSubscription)
+        {
+            foreach (var eventHandler in _eventHandlers)
+            {
+                var eventName = eventHandler.GetEventType().Name;
+                
+                onAddSubscription?.Invoke(eventName);
+                
+                if (_subscriptions.TryGetValue(eventName, out var currentHandlers))
+                {
+                    currentHandlers.Add(eventHandler);
+                    _subscriptions[eventName] = currentHandlers;
+                }
+                else
+                {
+                    _subscriptions.Add(eventName, new List<IEventHandler> {eventHandler});
+                }
             }
         }
     }

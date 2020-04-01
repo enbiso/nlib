@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.EventBus
 {
@@ -13,17 +12,6 @@ namespace Enbiso.NLib.EventBus
         {
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddSingleton<IEventService, EventService>();
-        }
-
-        /// <summary>
-        /// Use event bus
-        /// </summary>
-        /// <param name="app"></param>
-        public static void UseEventBus(this IApplicationBuilder app)
-        {
-            
-            var eventSubscriber = app.ApplicationServices.GetRequiredService<IEventSubscriber>();
-            eventSubscriber.Initialize();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Enbiso.NLib.EventBus;
 
@@ -6,21 +7,21 @@ namespace Enbiso.NLib.EventLogger
 {
     public class EventLoggerEventService: IEventService
     {
-        private readonly IEventPublisher _bus;
+        private readonly IEventPublisher _publisher;
         private readonly IEventLoggerService _service;
 
-        public EventLoggerEventService(IEventPublisher bus, IEventLoggerService service)
+        public EventLoggerEventService(IEventPublisher publisher, IEventLoggerService service)
         {
-            _bus = bus;
+            _publisher = publisher;
             _service = service;
         }
 
-        public async Task PublishToBus<T>(T @event, string exchange = null) where T: IEvent
+        public async Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T: IEvent
         {
             await _service.SaveEventAsync(@event);
             try
             {
-                await _bus.Publish(@event, exchange);
+                await _publisher.Publish(@event, exchange, token);
                 await _service.MarkEventAsPublishedAsync(@event);
             }
             catch (Exception)

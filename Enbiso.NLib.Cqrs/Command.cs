@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using MediatR.Pipeline;
 
 namespace Enbiso.NLib.Cqrs
 {
@@ -20,5 +23,19 @@ namespace Enbiso.NLib.Cqrs
         where TResponse: ICommandResponse
     {
         
+    }
+
+    public interface ICommandPreProcessor<in TCommand, TResponse>
+        where TCommand : ICommand<TResponse>
+        where TResponse: ICommandResponse
+    {
+        Task Process(TCommand request, CancellationToken cancellationToken);
+    }
+
+    public interface ICommandPostProcessor<in TCommand, in TResponse>
+        where TCommand : ICommand<TResponse>
+        where TResponse : ICommandResponse
+    {
+        Task Process(TCommand request, TResponse response, CancellationToken cancellationToken);
     }
 }

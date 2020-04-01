@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -9,41 +10,30 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 
 namespace Enbiso.NLib.EventBus.RabbitMq
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Rabbit implementation of @event bus
-    /// </summary>
-    public class RabbitMqEventPublisher : IEventPublisher
+    public class RabbitMqBusPublisher: IEventPublisher
     {
-        private readonly string[] _exchanges;        
-
         private readonly IRabbitMqConnection _connection;
-        private readonly ILogger<RabbitMqEventPublisher> _logger;
         private readonly int _retryCount;
+        private readonly IEnumerable<string> _exchanges;
+        private readonly ILogger _logger;
 
-        public RabbitMqEventPublisher(
-            IRabbitMqConnection connection, 
-            ILogger<RabbitMqEventPublisher> logger,
-            IOptions<RabbitMqOption> optionWrap)
+        public RabbitMqBusPublisher(IRabbitMqConnection connection, IOptions<RabbitMqOption> optionWrap, ILogger<RabbitMqBusPublisher> logger)
         {
             var option = optionWrap.Value;
-            _exchanges = option.Exchanges ?? throw new ArgumentNullException(nameof(option.Exchanges));            
-            _connection = connection ?? throw new ArgumentNullException(nameof(connection));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _retryCount = option.PublishRetryCount;
+            _exchanges = option.Exchanges;
+            _retryCount = option.RetryCount;
+
+            _connection = connection;
+            _logger = logger;
         }
 
-        public Task Publish<T>(T @event, string exchange = null, CancellationToken cancellationToken = default) where T:IEvent
-        {            
-            if (!_connection.IsConnected)
-            {
-                _connection.TryConnect();
-            }
+        public Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
+        {
+            _connection.VerifyConnection();
 
             var policy = Policy.Handle<BrokerUnreachableException>()
                 .Or<SocketException>()                
@@ -68,8 +58,5 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                 
             return Task.CompletedTask;
         }
-
-       
     }
 }
-

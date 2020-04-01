@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Enbiso.NLib.Cqrs
@@ -22,6 +23,7 @@ namespace Enbiso.NLib.Cqrs
             services.AddScoped<ICommandBus, CommandBus>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ProcessorBehaviour<,>));
             return services;
         }
     }

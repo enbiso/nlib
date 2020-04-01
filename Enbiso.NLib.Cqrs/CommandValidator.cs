@@ -21,7 +21,6 @@ namespace Enbiso.NLib.Cqrs
         public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken,
             RequestHandlerDelegate<TResponse> next)
         {
-
             var validatorTasks = _validators.Select(v => v.Validate(request)).ToArray();
             await Task.WhenAll(validatorTasks);
             var failures = validatorTasks.SelectMany(t => t.Result).Where(error => error != null).ToArray();

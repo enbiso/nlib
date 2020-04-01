@@ -24,12 +24,11 @@
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.*" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.6.*" />
-    <PackageReference Include="System.Text.Json" Version="4.6.*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.*" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.*" />
+    <PackageReference Include="System.Text.Json" Version="4.7.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.*" />
   </ItemGroup>
 
   <ItemGroup>

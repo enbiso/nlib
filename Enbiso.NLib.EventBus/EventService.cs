@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
@@ -11,7 +12,7 @@ namespace Enbiso.NLib.EventBus
             _publisher = publisher;
         }
 
-        public Task PublishToBus<T>(T @event, string exchange = null) where T : IEvent =>
-            _publisher.Publish(@event, exchange);
+        public Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T : IEvent =>
+            _publisher.Publish(@event, exchange, token);
     }
 }

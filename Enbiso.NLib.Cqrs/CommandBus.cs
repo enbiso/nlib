@@ -6,8 +6,7 @@ namespace Enbiso.NLib.Cqrs
 {
     public interface ICommandBus
     {
-        Task<TResponse> Send<TResponse>(ICommand<TResponse> command,
-            CancellationToken cancellationToken = default(CancellationToken))
+        Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default)
             where TResponse : ICommandResponse;
     }
 
@@ -20,7 +19,7 @@ namespace Enbiso.NLib.Cqrs
             _mediator = mediator;
         }
 
-        public Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<TResponse> Send<TResponse>(ICommand<TResponse> command, CancellationToken cancellationToken = default)
             where TResponse : ICommandResponse
         {
             command = command ?? throw new CommandValidationException("Request command is empty");

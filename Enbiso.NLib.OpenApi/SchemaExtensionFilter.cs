@@ -13,8 +13,9 @@ namespace Enbiso.NLib.OpenApi
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            var type = context.ApiModel.Type;
+            var type = context.Type;
             var attributes = type.GetCustomAttributes(false).OfType<ExtAttribute>();
+            
             foreach (var attribute in attributes)
                 schema.Extensions.Add(attribute);
 

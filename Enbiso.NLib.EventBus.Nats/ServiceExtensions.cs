@@ -21,7 +21,6 @@ namespace Enbiso.NLib.EventBus.Nats
             services.AddSingleton<INatsConnection, NatsConnection>();
             services.AddSingleton<IEventPublisher, NatsEventPublisher>();
             services.AddSingleton<IEventSubscriber, NatsEventSubscriber>();
-            
         }
     }
 }

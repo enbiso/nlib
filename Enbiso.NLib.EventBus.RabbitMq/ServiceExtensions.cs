@@ -16,8 +16,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             services.Configure(option);
 
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
-            services.AddSingleton<IEventPublisher, RabbitMqEventPublisher>();
-            services.AddSingleton<IEventSubscriber, RabbitMqEventSubscriber>();
+            services.AddSingleton<IEventSubscriber, RabbitMqBusSubscriber>();
+            services.AddSingleton<IEventPublisher, RabbitMqBusPublisher>();
         }
     }
 }

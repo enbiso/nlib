@@ -13,15 +13,9 @@ namespace Enbiso.NLib.EventBus.RabbitMq
     public interface IRabbitMqConnection : IDisposable
     {
         /// <summary>
-        /// Check if connection to rabbit is success
+        /// Verify Connection
         /// </summary>
-        bool IsConnected { get; }
-
-        /// <summary>
-        /// Try connect to rabbit
-        /// </summary>
-        /// <returns></returns>
-        bool TryConnect();
+        void VerifyConnection();
 
         /// <summary>
         /// Create Model
@@ -63,9 +57,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _retryCount = optVal.RetryCount;
         }
-
-        /// <inheritdoc />
-        public bool IsConnected
+        
+        private bool IsConnected
             => _connection != null && _connection.IsOpen && !_disposed;
 
         /// <inheritdoc />
@@ -82,8 +75,8 @@ namespace Enbiso.NLib.EventBus.RabbitMq
                 _logger.LogCritical(ex.ToString());
             }
         }
-        
-        public bool TryConnect()
+
+        private bool TryConnect()
         {
             _logger.LogInformation("RabbitMQ Client is trying to connect");
             lock (_syncRoot)
@@ -117,14 +110,15 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             }
         }
 
-        /// <inheritdoc />
+        public void VerifyConnection()
+        {
+            if(!IsConnected && !TryConnect())
+                throw new Exception("Unable to connect to Rabbit MQ");
+        }
+        
         public IModel CreateModel()
         {
-            if (!IsConnected)
-            {
-                throw new InvalidOperationException("No RabbitMQ connections are available to perform this action");
-            }
-
+            VerifyConnection();
             return _connection.CreateModel();
         }
 

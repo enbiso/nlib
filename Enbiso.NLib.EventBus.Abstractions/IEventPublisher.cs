@@ -1,11 +1,8 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
-    /// <summary>
-    /// Event bus interface
-    /// </summary>
     public interface IEventPublisher
     {
         /// <summary>
@@ -14,6 +11,6 @@ namespace Enbiso.NLib.EventBus
         /// <param name="event"></param>
         /// <param name="exchange"></param>
         /// <param name="cancellationToken"></param>
-        Task Publish<T>(T @event, string exchange = null, CancellationToken cancellationToken = default) where T : IEvent;
+        Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent;
     }
 }
