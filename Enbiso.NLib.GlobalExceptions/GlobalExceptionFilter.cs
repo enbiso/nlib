@@ -28,7 +28,11 @@ namespace Enbiso.NLib.GlobalExceptions
             if (handler != null)
             {
                 var result = await handler.HandleException(context.Exception);
-                context.Result = new ObjectResult(result.Result);
+                context.Result = new ObjectResult(new
+                {
+                    result.Content,
+                    result.Type
+                });
                 context.HttpContext.Response.StatusCode = result.StatusCode;
                 context.ExceptionHandled = true;
             }
