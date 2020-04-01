@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
@@ -6,27 +7,12 @@ namespace Enbiso.NLib.EventBus
     /// <summary>
     /// Event bus interface
     /// </summary>
-    public interface IEventSubscriber
+    public interface IEventSubscriber: IDisposable
     {
         /// <summary>
-        /// Initialize event bus with subscriptions        
-        /// </summary>        
-        void Initialize();
-
-        /// <summary>
-        /// Subscribe
+        /// Subscribe to all events
         /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task Subscribe(string eventName, CancellationToken cancellationToken = default);
-        
-        /// <summary>
-        /// UnSubscribe
-        /// </summary>
-        /// <param name="eventName"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task UnSubscribe(string eventName, CancellationToken cancellationToken = default);
+        Task Subscribe();
     }
 }
