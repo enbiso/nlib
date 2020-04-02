@@ -31,7 +31,7 @@ namespace Enbiso.NLib.GlobalExceptions
                 context.Result = new ObjectResult(new
                 {
                     result.Content,
-                    result.Type
+                    ErrorType = result.Type.Name
                 });
                 context.HttpContext.Response.StatusCode = result.StatusCode;
                 context.ExceptionHandled = true;
