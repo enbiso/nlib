@@ -1,13 +1,13 @@
 env:
   global:
-    - PACKAGE_VERSION="3.1.2"
+    - PACKAGE_VERSION="5.0.0"
     - PACKAGE_ICON="https://www.enbiso.com/logo.svg"
     - PACKAGE_PROJECT="https://nlib.enbiso.com"
     - PACKAGE_REPO="https://github.com/enbiso/Enbiso.NLib"
     - PACKAGE_COPYRIGHT="Copyright 2019 (c) enbiso. All rights reserved."
 language: csharp
 mono: none
-dotnet: 3.1.102
+dotnet: 5.0.101
 script:
   - dotnet build -c release -o ./bin
 after_success:

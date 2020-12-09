@@ -61,7 +61,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             consumer.Received += async (model, ea) =>
             {
                 var eventName = ea.RoutingKey;                
-                await _eventProcessor.ProcessEvent(eventName, ea.Body);
+                await _eventProcessor.ProcessEvent(eventName, ea.Body.ToArray());
                 // ACK
                 _consumerChannel.BasicAck(ea.DeliveryTag, multiple:false);
             };
