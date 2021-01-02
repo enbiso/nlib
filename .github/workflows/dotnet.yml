@@ -9,6 +9,7 @@ on:
 jobs:
 
   test: 
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
     - name: Checkout  
@@ -23,6 +24,8 @@ jobs:
       run: dotnet test --verbosity normal        
 
   build:
+    name: Build & Publish    
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
