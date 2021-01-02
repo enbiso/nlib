@@ -25,7 +25,7 @@ jobs:
 
   build:
     name: Build & Publish    
-    #needs: test
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -36,11 +36,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-        
+
     - name: Build Release
       run: dotnet build -c release -o ./bin
       env:
-        PACKAGE_VERSION: 5.0.${{ env.GITHUB_RUN_NUMBER }}
+        PACKAGE_VERSION: 5.0.${{ github.run_number }}
         PACKAGE_PROJECT: https://nlib.enbiso.com
         PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
         PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
