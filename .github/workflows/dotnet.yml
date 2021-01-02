@@ -25,7 +25,7 @@ jobs:
 
   build:
     name: Build & Publish    
-    needs: test
+    #needs: test
     runs-on: ubuntu-latest
 
     steps:
