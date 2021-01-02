@@ -18,7 +18,7 @@
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple CQRS .NET Standard</Summary>
     <Title>Simple CQRS</Title>
-    <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     <LangVersion>8</LangVersion>

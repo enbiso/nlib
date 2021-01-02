@@ -16,7 +16,7 @@
         <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
         <Summary>Enbiso - EventLog Persistence with Mongo DB in .NET Standard</Summary>
         <Title>EventLog Persistence using Mongo</Title>
-        <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+        <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
         <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
         <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
         <LangVersion>8</LangVersion>

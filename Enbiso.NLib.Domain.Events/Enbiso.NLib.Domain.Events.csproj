@@ -18,7 +18,7 @@
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple Domain event in .NET Standard</Summary>
     <Title>Simple Domain Event</Title>
-    <PackageIconUrl>$(PACKAGE_ICON)</PackageIconUrl>
+    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     <LangVersion>8</LangVersion>
