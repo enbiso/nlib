@@ -44,8 +44,7 @@ jobs:
       run: rm ./bin/*.0.0.1-local.nupkg
 
     - name: Publish
-      run:                  
-        for nupkg in ./bin/*.nupkg; do \
-          dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY; \
-        done        
+      run:  for nupkg in ./bin/*.nupkg; do
+              dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
+            done        
 
