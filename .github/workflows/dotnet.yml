@@ -46,5 +46,8 @@ jobs:
     - name: Publish
       run:  for nupkg in ./bin/*.nupkg; do
               dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
-            done        
+            done   
+      env:
+        NUGET_REGISTRY: https://packages.nuget.org
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
