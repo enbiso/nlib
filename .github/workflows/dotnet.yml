@@ -25,7 +25,7 @@ jobs:
 
   build:
     name: Build & Publish    
-    needs: test
+    #needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -44,9 +44,6 @@ jobs:
         PACKAGE_PROJECT: https://nlib.enbiso.com
         PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
         PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
-
-    - name: Remove local nupkg
-      run: rm ./bin/*.0.0.1-local.nupkg
 
     - name: Publish
       run:  for nupkg in ./bin/*.nupkg; do
