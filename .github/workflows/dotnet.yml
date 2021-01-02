@@ -37,8 +37,20 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+    - name: Generate build number
+      id: buildnumber
+      uses: einaregilsson/build-number@v3 
+      with:
+        token: ${{secrets.github_token}}
+        prefix: 5.0.
+
     - name: Build Release
       run: dotnet build -c release -o ./bin
+      env:
+        PACKAGE_VERSION: ${{ steps.buildnumber.outputs.build_number }}
+        PACKAGE_PROJECT: https://nlib.enbiso.com
+        PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
+        PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
 
     - name: Remove local nupkg
       run: rm ./bin/*.0.0.1-local.nupkg
