@@ -37,16 +37,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
-    - name: Generate build number
-      id: buildnumber
-      uses: einaregilsson/build-number@v3 
-      with:
-        token: ${{secrets.github_token}}        
-
     - name: Build Release
       run: dotnet build -c release -o ./bin
       env:
-        PACKAGE_VERSION: 5.0.${{ steps.buildnumber.outputs.build_number }}
+        PACKAGE_VERSION: 5.0.$GITHUB_RUN_NUMBER
         PACKAGE_PROJECT: https://nlib.enbiso.com
         PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
         PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
