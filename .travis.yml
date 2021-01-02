@@ -1,7 +1,7 @@
 env:
   global:
     - PACKAGE_VERSION="5.0.2"
-    - PACKAGE_ICON="logo.svg"
+    - PACKAGE_ICON="logo.png"
     - PACKAGE_PROJECT="https://nlib.enbiso.com"
     - PACKAGE_REPO="https://github.com/enbiso/Enbiso.NLib"
     - PACKAGE_COPYRIGHT="Copyright 2021 (c) enbiso. All rights reserved."

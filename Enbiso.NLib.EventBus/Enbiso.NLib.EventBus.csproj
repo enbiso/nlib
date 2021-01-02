@@ -19,7 +19,7 @@
     <Summary>Enbiso - Simple Abstract EventBus Library in .NET Standard</Summary>
     <Title>Simple Abstract EventBus</Title>
 
-    <PackageIcon>logo.svg</PackageIcon>
+    <PackageIcon>logo.png</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     <LangVersion>9</LangVersion>
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../logo.svg" Pack="true" PackagePath=""/>
+    <None Include="../logo.png" Pack="true" PackagePath=""/>
   </ItemGroup>
   
 </Project>
