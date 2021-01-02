@@ -18,12 +18,18 @@
     <Summary>Enbiso - Simple Idempotency with Client Request Persistence in .NET Standard</Summary>
     <Title>Simple Idempotency with Client Request Persistence</Title>
     
-    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+    <PackageIcon>logo.svg</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../logo.svg" Pack="true" PackagePath=""/>
+  </ItemGroup>
+  
 </Project>

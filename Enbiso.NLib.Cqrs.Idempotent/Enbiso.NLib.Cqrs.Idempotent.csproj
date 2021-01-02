@@ -18,10 +18,10 @@
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple Idempotent CQRS .NET Standard</Summary>
     <Title>Simple Idempotent CQRS</Title>
-    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+    <PackageIcon>logo.svg</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.Cqrs\Enbiso.NLib.Cqrs.csproj" />
     <ProjectReference Include="..\Enbiso.NLib.Idempotency\Enbiso.NLib.Idempotency.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../logo.svg" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

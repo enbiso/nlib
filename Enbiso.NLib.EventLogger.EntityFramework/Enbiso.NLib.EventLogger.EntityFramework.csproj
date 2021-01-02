@@ -15,15 +15,22 @@
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - EventLog Persistence with EF in .NET Standard</Summary>
     <Title>EventLog Persistence using EF</Title>
-    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+    <PackageIcon>logo.svg</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.*" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="../logo.svg" Pack="true" PackagePath=""/>
+  </ItemGroup>
+  
 </Project>

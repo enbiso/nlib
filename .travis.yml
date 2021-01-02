@@ -1,10 +1,10 @@
 env:
   global:
-    - PACKAGE_VERSION="5.0.1"
-    - PACKAGE_ICON="https://www.enbiso.com/logo.svg"
+    - PACKAGE_VERSION="5.0.1-rc1"
+    - PACKAGE_ICON="logo.svg"
     - PACKAGE_PROJECT="https://nlib.enbiso.com"
     - PACKAGE_REPO="https://github.com/enbiso/Enbiso.NLib"
-    - PACKAGE_COPYRIGHT="Copyright 2019 (c) enbiso. All rights reserved."
+    - PACKAGE_COPYRIGHT="Copyright 2021 (c) enbiso. All rights reserved."
 language: csharp
 mono: none
 dotnet: 5.0.101

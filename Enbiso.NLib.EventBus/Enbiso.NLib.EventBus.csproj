@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Enbiso.NLib.EventBus</PackageId>
 
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
@@ -19,10 +19,10 @@
     <Summary>Enbiso - Simple Abstract EventBus Library in .NET Standard</Summary>
     <Title>Simple Abstract EventBus</Title>
 
-    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+    <PackageIcon>logo.svg</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -35,4 +35,8 @@
     <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="../logo.svg" Pack="true" PackagePath=""/>
+  </ItemGroup>
+  
 </Project>

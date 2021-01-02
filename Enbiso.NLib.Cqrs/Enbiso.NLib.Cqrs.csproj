@@ -18,15 +18,19 @@
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Summary>Enbiso - Simple CQRS .NET Standard</Summary>
     <Title>Simple CQRS</Title>
-    <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+    <PackageIcon>logo.svg</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../logo.svg" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>

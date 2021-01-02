@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>Enbiso.NLib.EventLogger.Mongo</PackageId>
         <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
         <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
@@ -16,10 +16,10 @@
         <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
         <Summary>Enbiso - EventLog Persistence with Mongo DB in .NET Standard</Summary>
         <Title>EventLog Persistence using Mongo</Title>
-        <PackageIcon>$(PACKAGE_ICON)</PackageIcon>
+        <PackageIcon>logo.svg</PackageIcon>
         <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
         <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,4 +31,8 @@
       <ProjectReference Include="..\Enbiso.NLib.EventLogger\Enbiso.NLib.EventLogger.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="../logo.svg" Pack="true" PackagePath=""/>
+    </ItemGroup>
+    
 </Project>
