@@ -1,0 +1,32 @@
+name: Nugets CI/CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore -c release -o ./bin
+    - name: Test
+      run: dotnet test --no-build --verbosity normal          
+    - name: Publish
+      run:         
+        rm ./bin/*.0.0.1-local.nupkg; \
+        for nupkg in ./bin/*.nupkg; do \
+          dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY; \
+        done        
+
