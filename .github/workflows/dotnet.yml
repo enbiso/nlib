@@ -37,9 +37,11 @@ jobs:
     - name: Build Release
       run: dotnet build --no-restore -c release -o ./bin
 
+    - name: Remove local nupkg
+      run: rm ./bin/*.0.0.1-local.nupkg
+
     - name: Publish
-      run:         
-        rm ./bin/*.0.0.1-local.nupkg; && \
+      run:                  
         for nupkg in ./bin/*.nupkg; do \
           dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY; \
         done        
