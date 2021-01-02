@@ -35,7 +35,7 @@ jobs:
         dotnet-version: 5.0.x
 
     - name: Build Release
-      run: dotnet build --no-restore -c release -o ./bin
+      run: dotnet build -c release -o ./bin
 
     - name: Remove local nupkg
       run: rm ./bin/*.0.0.1-local.nupkg
