@@ -39,8 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.GlobalException
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Enbiso.NLib.EventBus.Nats", "Enbiso.NLib.EventBus.Nats\Enbiso.NLib.EventBus.Nats.csproj", "{D1977F58-BDF0-406D-A0AC-58E47B81BDEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.Nats.Tests", "Enbiso.NLib.Tests\Enbiso.NLib.EventBus.Nats.Tests\Enbiso.NLib.EventBus.Nats.Tests.csproj", "{0F5932D0-629F-44A5-A9B1-D6599236BD12}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventLogger.Mongo", "Enbiso.NLib.EventLogger.Mongo\Enbiso.NLib.EventLogger.Mongo.csproj", "{F4592242-6555-4253-BAFE-A0B021836DE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.RestClient", "Enbiso.NLib.RestClient\Enbiso.NLib.RestClient.csproj", "{027C77FD-2EC1-4C26-B366-A4DCBCFDB37B}"
@@ -119,10 +117,6 @@ Global
 		{D1977F58-BDF0-406D-A0AC-58E47B81BDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1977F58-BDF0-406D-A0AC-58E47B81BDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1977F58-BDF0-406D-A0AC-58E47B81BDEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F5932D0-629F-44A5-A9B1-D6599236BD12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4592242-6555-4253-BAFE-A0B021836DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4592242-6555-4253-BAFE-A0B021836DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4592242-6555-4253-BAFE-A0B021836DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -138,7 +132,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E55FE3E9-2B3A-4E14-8B97-21B9D773EAEF} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
 		{E39F5413-2E24-47B8-B087-7012A6821FE4} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
-		{0F5932D0-629F-44A5-A9B1-D6599236BD12} = {FE195805-0953-40EE-A849-9F44EB4DDA69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {348B7E76-5B7B-4B29-8DE3-C0D9B070765C}
