@@ -34,7 +34,13 @@ Implementations available for NATS and RabbitMQ
 - Enbiso.NLib.EventBus.RabbitMq
 
 ## Event Logger
+
+Set of libraries to keep your async events persistant
+
 - Enbiso.NLib.EventLogger
+
+Implementation available for EF and MongoDB
+
 - Enbiso.NLib.EventLogger.EntityFramework
 - Enbiso.NLib.EventLogger.Mongo
 
