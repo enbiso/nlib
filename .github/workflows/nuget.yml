@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  PACKAGE_VERSION: 5.0.${{ github.run_number }}
+  PACKAGE_PROJECT: https://nlib.enbiso.com
+  PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
+  PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
+
 jobs:
 
   test: 
@@ -39,11 +45,20 @@ jobs:
 
     - name: Build Release
       run: dotnet build -c release -o ./bin
+      
+    - name: Create Release        
+      uses: actions/create-release@v1
       env:
-        PACKAGE_VERSION: 5.0.${{ github.run_number }}
-        PACKAGE_PROJECT: https://nlib.enbiso.com
-        PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
-        PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG_NAME: v${{ env.PACKAGE_VERSION }}
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        release_name: Release ${{ env.TAG_NAME }}
+        body: |
+            Release ${{ env.TAG_NAME }}
+            https://www.nuget.org/profiles/enbiso    
+        draft: false
+        prerelease: false
 
     - name: Publish
       run:  for nupkg in ./bin/*.nupkg; do
