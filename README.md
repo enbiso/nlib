@@ -54,6 +54,9 @@ Implementation available for EF and MongoDB
 - Enbiso.NLib.GlobalExceptions
 
 ## Idempotency
+
+Simple Idempotent library to track your API calls to the end. 
+
 - Enbiso.NLib.Idempotency
 - Enbiso.NLib.Idempotency.EntityFramework
 
