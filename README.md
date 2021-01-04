@@ -51,6 +51,9 @@ Implementation available for EF and MongoDB
 - Enbiso.NLib.EventLogger.Mongo
 
 ## API Exception Handlers
+
+Simple yet extensible API global exception handler
+
 - Enbiso.NLib.GlobalExceptions
 
 ## Idempotency
