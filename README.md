@@ -2,4 +2,4 @@
 Enbiso .Net Standard Libraries
 
 
-[![Build Status](https://travis-ci.org/enbiso/Enbiso.NLib.svg?branch=master)](https://travis-ci.org/enbiso/Enbiso.NLib)
+![Nugets CI/CD](https://github.com/enbiso/Enbiso.NLib/workflows/Nugets%20CI/CD/badge.svg)
