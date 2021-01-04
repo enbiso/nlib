@@ -31,7 +31,7 @@ jobs:
 
   build:
     name: Build & Publish    
-    needs: test
+    needs: [test]
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +45,21 @@ jobs:
 
     - name: Build Release
       run: dotnet build -c release -o ./bin
-      
+
+    - name: Publish
+      run:  for nupkg in ./bin/*.nupkg; do
+              dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;              
+            done   
+      env:
+        NUGET_REGISTRY: https://packages.nuget.org
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  release:
+    name: Tags and Release
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Create Release        
       uses: actions/create-release@v1
       env:
@@ -59,12 +73,3 @@ jobs:
             https://www.nuget.org/profiles/enbiso    
         draft: false
         prerelease: false
-
-    - name: Publish
-      run:  for nupkg in ./bin/*.nupkg; do
-              dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;              
-            done   
-      env:
-        NUGET_REGISTRY: https://packages.nuget.org
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-
