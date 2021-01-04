@@ -58,6 +58,9 @@ Implementation available for EF and MongoDB
 Simple Idempotent library to track your API calls to the end. 
 
 - Enbiso.NLib.Idempotency
+
+Implementation available for EF
+
 - Enbiso.NLib.Idempotency.EntityFramework
 
 ## OpenAPI Extensions
