@@ -2,7 +2,6 @@
 
 .Net Standard Libraries to build simple microservices
 
-
 ![Nugets CI/CD](https://github.com/enbiso/Enbiso.NLib/workflows/Nugets%20CI/CD/badge.svg)
 
 ## Domain
@@ -11,7 +10,6 @@ Simple domain seedwork libraries to use in DDD designs
 
 - Enbiso.NLib.Domain
 - Enbiso.NLib.Domain.Events
-
 
 ## CQRS
 - Enbiso.NLib.Cqrs
