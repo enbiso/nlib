@@ -12,7 +12,13 @@ Simple domain seedwork libraries to use in DDD designs
 - Enbiso.NLib.Domain.Events
 
 ## CQRS
+
+Simple command and query segregation library using MediatR
+
 - Enbiso.NLib.Cqrs
+
+Track your commands using Idempotent extension
+
 - Enbiso.NLib.Cqrs.Idempotent
 
 ## IOC Extensions
