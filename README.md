@@ -16,6 +16,9 @@ Simple domain seedwork libraries to use in DDD designs
 - Enbiso.NLib.Cqrs.Idempotent
 
 ## IOC Extensions
+
+IOC extensions based off microsoft dependency injection abstractions to provide attribute based injection.
+
 - Enbiso.NLib.DependencyInjection
 
 ## Event Bus
