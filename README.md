@@ -4,30 +4,41 @@ Enbiso .Net Standard Libraries
 
 ![Nugets CI/CD](https://github.com/enbiso/Enbiso.NLib/workflows/Nugets%20CI/CD/badge.svg)
 
+## Domain
 
-Enbiso.NLib.Cqrs
-Enbiso.NLib.Cqrs.Idempotent
+Simple domain seedwork libraries to use in DDD designs
 
-Enbiso.NLib.DependencyInjection
+- Enbiso.NLib.Domain
+- Enbiso.NLib.Domain.Events
 
-Enbiso.NLib.Domain
-Enbiso.NLib.Domain.Events
 
-Enbiso.NLib.EventBus
-Enbiso.NLib.EventBus.Abstractions
-Enbiso.NLib.EventBus.Nats
-Enbiso.NLib.EventBus.RabbitMq
+## CQRS
+- Enbiso.NLib.Cqrs
+- Enbiso.NLib.Cqrs.Idempotent
 
-Enbiso.NLib.EventLogger
-Enbiso.NLib.EventLogger.EntityFramework
-Enbiso.NLib.EventLogger.Mongo
+## IOC Extensions
+- Enbiso.NLib.DependencyInjection
 
-Enbiso.NLib.GlobalExceptions
+## Event Bus
+- Enbiso.NLib.EventBus
+- Enbiso.NLib.EventBus.Abstractions
+- Enbiso.NLib.EventBus.Nats
+- Enbiso.NLib.EventBus.RabbitMq
 
-Enbiso.NLib.Idempotency.EntityFramework
+## Event Logger
+- Enbiso.NLib.EventLogger
+- Enbiso.NLib.EventLogger.EntityFramework
+- Enbiso.NLib.EventLogger.Mongo
 
-Enbiso.NLib.Idempotency
+## API Exception Handlers
+- Enbiso.NLib.GlobalExceptions
 
-Enbiso.NLib.OpenApi
+## Idempotency
+- Enbiso.NLib.Idempotency
+- Enbiso.NLib.Idempotency.EntityFramework
 
-Enbiso.NLib.RestClient
+## OpenAPI Extensions
+- Enbiso.NLib.OpenApi
+
+## REST Client implementation
+- Enbiso.NLib.RestClient
