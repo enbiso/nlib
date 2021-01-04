@@ -37,6 +37,9 @@ Simple domain seedwork libraries to use in DDD designs
 - Enbiso.NLib.Idempotency.EntityFramework
 
 ## OpenAPI Extensions
+
+Simple wrapper on top of Swashbuckle to maintain uniformity amoung the APIs
+
 - Enbiso.NLib.OpenApi
 
 ## REST Client implementation
