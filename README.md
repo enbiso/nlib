@@ -77,3 +77,4 @@ Simple wrapper on top of Swashbuckle to maintain uniformity amoung the APIs
 REST client built using httpclient with Open ID Connect
 
 - Enbiso.NLib.RestClient
+
