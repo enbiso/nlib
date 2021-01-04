@@ -22,8 +22,14 @@ IOC extensions based off microsoft dependency injection abstractions to provide 
 - Enbiso.NLib.DependencyInjection
 
 ## Event Bus
+
+Async message publishing and subscription library set
+
 - Enbiso.NLib.EventBus
 - Enbiso.NLib.EventBus.Abstractions
+
+Implementations available for NATS and RabbitMQ
+
 - Enbiso.NLib.EventBus.Nats
 - Enbiso.NLib.EventBus.RabbitMq
 
