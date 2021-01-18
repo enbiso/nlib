@@ -18,7 +18,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         {
             var option = optionWrap.Value;
             _queueName = option.Client;
-            _exchanges = option.Exchanges;
+            _exchanges = option.Exchanges?? new string[0];
 
             _connection = connection;
             _eventProcessor = eventProcessor;

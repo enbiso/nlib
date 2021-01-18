@@ -33,7 +33,7 @@ namespace Enbiso.NLib.EventBus.Nats
         {
             _connection.Connected += conn =>
             {
-                foreach (var exchange in _options.Exchanges)
+                foreach (var exchange in _options.Exchanges ?? new string[0])
                 {
                     conn.SubscribeAsync($"{exchange}.>", _options.Client, async (sender, args) =>
                     {
