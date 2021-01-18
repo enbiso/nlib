@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <PackageId>Enbiso.NLib.OpenTelemetry</PackageId>
+
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+        <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+
+        <Authors>Faraj Farook</Authors>
+        <Description>OpenTelemetry extensions as attributes</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
+        <PackageTags>Enbiso Enbiso.NLib OpenTelemetry</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <NeutralLanguage>en-AU</NeutralLanguage>
+        <Owners>enbiso</Owners>
+        <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+        <Summary>Enbiso - OpenTelemetry extensions in .NET Standard</Summary>
+        <Title>Simple OpenTelemetry extensions</Title>
+
+        <PackageIcon>logo.png</PackageIcon>
+        <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+        <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.0.0-rc1.1" />
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc1.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc1.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc1.1" />
+    </ItemGroup>
+
+</Project>
