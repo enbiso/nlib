@@ -17,43 +17,40 @@ namespace Enbiso.NLib.EventBus.RabbitMq
     public class RabbitMqBusPublisher: IEventPublisher
     {
         private readonly IRabbitMqConnection _connection;
-        private readonly int _retryCount;
-        private readonly IEnumerable<string> _exchanges;
         private readonly ILogger _logger;
+        private readonly RabbitMqOption _options;
 
-        public RabbitMqBusPublisher(IRabbitMqConnection connection, IOptions<RabbitMqOption> optionWrap, ILogger<RabbitMqBusPublisher> logger)
+        public RabbitMqBusPublisher(IRabbitMqConnection connection, IOptions<RabbitMqOption> options, ILogger<RabbitMqBusPublisher> logger)
         {
-            var option = optionWrap.Value;
-            _exchanges = option.Exchanges;
-            _retryCount = option.RetryCount;
-
             _connection = connection;
             _logger = logger;
+            _options = options.Value;
         }
 
         public Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
         {
-            _connection.VerifyConnection();
-
             var policy = Policy.Handle<BrokerUnreachableException>()
-                .Or<SocketException>()                
-                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
-                {
-                    _logger.LogWarning(ex.ToString());
-                });
+                .Or<SocketException>()
+                .WaitAndRetry(_options.PublishRetryCount,
+                    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, _) =>
+                    {
+                        _logger.LogWarning(ex.ToString());
+                    });
 
+            _connection.VerifyConnection();
+            
+            exchange ??= _options.PublishExchange ?? _options.Exchanges.FirstOrDefault();
             var channel = _connection.CreateModel();
             channel.ExchangeDeclare(exchange: exchange, type: "direct");
 
             var message = JsonSerializer.Serialize(@event);
             var body = Encoding.UTF8.GetBytes(message);
-
-            var eventName = @event.GetType().Name;
-            exchange ??= _exchanges.FirstOrDefault();
             
+            var eventName = @event.GetType().Name;
+
             policy.Execute(() =>
             {
-                channel.BasicPublish(exchange: exchange, routingKey: eventName, basicProperties: null, body: body);
+                channel.BasicPublish(exchange, eventName, null, body);
             });
                 
             return Task.CompletedTask;

@@ -16,8 +16,7 @@ namespace Enbiso.NLib.EventBus
 
     public class EventProcessor: IEventProcessor
     {
-        private readonly Dictionary<string, List<IEventHandler>> _subscriptions =
-            new Dictionary<string, List<IEventHandler>>();
+        private readonly Dictionary<string, List<IEventHandler>> _subscriptions = new();
         
         private readonly IEnumerable<IEventHandler> _eventHandlers;
         

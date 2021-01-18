@@ -26,18 +26,19 @@ namespace Enbiso.NLib.EventBus.Nats
 
         public Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
         {
-            _connection.VerifyConnection();
+            exchange ??= _options.PublishExchange ?? _options.Exchanges.FirstOrDefault();
             
-            var conn = _connection.GetConnection();
-            var eventName = $"{exchange ?? _options.Exchanges.FirstOrDefault()}.{@event.GetType().Name}";
+            var eventName = $"{exchange}.{@event.GetType().Name}";
             var body = JsonSerializer.SerializeToUtf8Bytes(@event);
-
             var policy = Policy.Handle<NATSTimeoutException>()
                 .Or<SocketException>()
                 .WaitAndRetry(_options.PublishRetryCount,
                     retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                     (ex, time) => { _logger.LogWarning(ex.ToString()); });
 
+            _connection.VerifyConnection();
+            
+            var conn = _connection.GetConnection();
             policy.Execute(() => {
                 conn.Publish(eventName, body);
                 conn.Flush();

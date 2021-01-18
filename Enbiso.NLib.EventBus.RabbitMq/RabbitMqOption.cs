@@ -35,6 +35,10 @@
         /// </summary>
         public string Client { get; set; }
         /// <summary>
+        /// Default publish broker
+        /// </summary>        
+        public string PublishExchange { get; set; }
+        /// <summary>
         /// Client brokers name
         /// </summary>        
         public string[] Exchanges { get; set; }
