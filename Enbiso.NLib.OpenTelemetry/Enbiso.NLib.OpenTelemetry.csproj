@@ -31,4 +31,7 @@
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc1.1" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="../logo.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
 </Project>
