@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Enbiso.NLib.EventBus.AwsSns</PackageId>
+
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+
+    <Authors>Faraj Farook</Authors>
+    <Description>Simple Event bus implementation for AWS SNS</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
+    <PackageTags>Enbiso Enbiso.NLib EventBus NATS</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en-AU</NeutralLanguage>
+    <Owners>enbiso</Owners>
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <Summary>Enbiso - SSimple Event bus implementation for AWS SNS in .NET Standard</Summary>
+    <Title>Simple AWS SNS EventBus</Title>
+
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+    <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+    <LangVersion>9</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.5.1.50" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Enbiso.NLib.EventBus\Enbiso.NLib.EventBus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+</Project>
