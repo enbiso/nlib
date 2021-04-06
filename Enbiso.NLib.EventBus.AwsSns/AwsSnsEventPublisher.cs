@@ -23,7 +23,7 @@ namespace Enbiso.NLib.EventBus.AwsSns
         public async Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
         {
             exchange ??= _options.PublishExchange;
-            exchange = exchange.Replace(".", "-");
+            exchange = exchange?.Replace(".", "-");
             var topic = await _connection.GetTopic(exchange);
             
             var eventName = $"{@event.GetType().Name}";
