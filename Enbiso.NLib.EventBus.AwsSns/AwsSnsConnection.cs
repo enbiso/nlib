@@ -34,7 +34,11 @@ namespace Enbiso.NLib.EventBus.AwsSns
                 await _connection.CreateTopicAsync(exchangeName);
                 topic = await _connection.FindTopicAsync(exchangeName);
             }
-            _topics[exchangeName] = topic;
+
+            lock (_topics)
+            {
+                _topics[exchangeName] = topic;   
+            }
             return topic;
         }
     }
