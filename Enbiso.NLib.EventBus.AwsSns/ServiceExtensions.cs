@@ -17,6 +17,7 @@ namespace Enbiso.NLib.EventBus.AwsSns
 
             services.AddEventBus();
             services.AddSingleton<IAmazonSimpleNotificationService, AmazonSimpleNotificationServiceClient>();
+            services.AddSingleton<IAwsSnsConnection, AwsSnsConnection>();
             services.AddSingleton<IEventPublisher, AwsSnsEventPublisher>();
             services.AddSingleton<IEventSubscriber, AwsSnsEventSubscriber>();
         }
