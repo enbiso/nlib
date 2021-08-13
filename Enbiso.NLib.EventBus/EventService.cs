@@ -7,13 +7,11 @@ namespace Enbiso.NLib.EventBus
 {
     public class EventService : IEventService
     {
-        private readonly IEnumerable<IEventPublisher> _publishers;
-        private readonly IEnumerable<IEventSubscriber> _subscribers;
+        private readonly IEnumerable<IEventPublisher> _publishers;        
 
-        public EventService(IEnumerable<IEventPublisher> publishers, IEnumerable<IEventSubscriber> subscribers)
+        public EventService(IEnumerable<IEventPublisher> publishers)
         {
             _publishers = publishers;
-            _subscribers = subscribers;
         }
 
         public Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T : IEvent =>
