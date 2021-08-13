@@ -29,7 +29,7 @@ namespace Enbiso.NLib.EventBus.Nats
             _connection?.Dispose();
         }
 
-        public Task Subscribe()
+        public Task Subscribe(CancellationToken token = default)
         {
             _connection.Connected += conn =>
             {

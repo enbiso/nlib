@@ -14,5 +14,11 @@ namespace Enbiso.NLib.EventBus
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         Task PublishToBus<T>(T @event, string exchange = null, CancellationToken token = default) where T: IEvent;
+
+        /// <summary>
+        /// Subscribe all event processors
+        /// </summary>
+        /// <returns></returns>
+        Task SubscribeAll(CancellationToken token = default);
     }
 }

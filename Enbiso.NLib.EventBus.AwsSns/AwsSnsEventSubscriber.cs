@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus.AwsSns
@@ -8,7 +9,7 @@ namespace Enbiso.NLib.EventBus.AwsSns
         {
         }
 
-        public Task Subscribe()
+        public Task Subscribe(CancellationToken token = default)
         {
             return Task.CompletedTask;
         }

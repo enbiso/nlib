@@ -7,22 +7,22 @@ namespace Enbiso.NLib.EventBus.AwsSns
 {
     public interface IAwsSnsConnection
     {
-        AmazonSimpleNotificationServiceClient GetConnection();
+        IAmazonSimpleNotificationService GetConnection();
         Task<Topic> GetTopic(string exchangeName);
     }
 
     public class AwsSnsConnection: IAwsSnsConnection
     {
-        private readonly AmazonSimpleNotificationServiceClient _connection;
+        private readonly IAmazonSimpleNotificationService _connection;
         private readonly IDictionary<string, Topic> _topics;
 
-        public AwsSnsConnection(AmazonSimpleNotificationServiceClient connection)
+        public AwsSnsConnection(IAmazonSimpleNotificationService connection)
         {
             _connection = connection;
             _topics = new Dictionary<string, Topic>();
         }
 
-        public AmazonSimpleNotificationServiceClient GetConnection() => _connection;
+        public IAmazonSimpleNotificationService GetConnection() => _connection;
 
         public async Task<Topic> GetTopic(string exchangeName)
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
@@ -54,7 +55,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             _consumerChannel?.Dispose();
         }
         
-        public Task Subscribe()
+        public Task Subscribe(CancellationToken token = default)
         {
             _consumerChannel = CreateConsumerChannel();
             var consumer = new EventingBasicConsumer(_consumerChannel);

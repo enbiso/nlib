@@ -1,4 +1,6 @@
 ﻿using System;
+using Amazon;
+using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +18,10 @@ namespace Enbiso.NLib.EventBus.AwsSns
             services.Configure(option);
 
             services.AddEventBus();
-            services.AddSingleton<AmazonSimpleNotificationServiceClient>();
+            services.AddSingleton<IAmazonSimpleNotificationService>(sp =>
+                new AmazonSimpleNotificationServiceClient(
+                    sp.GetRequiredService<AWSCredentials>(),
+                    sp.GetRequiredService<RegionEndpoint>()));
             services.AddSingleton<IAwsSnsConnection, AwsSnsConnection>();
             services.AddSingleton<IEventPublisher, AwsSnsEventPublisher>();
             services.AddSingleton<IEventSubscriber, AwsSnsEventSubscriber>();

@@ -1,18 +1,25 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
     public class EventService : IEventService
     {
-        private readonly IEventPublisher _publisher;
+        private readonly IEnumerable<IEventPublisher> _publishers;
+        private readonly IEnumerable<IEventSubscriber> _subscribers;
 
-        public EventService(IEventPublisher publisher)
+        public EventService(IEnumerable<IEventPublisher> publishers, IEnumerable<IEventSubscriber> subscribers)
         {
-            _publisher = publisher;
+            _publishers = publishers;
+            _subscribers = subscribers;
         }
 
         public Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T : IEvent =>
-            _publisher.Publish(@event, exchange, token);
+            Task.WhenAll(_publishers.Select(p => p.Publish(@event, exchange, token)));
+
+        public Task SubscribeAll(CancellationToken token) =>
+            Task.WhenAll(_subscribers.Select(s => s.Subscribe(token)));
     }
 }

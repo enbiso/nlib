@@ -2,6 +2,7 @@
 using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -18,7 +19,7 @@ namespace Enbiso.NLib.OpenTelemetry
 
             var opts = new OpenTelemetryOptions();
             optBuilder.Invoke(opts);
-            if(string.IsNullOrEmpty(opts.Endpoint)) return;
+            if(opts.Options == null) return;
             
             services.AddOpenTelemetryTracing(builder => builder
                 .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(opts.ServiceName))
@@ -26,11 +27,11 @@ namespace Enbiso.NLib.OpenTelemetry
                 .AddHttpClientInstrumentation()
                 .AddOtlpExporter(o =>
                 {
-                    o.Endpoint = opts.Endpoint;
-                    o.Credentials = new SslCredentials();
-                    o.Headers = new Metadata();
-                    foreach (var (key, value) in opts.Headers)
-                        o.Headers.Add(key, value);
+                    o.Endpoint = opts.Options.Endpoint;
+                    o.Headers = opts.Options.Headers;
+                    o.TimeoutMilliseconds = opts.Options.TimeoutMilliseconds;
+                    o.ExportProcessorType = opts.Options.ExportProcessorType;
+                    o.BatchExportProcessorOptions = opts.Options.BatchExportProcessorOptions;
                 }));
         }
     }

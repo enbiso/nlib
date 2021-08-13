@@ -12,7 +12,8 @@ namespace Enbiso.NLib.EventBus
         /// <summary>
         /// Subscribe to all events
         /// </summary>
+        /// <param name="token">Cancellation Token</param>
         /// <returns></returns>
-        Task Subscribe();
+        Task Subscribe(CancellationToken token = default);
     }
 }
