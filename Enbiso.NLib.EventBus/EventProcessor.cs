@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace Enbiso.NLib.EventBus
 {
-    public delegate void EventHandler(string eventName);
-    
-    public interface IEventProcessor
-    {
-        Task ProcessEvent(string eventName, byte[] data);
-        void Setup(Action<string> onAddSubscription = null);
-    }
-
     public class EventProcessor: IEventProcessor
     {
         private readonly Dictionary<string, List<IEventHandler>> _subscriptions = new();

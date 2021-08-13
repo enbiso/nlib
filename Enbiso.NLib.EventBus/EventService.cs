@@ -18,8 +18,6 @@ namespace Enbiso.NLib.EventBus
 
         public Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T : IEvent =>
             Task.WhenAll(_publishers.Select(p => p.Publish(@event, exchange, token)));
-
-        public Task SubscribeAll(CancellationToken token) =>
-            Task.WhenAll(_subscribers.Select(s => s.Subscribe(token)));
+        
     }
 }
