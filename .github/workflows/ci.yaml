@@ -1,0 +1,25 @@
+name: Nugets CD
+
+on: push
+
+env:
+  PACKAGE_VERSION: 5.0.${{ github.run_number }}
+  PACKAGE_PROJECT: https://nlib.enbiso.com
+  PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
+  PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
+
+jobs:
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Test
+        run: dotnet test --verbosity normal
