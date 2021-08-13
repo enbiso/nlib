@@ -3,7 +3,7 @@
 namespace Enbiso.NLib.EventBus
 {
     public static class ServiceExtensions
-    {      
+    {
         /// <summary>
         /// Add Event bus with default connection and manager
         /// </summary>
@@ -12,6 +12,7 @@ namespace Enbiso.NLib.EventBus
         {
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddSingleton<IEventService, EventService>();
+            services.AddTransient<IEventSubscriptionService, EventSubscriptionService>();
         }
     }
 }
