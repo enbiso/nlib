@@ -26,10 +26,18 @@ namespace Enbiso.NLib.EventBus.AwsSns
             exchange = exchange?.Replace(".", "-");
             var topic = await _connection.GetTopic(exchange);
             
-            var eventName = $"{@event.GetType().Name}";
+            var eventType = $"{@event.GetType().Name}";
             var message = JsonSerializer.Serialize(@event);
-            await _connection.GetConnection()
-                .PublishAsync(new PublishRequest(topic.TopicArn, message, eventName), cancellationToken);
+
+            var request = new PublishRequest(topic.TopicArn, message, eventType)
+            {
+                MessageAttributes =
+                {
+                    ["EventType"] = new MessageAttributeValue {DataType = "String", StringValue = eventType}
+                }
+            };
+
+            await _connection.GetConnection().PublishAsync(request, cancellationToken);
         }
     }
 }
