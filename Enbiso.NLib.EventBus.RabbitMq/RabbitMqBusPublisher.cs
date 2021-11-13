@@ -27,7 +27,7 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             _options = options.Value;
         }
 
-        public Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task Publish<TEvent>(TEvent @event, string exchange, string eventType, CancellationToken cancellationToken) where TEvent : IEvent
         {
             var policy = Policy.Handle<BrokerUnreachableException>()
                 .Or<SocketException>()
@@ -46,11 +46,11 @@ namespace Enbiso.NLib.EventBus.RabbitMq
             var message = JsonSerializer.Serialize(@event);
             var body = Encoding.UTF8.GetBytes(message);
             
-            var eventName = @event.GetType().Name;
+            eventType ??= @event.GetType().Name;
 
             policy.Execute(() =>
             {
-                channel.BasicPublish(exchange, eventName, null, body);
+                channel.BasicPublish(exchange, eventType, null, body);
             });
                 
             return Task.CompletedTask;

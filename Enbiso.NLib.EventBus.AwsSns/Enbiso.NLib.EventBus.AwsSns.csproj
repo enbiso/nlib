@@ -26,9 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.2.22" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.*" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.2.68" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

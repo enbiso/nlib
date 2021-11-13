@@ -10,7 +10,8 @@ namespace Enbiso.NLib.EventBus
         /// </summary>
         /// <param name="event"></param>
         /// <param name="exchange"></param>
+        /// <param name="eventType"></param>
         /// <param name="cancellationToken"></param>
-        Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent;
+        Task Publish<TEvent>(TEvent @event, string exchange, string eventType, CancellationToken cancellationToken) where TEvent : IEvent;
     }
 }

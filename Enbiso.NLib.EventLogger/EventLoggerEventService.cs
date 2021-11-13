@@ -21,12 +21,12 @@ namespace Enbiso.NLib.EventLogger
             _publishers = publishers;
         }
 
-        public async Task PublishToBus<T>(T @event, string exchange, CancellationToken token) where T: IEvent
+        public async Task PublishToBus<T>(T @event, string exchange, string eventType, CancellationToken token) where T: IEvent
         {
-            await _service.SaveEventAsync(@event);
+            await _service.SaveEventAsync(@event, eventType);
             try
             {
-                await Task.WhenAll(_publishers.Select(p => p.Publish(@event, exchange, token)));
+                await Task.WhenAll(_publishers.Select(p => p.Publish(@event, exchange, eventType, token)));
                 await _service.MarkEventAsPublishedAsync(@event);
             }
             catch (Exception)

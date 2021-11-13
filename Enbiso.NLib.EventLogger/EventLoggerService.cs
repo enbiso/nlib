@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Threading.Tasks;
 using Enbiso.NLib.EventBus;
 
@@ -10,8 +9,7 @@ namespace Enbiso.NLib.EventLogger
     /// </summary>
     public interface IEventLoggerService
     {
-        EventLog AddEvent(IEvent @event);
-        Task SaveEventAsync(IEvent @event, DbTransaction transaction = null);
+        Task SaveEventAsync(IEvent @event, string eventType, DbTransaction transaction = null);
         Task MarkEventAsPublishedAsync(IEvent @event);
         Task MarkEventAsFailedAsync(IEvent @event);
     }
@@ -30,28 +28,19 @@ namespace Enbiso.NLib.EventLogger
         }
 
         /// <summary>
-        /// Add @event
-        /// </summary>
-        /// <param name="event"></param>
-        /// <returns></returns>
-        public EventLog AddEvent(IEvent @event)
-        {
-            var eventLogEntry = new EventLog(@event);
-            return _repo.Add(eventLogEntry);
-        }
-
-        /// <summary>
         /// Save events
         /// </summary>
         /// <param name="event"></param>
+        /// <param name="eventType"></param>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public Task SaveEventAsync(IEvent @event, DbTransaction transaction = null)
+        public Task SaveEventAsync(IEvent @event, string eventType, DbTransaction transaction)
         {
             if (transaction != null)
                 _repo.UseTransaction(transaction);
 
-            var eventLogEntry = new EventLog(@event);
+            var eventLogEntry = new EventLog(@event, eventType);
+            
             _repo.Add(eventLogEntry);
             return _repo.SaveChangesAsync();
         }

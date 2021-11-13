@@ -24,11 +24,11 @@ namespace Enbiso.NLib.EventBus.Nats
             _logger = logger;
         }
 
-        public Task Publish<TEvent>(TEvent @event, string exchange, CancellationToken cancellationToken) where TEvent : IEvent
+        public Task Publish<TEvent>(TEvent @event, string exchange, string eventType, CancellationToken cancellationToken) where TEvent : IEvent
         {
             exchange ??= _options.PublishExchange ?? _options.Exchanges.FirstOrDefault();
             
-            var eventName = $"{exchange}.{@event.GetType().Name}";
+            var eventPath = $"{exchange}.{eventType ?? @event.GetType().Name}";
             var body = JsonSerializer.SerializeToUtf8Bytes(@event);
             var policy = Policy.Handle<NATSTimeoutException>()
                 .Or<SocketException>()
@@ -40,7 +40,7 @@ namespace Enbiso.NLib.EventBus.Nats
             
             var conn = _connection.GetConnection();
             policy.Execute(() => {
-                conn.Publish(eventName, body);
+                conn.Publish(eventPath, body);
                 conn.Flush();
             });
             
