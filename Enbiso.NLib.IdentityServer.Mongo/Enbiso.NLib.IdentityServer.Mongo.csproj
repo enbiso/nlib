@@ -1,35 +1,41 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>Enbiso.NLib.Idempotency</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>Enbiso.NLib.IdentityServer.Mongo</PackageId>
 
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
-    
+
     <Authors>Faraj Farook</Authors>
-    <Description>Simple Idempotency with Client Request Persistence</Description>
+    <Description>IdentityServer4 MongoDB data provider</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
-    <PackageTags>Enbiso Enbiso.NLib Idempotency ClientRequest</PackageTags>
+    <PackageTags>Enbiso Enbiso.NLib IdentityServer IdentityServer4</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en-AU</NeutralLanguage>
-    <Owners>enbiso</Owners>    
+    <Owners>enbiso</Owners>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
-    <Summary>Enbiso - Simple Idempotency with Client Request Persistence in .NET Standard</Summary>
-    <Title>Simple Idempotency with Client Request Persistence</Title>
-    
+    <Summary>Enbiso - IdentityServer4 MongoDB data provider</Summary>
+    <Title>IdentityServer4 MongoDB data provider</Title>
+
     <PackageIcon>logo.png</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
     <LangVersion>default</LangVersion>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-  </ItemGroup>
+</PropertyGroup>
 
-  <ItemGroup>
+<ItemGroup>
+    <PackageReference Include="IdentityServer4.Storage" Version="4.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
+</ItemGroup>
+
+<ItemGroup>
     <None Include="../logo.png" Pack="true" PackagePath="" />
-  </ItemGroup>
-  
+</ItemGroup>
+
 </Project>

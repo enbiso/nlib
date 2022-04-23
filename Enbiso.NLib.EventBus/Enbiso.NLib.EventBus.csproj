@@ -22,12 +22,12 @@
     <PackageIcon>logo.png</PackageIcon>
     <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
     <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-    <LangVersion>9</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.*" />
-    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+    <PackageReference Include="System.Text.Json" Version="6.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
 

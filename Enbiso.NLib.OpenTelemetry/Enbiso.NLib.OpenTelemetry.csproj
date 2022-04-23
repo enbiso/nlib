@@ -21,11 +21,11 @@
         <PackageIcon>logo.png</PackageIcon>
         <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
         <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
-        <LangVersion>9</LangVersion>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.1.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.2.0" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc7" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc7" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc7" />
