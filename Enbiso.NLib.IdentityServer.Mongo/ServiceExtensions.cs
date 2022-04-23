@@ -9,7 +9,10 @@ namespace Enbiso.NLib.IdentityServer.Mongo
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddIdentityServerMongo(this IServiceCollection services, Action<IdentityServerMongoOptions> optSetup)
+        public static IServiceCollection AddIdentityServerMongo<TUser, TRole>(this IServiceCollection services,
+            Action<IdentityServerMongoOptions> optSetup)
+            where TRole : IdentityRole, IMongoIdentityRole 
+            where TUser : IdentityUser, IMongoIdentityUser
         {
             var options = new IdentityServerMongoOptions();
             optSetup.Invoke(options);
@@ -19,15 +22,14 @@ namespace Enbiso.NLib.IdentityServer.Mongo
             services.AddSingleton(sp => db.GetCollection<PersistedGrantData>(options.PersistedGrantCollection));
             services.AddSingleton(sp => db.GetCollection<ApiResourceData>(options.ApiResourceCollection));
             services.AddSingleton(sp => db.GetCollection<IdentityResourceData>(options.IdentityResourceCollection));
-            services.AddSingleton(sp => db.GetCollection<Role>(options.RoleCollection));
-            services.AddSingleton(sp => db.GetCollection<User>(options.UserCollection));
+            services.AddSingleton(sp => db.GetCollection<TRole>(options.RoleCollection));
+            services.AddSingleton(sp => db.GetCollection<TUser>(options.UserCollection));
 
             services.AddTransient<IClientStore, MongoClientStore>();
             services.AddTransient<IPersistedGrantStore, MongoPersistedGrantStore>();
             services.AddTransient<IResourceStore, MongoResourceStore>();
-            services.AddTransient<IUserStore<User>, MongoUserStore>();
-            services.AddTransient<IRoleStore<Role>, MongoRoleStore>();
-            
+            services.AddTransient<IUserStore<TUser>, MongoUserStore<TUser>>();
+            services.AddTransient<IRoleStore<TRole>, MongoRoleStore<TRole>>();
             
             return services;
         }

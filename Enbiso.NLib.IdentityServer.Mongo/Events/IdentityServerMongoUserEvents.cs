@@ -1,33 +1,31 @@
-﻿using Enbiso.NLib.IdentityServer.Mongo.Models;
+﻿namespace Enbiso.NLib.IdentityServer.Mongo.Events;
 
-namespace Enbiso.NLib.IdentityServer.Mongo.Events;
-
-public class IdentityServerMongoUserCreateEvent: IIdentityServerMongoEvent
+public class IdentityServerMongoUserCreateEvent<TUser>: IIdentityServerMongoEvent
 {
-    public IdentityServerMongoUserCreateEvent(User user)
+    public IdentityServerMongoUserCreateEvent(TUser user)
     {
         User = user;
     }
 
-    public User User { get; }
+    public TUser User { get; }
 }
 
-public class IdentityServerMongoUserDeleteEvent: IIdentityServerMongoEvent
+public class IdentityServerMongoUserDeleteEvent<TUser>: IIdentityServerMongoEvent
 {
-    public IdentityServerMongoUserDeleteEvent(User user)
+    public IdentityServerMongoUserDeleteEvent(TUser user)
     {
         User = user;
     }
 
-    public User User { get; }
+    public TUser User { get; }
 }
 
-public class IdentityServerMongoUserUpdateEvent: IIdentityServerMongoEvent
+public class IdentityServerMongoUserUpdateEvent<TUser>: IIdentityServerMongoEvent
 {
-    public IdentityServerMongoUserUpdateEvent(User user)
+    public IdentityServerMongoUserUpdateEvent(TUser user)
     {
         User = user;
     }
 
-    public User User { get; }
+    public TUser User { get; }
 }
