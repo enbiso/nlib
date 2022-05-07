@@ -178,6 +178,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task AddToRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
+            user.Roles ??= new List<string>();
             if (user.Roles.Contains(roleName)) return Task.CompletedTask;
             user.Roles.Add(roleName);
             return _users.UpdateOneAsync(u => u.Id == user.Id, Builders<TUser>.Update.Push(u => u.Roles, roleName),
@@ -187,6 +188,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task RemoveFromRoleAsync(TUser user, string roleName, CancellationToken cancellationToken)
         {
+            user.Roles ??= new List<string>();
             if (!user.Roles.Contains(roleName)) return Task.CompletedTask;
             user.Roles.Remove(roleName);
             return _users.UpdateOneAsync(u => u.Id == user.Id, Builders<TUser>.Update.Pull(u => u.Roles, roleName),
@@ -289,6 +291,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task AddClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
+            user.Claims ??= new List<Claim>();
             foreach (var claim in claims) 
                 user.Claims.Add(claim);
 
@@ -299,6 +302,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task ReplaceClaimAsync(TUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
         {
+            user.Claims ??= new List<Claim>();
             var uClaim = user.Claims.FirstOrDefault(c => c.Type == claim.Type && c.Value == claim.Value);
             user.Claims.Remove(uClaim);
             user.Claims.Add(newClaim);
