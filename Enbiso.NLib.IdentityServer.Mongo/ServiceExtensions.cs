@@ -1,6 +1,6 @@
+using Duende.IdentityServer.Stores;
 using Enbiso.NLib.IdentityServer.Mongo.Models;
 using Enbiso.NLib.IdentityServer.Mongo.Stores;
-using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;

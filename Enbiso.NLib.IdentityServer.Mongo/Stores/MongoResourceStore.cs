@@ -1,6 +1,6 @@
-﻿using Enbiso.NLib.IdentityServer.Mongo.Models;
-using IdentityServer4.Models;
-using IdentityServer4.Stores;
+﻿using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Stores;
+using Enbiso.NLib.IdentityServer.Mongo.Models;
 using MongoDB.Driver;
 
 namespace Enbiso.NLib.IdentityServer.Mongo.Stores

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Enbiso.NLib.GlobalExceptions</PackageId>
 
     <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>

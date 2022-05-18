@@ -210,10 +210,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task AddLoginAsync(TUser user, UserLoginInfo login, CancellationToken cancellationToken)
         {
-            if (login is ExternalLoginInfo info)
-                user.ExternalLogins.Add(info);    
-            else
-                user.Logins.Add(login);
+            user.Logins.Add(login);
             return Task.CompletedTask;
         }
 
@@ -221,15 +218,12 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
         {
             bool Filter(UserLoginInfo l) => !(l.LoginProvider == loginProvider && l.ProviderKey == providerKey);
             user.Logins = user.Logins.Where(Filter).ToList();
-            user.ExternalLogins = user.ExternalLogins.Where(Filter).ToList();
             return Task.CompletedTask;
         }
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user, CancellationToken cancellationToken)
         {
             var logins = user.Logins ?? new List<UserLoginInfo>();
-            foreach (var externalLogin in user.ExternalLogins)
-                logins.Add(externalLogin);
             return Task.FromResult(logins);
         }
 
@@ -237,8 +231,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
             CancellationToken cancellationToken)
         {
             return _users.Find(u => 
-                    u.Logins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey) || 
-                    u.ExternalLogins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey))
+                    u.Logins.Any(l => l.LoginProvider == loginProvider && l.ProviderKey == providerKey))
                 .FirstOrDefaultAsync(cancellationToken);
         }
 

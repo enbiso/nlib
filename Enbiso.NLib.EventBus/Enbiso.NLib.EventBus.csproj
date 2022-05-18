@@ -27,7 +27,7 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.*" />
-    <PackageReference Include="System.Text.Json" Version="6.0.3" />
+    <PackageReference Include="System.Text.Json" Version="6.0.4" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
 
