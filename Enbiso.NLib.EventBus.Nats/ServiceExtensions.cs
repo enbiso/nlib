@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
+using Enbiso.NLib.EventBus.Nats.JetStream;
 using Microsoft.Extensions.DependencyInjection;
 using NATS.Client;
 
@@ -19,8 +19,21 @@ namespace Enbiso.NLib.EventBus.Nats
             services.AddEventBus();
             services.AddSingleton<ConnectionFactory>();
             services.AddSingleton<INatsConnection, NatsConnection>();
-            services.AddSingleton<IEventPublisher, NatsEventPublisher>();
-            services.AddSingleton<IEventSubscriber, NatsEventSubscriber>();
+
+            var opts = new NatsOptions();
+            option.Invoke(opts);
+            
+            if (opts.EnableJetStream)
+            {
+                services.AddSingleton<IJetStreamConnection, JetStreamConnection>();
+                services.AddSingleton<IEventPublisher, JetStreamEventPublisher>();
+                services.AddSingleton<IEventSubscriber, JetStreamEventSubscriber>();
+            }
+            else
+            {
+                services.AddSingleton<IEventPublisher, NatsEventPublisher>();
+                services.AddSingleton<IEventSubscriber, NatsEventSubscriber>();
+            }
         }
     }
 }

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
-using NATS.Client.Rx;
-using Polly;
 using Options = NATS.Client.Options;
 
 namespace Enbiso.NLib.EventBus.Nats
@@ -53,26 +49,24 @@ namespace Enbiso.NLib.EventBus.Nats
         }
 
         public IConnection GetConnection() => _connection;
-
+        
         private bool IsConnected => _connection?.State == ConnState.CONNECTED && !_disposed;
         public void VerifyConnection()
         {
             if (IsConnected) return;
-            
-            var policy = Policy.Handle<NATSNoServersException>()
-                .WaitAndRetryForever(
-                    _ => TimeSpan.FromSeconds(2),
-                    (ex, time) => _logger.LogWarning(ex.Message) );
+
+            var policy = NatsPolicyBuilder.BuildConnectPolicy(_logger);
 
             policy.Execute(() => {
                 _connection = _factory.CreateConnection(_opts);
-                if (IsConnected)
-                {
-                    _logger.LogInformation("Connected to NATS.");
-                    Connected?.Invoke(_connection);
-                } 
+                if (!IsConnected) return;
+                
+                _logger.LogInformation("Connected to NATS");
+                Connected?.Invoke(_connection);
             });
         }
+        
+
  
         public void Dispose()
         {
@@ -80,11 +74,13 @@ namespace Enbiso.NLib.EventBus.Nats
             _disposed = true;
             try
             {
+                _connection.Drain();
+                _connection.Close();
                 _connection.Dispose();
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex.ToString());
+                _logger.LogCritical("{Error}",ex.ToString());
             }
         }
 
