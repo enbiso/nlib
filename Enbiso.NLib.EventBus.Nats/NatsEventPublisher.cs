@@ -37,11 +37,21 @@ namespace Enbiso.NLib.EventBus.Nats
                     (ex, time) => { _logger.LogWarning(ex.ToString()); });
 
             _connection.VerifyConnection();
-            
-            var conn = _connection.GetConnection();
-            policy.Execute(() => {
-                conn.Publish(eventPath, body);
-                conn.Flush();
+
+            policy.Execute(() =>
+            {
+                if (_options.JetStreamEnable)
+                {
+                    _connection.VerifyJetStream(exchange);
+                    var js = _connection.GetJetStream();
+                    js.PublishAsync(eventPath, body);
+                }
+                else
+                {
+                    var conn = _connection.GetConnection();
+                    conn.Publish(eventPath, body);
+                    conn.Flush();
+                }
             });
             
             return Task.CompletedTask;

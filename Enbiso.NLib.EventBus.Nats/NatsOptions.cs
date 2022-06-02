@@ -35,5 +35,17 @@
         /// Connection token
         /// </summary>
         public string Token { get; set; }
+        /// <summary>
+        /// Use NATS JetStream
+        /// </summary>
+        public bool JetStreamEnable { get; set; } = false;
+        /// <summary>
+        /// Jet Stream poll batch size
+        /// </summary>
+        public int JetStreamBatchSize { get; set; } = 1;
+        /// <summary>
+        /// Jet Stream poll wait ms
+        /// </summary>
+        public int JetStreamWaitMills { get; set; } = 1000;
     }
 }

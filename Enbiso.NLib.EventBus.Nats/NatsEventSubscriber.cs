@@ -1,12 +1,9 @@
 using System;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using NATS.Client;
-using Polly;
+using NATS.Client.JetStream;
 
 namespace Enbiso.NLib.EventBus.Nats
 {
@@ -33,20 +30,58 @@ namespace Enbiso.NLib.EventBus.Nats
         {
             _connection.Connected += conn =>
             {
-                foreach (var exchange in _options.Exchanges ?? new string[0])
+                foreach (var exchange in _options.Exchanges ?? Array.Empty<string>())
                 {
-                    conn.SubscribeAsync($"{exchange}.>", _options.Client, async (sender, args) =>
+                    if (_options.JetStreamEnable)
                     {
-                        var subject = args.Message.Subject;
-                        var eventName = subject.StartsWith(exchange)
-                            ? subject.Substring(exchange.Length + 1)
-                            : subject;
-                        await _eventProcessor.ProcessEvent(eventName, args.Message.Data);
-                    });
+                        SubscribeJetStream(exchange, token);
+                    }
+                    else
+                    {
+                        SubscribeNative(conn, exchange, token);
+                    }
                 }
             };
             _connection.VerifyConnection();
             return Task.CompletedTask;
         }
+        
+        private void SubscribeJetStream(string exchange, CancellationToken token)
+        {
+            _connection.VerifyJetStream(exchange);
+            
+            var js = _connection.GetJetStream();
+            var pullOptions = PullSubscribeOptions.Builder()
+                .WithDurable($"{_options.Client}_{exchange}")
+                .Build();
+            var sub = js.PullSubscribe($"{exchange}.>", pullOptions);
+            
+            Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    foreach (var message in sub.Fetch(_options.JetStreamBatchSize, _options.JetStreamWaitMills))
+                    {
+                        var eventName = GetEventName(message.Subject, exchange);        
+                        await _eventProcessor.ProcessEvent(eventName, message.Data);
+                        message.Ack();
+                    }
+                }
+            }, token);
+        }
+
+        private void SubscribeNative(IConnection connection, string exchange, CancellationToken token)
+        {
+            connection.SubscribeAsync($"{exchange}.>", _options.Client, async (sender, args) =>
+            {
+                var eventName = GetEventName(args.Message.Subject, exchange);
+                await _eventProcessor.ProcessEvent(eventName, args.Message.Data);
+            });
+        }
+
+        private static string GetEventName(string subject, string exchange) =>
+            subject.StartsWith(exchange)
+                ? subject[(exchange.Length + 1)..]
+                : subject;
     }
 }

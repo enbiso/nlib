@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Net.Sockets;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
-using NATS.Client.Rx;
+using NATS.Client.JetStream;
 using Polly;
 using Options = NATS.Client.Options;
 
@@ -13,8 +11,10 @@ namespace Enbiso.NLib.EventBus.Nats
     public interface INatsConnection : IDisposable
     {
         IConnection GetConnection();
+        IJetStream GetJetStream();
         void VerifyConnection();
         event ConnectedEventHandler Connected;
+        void VerifyJetStream(string streamName);
     }
 
     public delegate void ConnectedEventHandler(IConnection connection);
@@ -22,6 +22,9 @@ namespace Enbiso.NLib.EventBus.Nats
     public class NatsConnection: INatsConnection
     {
         private IConnection _connection;
+        private IJetStream _jetStream;
+        private IJetStreamManagement _jsm;
+        private readonly NatsOptions _settings;
         private readonly ConnectionFactory _factory;
         private readonly Options _opts;
         private readonly ILogger _logger;
@@ -33,17 +36,17 @@ namespace Enbiso.NLib.EventBus.Nats
             _logger = logger;
             _factory = factory;
             
-            var settings = options.Value;
+            _settings = options.Value;
             _opts = ConnectionFactory.GetDefaultOptions();
-            _opts.Servers = settings.Servers;
+            _opts.Servers = _settings.Servers;
             
-            _opts.MaxReconnect = settings.RetryCount;
-            if (!string.IsNullOrEmpty(settings.Username))
-                _opts.User = settings.Username;
-            if (!string.IsNullOrEmpty(settings.Password))
-                _opts.Password = settings.Password;
-            if (!string.IsNullOrEmpty(settings.Token))
-                _opts.Token = settings.Token;
+            _opts.MaxReconnect = _settings.RetryCount;
+            if (!string.IsNullOrEmpty(_settings.Username))
+                _opts.User = _settings.Username;
+            if (!string.IsNullOrEmpty(_settings.Password))
+                _opts.Password = _settings.Password;
+            if (!string.IsNullOrEmpty(_settings.Token))
+                _opts.Token = _settings.Token;
 
             _opts.DisconnectedEventHandler += (sender, args) =>
             {
@@ -51,9 +54,23 @@ namespace Enbiso.NLib.EventBus.Nats
                 VerifyConnection();
             };
         }
+        
+        public void VerifyJetStream(string streamName)
+        {
+            var streamNames = _jsm.GetStreamNames();
+            if (streamNames.Contains(streamName)) return;
+            
+            var sc = StreamConfiguration.Builder()
+                .WithName(streamName)
+                .WithStorageType(StorageType.Memory)
+                .WithRetentionPolicy(RetentionPolicy.Interest) //wait for all consumers
+                .WithSubjects($"{streamName}.>")
+                .Build();
+            _jsm.AddStream(sc);
+        }
 
         public IConnection GetConnection() => _connection;
-
+        public IJetStream GetJetStream() => _jetStream;
         private bool IsConnected => _connection?.State == ConnState.CONNECTED && !_disposed;
         public void VerifyConnection()
         {
@@ -62,13 +79,19 @@ namespace Enbiso.NLib.EventBus.Nats
             var policy = Policy.Handle<NATSNoServersException>()
                 .WaitAndRetryForever(
                     _ => TimeSpan.FromSeconds(2),
-                    (ex, time) => _logger.LogWarning(ex.Message) );
+                    (ex, _) => _logger.LogWarning(ex.Message) );
 
             policy.Execute(() => {
                 _connection = _factory.CreateConnection(_opts);
                 if (IsConnected)
                 {
-                    _logger.LogInformation("Connected to NATS.");
+                    _logger.LogInformation("Connected to NATS");
+                    if (_settings.JetStreamEnable)
+                    {
+                        _jetStream = _connection.CreateJetStreamContext();
+                        _jsm = _connection.CreateJetStreamManagementContext();
+                        _logger.LogInformation("JetStream Initialised");
+                    }
                     Connected?.Invoke(_connection);
                 } 
             });
@@ -80,6 +103,8 @@ namespace Enbiso.NLib.EventBus.Nats
             _disposed = true;
             try
             {
+                _connection.Drain();
+                _connection.Close();
                 _connection.Dispose();
             }
             catch (Exception ex)
