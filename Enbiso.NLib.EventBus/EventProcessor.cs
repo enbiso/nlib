@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Enbiso.NLib.EventBus
 {
@@ -11,10 +12,12 @@ namespace Enbiso.NLib.EventBus
         private readonly Dictionary<string, List<IEventHandler>> _subscriptions = new();
         
         private readonly IEnumerable<IEventHandler> _eventHandlers;
+        private readonly ILogger _logger;
         
-        public EventProcessor(IEnumerable<IEventHandler> eventHandlers)
+        public EventProcessor(IEnumerable<IEventHandler> eventHandlers, ILogger<EventProcessor> logger)
         {
             _eventHandlers = eventHandlers;
+            _logger = logger;
         }
 
         public async Task ProcessEvent(string eventName, byte[] data)
@@ -28,6 +31,11 @@ namespace Enbiso.NLib.EventBus
             {
                 var eventType = eventHandler.GetEventType();
                 var @event = JsonSerializer.Deserialize(message, eventType);
+                if (@event is IEvent iEvent)
+                    _logger.LogTrace("Processing {EventType} {EventId}", eventType, iEvent.EventId);
+                else 
+                    _logger.LogTrace("Processing {EventType}", eventType);
+
                 await eventHandler.Handle(@event);
             }
         }
