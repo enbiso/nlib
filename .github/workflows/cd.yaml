@@ -6,9 +6,9 @@ on:
       - main
 
 env:
-  PACKAGE_VERSION: 6.1.3
+  PACKAGE_VERSION: 6.1.4
   PACKAGE_PROJECT: https://nlib.enbiso.com
-  PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
+  PACKAGE_REPO: https://github.com/enbiso/nlib
   PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
 
 jobs:
