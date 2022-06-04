@@ -1,7 +1,9 @@
 using System.Security.Claims;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Enbiso.NLib.IdentityServer.Mongo.Models;
 
+[BsonIgnoreExtraElements]
 public class MongoClaim
 {
     public MongoClaim()
