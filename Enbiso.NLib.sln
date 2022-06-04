@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.AwsSns
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.IdentityServer.Mongo", "Enbiso.NLib.IdentityServer.Mongo\Enbiso.NLib.IdentityServer.Mongo.csproj", "{CED4D720-476D-4CAF-9CA6-0BA6BE140489}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.HttpContextService", "Enbiso.NLib.HttpContextService\Enbiso.NLib.HttpContextService.csproj", "{1A947230-D1DC-4C99-A072-4AF4CC92E396}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,10 @@ Global
 		{CED4D720-476D-4CAF-9CA6-0BA6BE140489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CED4D720-476D-4CAF-9CA6-0BA6BE140489}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CED4D720-476D-4CAF-9CA6-0BA6BE140489}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A947230-D1DC-4C99-A072-4AF4CC92E396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A947230-D1DC-4C99-A072-4AF4CC92E396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A947230-D1DC-4C99-A072-4AF4CC92E396}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A947230-D1DC-4C99-A072-4AF4CC92E396}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
