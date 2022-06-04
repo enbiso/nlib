@@ -210,7 +210,7 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task AddLoginAsync(TUser user, UserLoginInfo login, CancellationToken cancellationToken)
         {
-            user.Logins.Add(login);
+            user.Logins.Add(new MongoUserLoginInfo(login.LoginProvider, login.ProviderKey, login.ProviderDisplayName));
             return Task.CompletedTask;
         }
 
@@ -223,7 +223,8 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user, CancellationToken cancellationToken)
         {
-            var logins = user.Logins ?? new List<UserLoginInfo>();
+            var mongoLogins = user.Logins ?? new List<MongoUserLoginInfo>();
+            IList<UserLoginInfo> logins = mongoLogins.Select(l => l as UserLoginInfo).ToList();
             return Task.FromResult(logins);
         }
 
@@ -279,14 +280,16 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task<IList<Claim>> GetClaimsAsync(TUser user, CancellationToken cancellationToken)
         {
-            return Task.FromResult(user.Claims);
+            var mClaims = user.Claims ?? new List<MongoClaim>();
+            IList<Claim> claims = mClaims.Select(m => m.ToClaim()).ToList();
+            return Task.FromResult(claims);
         }
 
         public Task AddClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
-            user.Claims ??= new List<Claim>();
+            user.Claims ??= new List<MongoClaim>();
             foreach (var claim in claims) 
-                user.Claims.Add(claim);
+                user.Claims.Add(new MongoClaim(claim));
 
             return _users.UpdateOneAsync(u => u.Id == user.Id,
             Builders<TUser>.Update.PushEach(u => u.Claims, user.Claims),
@@ -295,23 +298,23 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
 
         public Task ReplaceClaimAsync(TUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
         {
-            user.Claims ??= new List<Claim>();
+            user.Claims ??= new List<MongoClaim>();
             var uClaim = user.Claims.FirstOrDefault(c => c.Type == claim.Type && c.Value == claim.Value);
             user.Claims.Remove(uClaim);
-            user.Claims.Add(newClaim);
+            var newMongoClaim = new MongoClaim(newClaim);
+            user.Claims.Add(newMongoClaim);
             return _users.UpdateOneAsync(u => u.Id == user.Id,
-                Builders<TUser>.Update.Pull(u => u.Claims, uClaim).Push(u => u.Claims, newClaim),
+                Builders<TUser>.Update.Pull(u => u.Claims, uClaim).Push(u => u.Claims, newMongoClaim),
                 cancellationToken: cancellationToken);
         }
 
         public Task RemoveClaimsAsync(TUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
         {
-            claims = claims == null ? new List<Claim>() : claims.ToList();
-            foreach (var claim in claims) 
-                user.Claims.Remove(claim);
+            var mongoClaims = claims.ToList().Select(c => new MongoClaim(c)).ToList();
+            foreach (var claim in mongoClaims) { user.Claims.Remove(claim); }
 
             return _users.UpdateOneAsync(u => u.Id == user.Id,
-                Builders<TUser>.Update.PullAll(u => u.Claims, claims),
+                Builders<TUser>.Update.PullAll(u => u.Claims, mongoClaims),
                 cancellationToken: cancellationToken);
         }
 

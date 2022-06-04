@@ -98,22 +98,23 @@ namespace Enbiso.NLib.IdentityServer.Mongo.Stores
         public Task<IList<Claim>> GetClaimsAsync(TRole role,
             CancellationToken cancellationToken = new CancellationToken())
         {
-            IList<Claim> claims = role.Claims.ToList();
+            IList<Claim> claims = role.Claims.Select(c => c.ToClaim()).ToList();
             return Task.FromResult(claims);
         }
 
         public Task AddClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken)
         {
-            role.Claims.Add(claim);
-            return _roles.UpdateOneAsync(r => r.Id == role.Id, Builders<TRole>.Update.Push(r => r.Claims, claim),
+            var mongoClaim = new MongoClaim(claim);
+            role.Claims.Add(mongoClaim);
+            return _roles.UpdateOneAsync(r => r.Id == role.Id, Builders<TRole>.Update.Push(r => r.Claims, mongoClaim),
                 cancellationToken: cancellationToken);
         }
 
         public Task RemoveClaimAsync(TRole role, Claim claim, CancellationToken cancellationToken)
         {
-            var mClaim = role.Claims.FirstOrDefault(c => c.Type == claim.Type && c.Value == claim.Value);
-            role.Claims.Remove(mClaim);
-            return _roles.UpdateOneAsync(r => r.Id == role.Id, Builders<TRole>.Update.Pull(r => r.Claims, mClaim),
+            var mongoClaim = role.Claims.FirstOrDefault(c => c.Type == claim.Type && c.Value == claim.Value);
+            role.Claims.Remove(mongoClaim);
+            return _roles.UpdateOneAsync(r => r.Id == role.Id, Builders<TRole>.Update.Pull(r => r.Claims, mongoClaim),
                 cancellationToken: cancellationToken);
         }
     }
