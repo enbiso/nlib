@@ -8,32 +8,36 @@ namespace Enbiso.NLib.EventBus.Nats.JetStream
 {
     public class JetStreamEventSubscriber: IEventSubscriber
     {
-        private readonly IJetStreamConnection _connection;
+        private readonly IJetStreamConnection _jsConnection;
+        private readonly INatsConnection _natsConnection;
         private readonly IEventProcessor _eventProcessor;
         private readonly NatsOptions _options;
 
-        public JetStreamEventSubscriber(IJetStreamConnection connection, IOptions<NatsOptions> options, IEventProcessor eventProcessor)
+        public JetStreamEventSubscriber(IJetStreamConnection jsConnection, IOptions<NatsOptions> options,
+            IEventProcessor eventProcessor, INatsConnection natsConnection)
         {
-            _connection = connection;
+            _jsConnection = jsConnection;
             _eventProcessor = eventProcessor;
+            _natsConnection = natsConnection;
             _options = options.Value;
             _eventProcessor.Setup();
         }
 
         public void Dispose()
         {
-            _connection?.Dispose();
+            _natsConnection?.Dispose();
+            _jsConnection?.Dispose();
         }
 
         public Task Subscribe(CancellationToken token = default)
         {
-            _connection.Connected += _ =>
+            _jsConnection.Connected += _ =>
             {
                 foreach (var exchange in _options.Exchanges ?? Array.Empty<string>())
                 {
-                    _connection.VerifyJetStream(exchange);
+                    _jsConnection.VerifyJetStream(exchange);
             
-                    var js = _connection.GetJetStream();
+                    var js = _jsConnection.GetJetStream();
                     var pullOptions = PullSubscribeOptions.Builder()
                         .WithDurable($"{_options.Client}_{exchange}")
                         .Build();
@@ -53,6 +57,7 @@ namespace Enbiso.NLib.EventBus.Nats.JetStream
                     }, token);
                 }
             };
+            _natsConnection.VerifyConnection();
             return Task.CompletedTask;
         }
 
