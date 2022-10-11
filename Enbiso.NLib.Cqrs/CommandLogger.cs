@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,13 +17,21 @@ namespace Enbiso.NLib.Cqrs
             _logger = logger;
         }
 
-        public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken,
-            RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TCommand request, RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Handling {typeof(TCommand).Name}");
-            var response = await next();
-            _logger.LogInformation($"Handled {typeof(TResponse).Name}");
-            return response;
+            try
+            {
+                _logger.LogTrace("Handling {Name}", typeof(TCommand).Name);
+                var response = await next();
+                _logger.LogTrace("Handled {Name}", typeof(TCommand).Name);
+                return response;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed {Name}", typeof(TResponse).Name);
+                throw;
+            }
         }
     }
 }

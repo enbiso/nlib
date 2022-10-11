@@ -20,7 +20,7 @@ namespace Enbiso.NLib.Cqrs
             _postProcessors = postProcessors;
         }
 
-        public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TCommand request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             await Task.WhenAll(
                 _preProcessors.Select(p => p.Process(request, cancellationToken)));

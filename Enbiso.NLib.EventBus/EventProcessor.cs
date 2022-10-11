@@ -31,12 +31,17 @@ namespace Enbiso.NLib.EventBus
             {
                 var eventType = eventHandler.GetEventType();
                 var @event = JsonSerializer.Deserialize(message, eventType);
-                if (@event is IEvent iEvent)
-                    _logger.LogTrace("Processing {EventType} {EventId}", eventType, iEvent.EventId);
-                else 
-                    _logger.LogTrace("Processing {EventType}", eventType);
 
-                await eventHandler.Handle(@event);
+                var eventId = @event is IEvent iEvent ? iEvent.EventId : Guid.Empty;
+                try
+                {
+                    _logger.LogTrace("Processing {EventType} {EventId}", eventType, eventId);
+                    await eventHandler.Handle(@event);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error Processing {EventType} {EventId}", eventType, eventId);
+                }
             }
         }
 

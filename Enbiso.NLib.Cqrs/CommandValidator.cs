@@ -18,8 +18,8 @@ namespace Enbiso.NLib.Cqrs
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken,
-            RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TCommand request,
+            RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var validatorTasks = _validators.Select(v => v.Validate(request)).ToArray();
             await Task.WhenAll(validatorTasks);
