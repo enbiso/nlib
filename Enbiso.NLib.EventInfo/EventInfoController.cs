@@ -2,6 +2,8 @@
 
 namespace Enbiso.NLib.EventInfo;
 
+[Route("_events")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class EventInfoController: ControllerBase
 {
     private readonly IEventInfoService _eventInfoService;
