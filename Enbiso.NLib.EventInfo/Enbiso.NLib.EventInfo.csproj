@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <PackageId>Enbiso.NLib.EventInfo</PackageId>
+
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(PACKAGE_VERSION)' != '' ">$(PACKAGE_VERSION)</PackageVersion>
+    
+    <Authors>Faraj Farook</Authors>
+    <Description>EventInfo for integration events</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>$(PACKAGE_COPYRIGHT)</Copyright>
+    <PackageTags>Enbiso Enbiso.NLib EventInfo</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en-AU</NeutralLanguage>
+    <Owners>enbiso</Owners>    
+    <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+    <Summary>Enbiso - EventInfo for integration events in .NET</Summary>
+    <Title>EventInfo for integration events</Title>
+    
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageProjectUrl>$(PACKAGE_PROJECT)</PackageProjectUrl>
+    <RepositoryUrl>$(PACKAGE_REPO)</RepositoryUrl>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>         
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="../logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Enbiso.NLib.EventBus.Abstractions\Enbiso.NLib.EventBus.Abstractions.csproj" />
+  </ItemGroup>
+  
+</Project>
