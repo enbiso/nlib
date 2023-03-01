@@ -10,13 +10,14 @@ namespace Enbiso.NLib.EventBus
     public class EventProcessor: IEventProcessor
     {
         private readonly Dictionary<string, List<IEventHandler>> _subscriptions = new();
-        
-        private readonly IEnumerable<IEventHandler> _eventHandlers;
         private readonly ILogger _logger;
-        
+
         public EventProcessor(IEnumerable<IEventHandler> eventHandlers, ILogger<EventProcessor> logger)
         {
-            _eventHandlers = eventHandlers;
+            foreach (var eventHandler in eventHandlers)
+            {
+                AddEventHandler(eventHandler);
+            }
             _logger = logger;
         }
 
@@ -29,7 +30,7 @@ namespace Enbiso.NLib.EventBus
             var eventHandlers = _subscriptions[eventName];
             foreach (var eventHandler in eventHandlers)
             {
-                var eventType = eventHandler.GetEventType();
+                var eventType = eventHandler.EventType;
                 var @event = JsonSerializer.Deserialize(message, eventType);
 
                 var eventId = @event is IEvent iEvent ? iEvent.EventId : Guid.Empty;
@@ -45,23 +46,23 @@ namespace Enbiso.NLib.EventBus
             }
         }
 
-        public void Setup(Action<string> onAddSubscription)
+        public event EventProcessorEventTypeAddedEventHandler EventTypeAdded;
+        public void AddEventHandler(IEventHandler eventHandler)
         {
-            foreach (var eventHandler in _eventHandlers)
+            var eventName = eventHandler.EventName;
+            if (_subscriptions.TryGetValue(eventName, out var currentHandlers))
             {
-                var eventName = eventHandler.GetEventType().Name;
-                
-                onAddSubscription?.Invoke(eventName);
-                
-                if (_subscriptions.TryGetValue(eventName, out var currentHandlers))
+                currentHandlers.Add(eventHandler);
+                _subscriptions[eventName] = currentHandlers;
+            }
+            else
+            {
+                _subscriptions.Add(eventName, new List<IEventHandler> {eventHandler});
+                EventTypeAdded?.Invoke(this, new EventProcessorEventTypeAddedEventArgs
                 {
-                    currentHandlers.Add(eventHandler);
-                    _subscriptions[eventName] = currentHandlers;
-                }
-                else
-                {
-                    _subscriptions.Add(eventName, new List<IEventHandler> {eventHandler});
-                }
+                    EventType = eventHandler.EventType,
+                    EventName = eventName
+                });
             }
         }
     }

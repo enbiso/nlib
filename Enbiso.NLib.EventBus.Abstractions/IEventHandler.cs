@@ -8,7 +8,8 @@ namespace Enbiso.NLib.EventBus
     /// </summary>
     public interface IEventHandler
     {
-        Type GetEventType();
+        string EventName { get; }
+        Type EventType { get; }
         Task Handle(object @event);
     }
     
@@ -19,7 +20,8 @@ namespace Enbiso.NLib.EventBus
     public abstract class EventHandler<TEvent>: IEventHandler where TEvent : class, IEvent
     {
         protected abstract Task Handle(TEvent @event);
-        public Type GetEventType() => typeof(TEvent);
+        public string EventName => typeof(TEvent).Name;
+        public Type EventType => typeof(TEvent);
         public Task Handle(object @event) => Handle(@event as TEvent);
     }
 }

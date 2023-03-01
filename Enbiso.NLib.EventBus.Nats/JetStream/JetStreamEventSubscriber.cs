@@ -20,7 +20,6 @@ namespace Enbiso.NLib.EventBus.Nats.JetStream
             _eventProcessor = eventProcessor;
             _natsConnection = natsConnection;
             _options = options.Value;
-            _eventProcessor.Setup();
         }
 
         public void Dispose()

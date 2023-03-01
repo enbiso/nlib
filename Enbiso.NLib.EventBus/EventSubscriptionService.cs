@@ -14,7 +14,7 @@ namespace Enbiso.NLib.EventBus
             _subscribers = subscribers;
         }
 
-        public Task SubscribeAll(CancellationToken token) =>
+        public Task SubscribeAll(CancellationToken token = default) =>
             Task.WhenAll(_subscribers.Select(s => s.Subscribe(token)));
     }
 }

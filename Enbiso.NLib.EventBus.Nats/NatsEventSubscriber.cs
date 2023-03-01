@@ -16,7 +16,6 @@ public class NatsEventSubscriber: IEventSubscriber
         _connection = connection;
         _eventProcessor = eventProcessor;
         _options = options.Value;
-        _eventProcessor.Setup();
     }
 
     public void Dispose()

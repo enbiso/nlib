@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,17 +20,17 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         {
             var option = optionWrap.Value;
             _queueName = option.Client;
-            _exchanges = option.Exchanges?? new string[0];
+            _exchanges = option.Exchanges?? Array.Empty<string>();
 
             _connection = connection;
             _eventProcessor = eventProcessor;
 
-            _eventProcessor.Setup(eventName =>
+            _eventProcessor.EventTypeAdded += (_, args) =>
             {
                 using var channel = _connection.CreateModel();
                 foreach (var exchange in _exchanges)
-                    channel.QueueBind(queue: _queueName, exchange: exchange, routingKey: eventName);
-            });
+                    channel.QueueBind(queue: _queueName, exchange: exchange, routingKey: args.EventName);
+            };
         }
         
         private IModel CreateConsumerChannel()
