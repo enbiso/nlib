@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,28 +8,32 @@ using Microsoft.Extensions.Logging;
 
 namespace Enbiso.NLib.EventBus
 {
+    public interface IEventProcessor
+    {
+        Task ProcessEvent(string eventName, byte[] data);
+        void AddEventHandler(IEventHandler handler);
+    }
+    
     public class EventProcessor: IEventProcessor
     {
-        private readonly Dictionary<string, List<IEventHandler>> _subscriptions = new();
+        private readonly List<IEventHandler> _eventHandlers = new();
         private readonly ILogger _logger;
+        private readonly IEventTypeManager _eventTypeManager;
 
-        public EventProcessor(IEnumerable<IEventHandler> eventHandlers, ILogger<EventProcessor> logger)
+        public EventProcessor(IEnumerable<IEventHandler> eventHandlers, ILogger<EventProcessor> logger,
+            IEventTypeManager eventTypeManager)
         {
-            foreach (var eventHandler in eventHandlers)
-            {
-                AddEventHandler(eventHandler);
-            }
             _logger = logger;
+            _eventTypeManager = eventTypeManager;
+            foreach (var eventHandler in eventHandlers)
+                AddEventHandler(eventHandler);
         }
 
         public async Task ProcessEvent(string eventName, byte[] data)
         {
             var message = Encoding.UTF8.GetString(data);
             
-            if(!_subscriptions.ContainsKey(eventName)) return;
-            
-            var eventHandlers = _subscriptions[eventName];
-            foreach (var eventHandler in eventHandlers)
+            foreach (var eventHandler in _eventHandlers.Where(h => h.IsValidFor(eventName)))
             {
                 var eventType = eventHandler.EventType;
                 var @event = JsonSerializer.Deserialize(message, eventType);
@@ -46,24 +51,12 @@ namespace Enbiso.NLib.EventBus
             }
         }
 
-        public event EventProcessorEventTypeAddedEventHandler EventTypeAdded;
-        public void AddEventHandler(IEventHandler eventHandler)
+        public void AddEventHandler(IEventHandler handler)
         {
-            var eventName = eventHandler.EventName;
-            if (_subscriptions.TryGetValue(eventName, out var currentHandlers))
-            {
-                currentHandlers.Add(eventHandler);
-                _subscriptions[eventName] = currentHandlers;
-            }
-            else
-            {
-                _subscriptions.Add(eventName, new List<IEventHandler> {eventHandler});
-                EventTypeAdded?.Invoke(this, new EventProcessorEventTypeAddedEventArgs
-                {
-                    EventType = eventHandler.EventType,
-                    EventName = eventName
-                });
-            }
+            _eventHandlers.Add(handler);
+            _eventTypeManager.Add(handler.EventType);
         }
     }
+
+
 }

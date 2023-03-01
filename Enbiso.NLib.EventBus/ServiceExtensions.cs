@@ -12,6 +12,7 @@ namespace Enbiso.NLib.EventBus
         {
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddSingleton<IEventService, EventService>();
+            services.AddSingleton<IEventTypeManager, EventTypeManager>();
             services.AddTransient<IEventSubscriptionService, EventSubscriptionService>();
         }
     }

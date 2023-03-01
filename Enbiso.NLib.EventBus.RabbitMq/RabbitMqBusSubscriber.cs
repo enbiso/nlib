@@ -16,23 +16,24 @@ namespace Enbiso.NLib.EventBus.RabbitMq
         private readonly string _queueName;
         private readonly IEnumerable<string> _exchanges;
 
-        public RabbitMqBusSubscriber(IRabbitMqConnection connection, IEventProcessor eventProcessor, IOptions<RabbitMqOption> optionWrap)
+        public RabbitMqBusSubscriber(IRabbitMqConnection connection, IEventProcessor eventProcessor,
+            IOptions<RabbitMqOption> optionWrap, IEventTypeManager eventTypeManager)
         {
             var option = optionWrap.Value;
             _queueName = option.Client;
-            _exchanges = option.Exchanges?? Array.Empty<string>();
+            _exchanges = option.Exchanges ?? Array.Empty<string>();
 
             _connection = connection;
             _eventProcessor = eventProcessor;
 
-            _eventProcessor.EventTypeAdded += (_, args) =>
+            eventTypeManager.OnEventTypeAdded((_, args) =>
             {
                 using var channel = _connection.CreateModel();
                 foreach (var exchange in _exchanges)
-                    channel.QueueBind(queue: _queueName, exchange: exchange, routingKey: args.EventName);
-            };
+                    channel.QueueBind(queue: _queueName, exchange: exchange, routingKey: args.EventType.Name);
+            });
         }
-        
+
         private IModel CreateConsumerChannel()
         {
             _connection.VerifyConnection();
