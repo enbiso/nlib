@@ -21,7 +21,7 @@ namespace Enbiso.NLib.OpenApi
         {
             services.AddOptions();
             
-            optBuilder ??= options => {};
+            optBuilder ??= _ => {};
             services.Configure(optBuilder);
 
             var opts = new OpenApiOptions();

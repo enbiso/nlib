@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Enbiso.NLib.EventInfo.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Enbiso.NLib.EventInfo;
 
