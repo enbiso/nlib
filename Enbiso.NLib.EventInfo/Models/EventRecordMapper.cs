@@ -7,13 +7,14 @@ namespace Enbiso.NLib.EventInfo.Models;
 
 public static class EventRecordMapper
 {
-    public static EventRecordProp Map(PropertyInfo property) =>
-        new(property)
-        {
-            Props = property.PropertyType.GetProperties()
-                .Where(p => ShouldExtract(p.PropertyType))
-                .Select(p => new EventRecordProp(p)).ToList()
-        };
+    public static EventRecordProp Map(PropertyInfo property)
+    {
+        var prop = new EventRecordProp(property);
+        if (!IsSimpleType(property.PropertyType))
+            prop.Props = property.PropertyType.GetProperties()
+                .Select(p => new EventRecordProp(p)).ToList();
+        return prop;
+    }
 
     private static bool ShouldExtract(Type type)
     {
