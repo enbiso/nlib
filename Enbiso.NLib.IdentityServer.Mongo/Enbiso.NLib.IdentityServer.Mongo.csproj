@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>Enbiso.NLib.IdentityServer.Mongo</PackageId>
 
@@ -27,10 +27,10 @@
 </PropertyGroup>
 
 <ItemGroup>
-    <PackageReference Include="Duende.IdentityServer.Storage" Version="6.1.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.9" />
-    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
+    <PackageReference Include="Duende.IdentityServer.Storage" Version="6.2.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
 </ItemGroup>
 
 <ItemGroup>
