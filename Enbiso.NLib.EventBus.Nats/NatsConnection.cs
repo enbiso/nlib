@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NATS.Client;
@@ -57,10 +58,11 @@ namespace Enbiso.NLib.EventBus.Nats
 
             var policy = NatsPolicyBuilder.BuildConnectPolicy(_logger);
 
-            policy.Execute(() => {
+            policy.Execute(() =>
+            {
+                _logger.LogInformation("Connecting to {Servers}", string.Join(", ", _opts.Servers));
                 _connection = _factory.CreateConnection(_opts);
                 if (!IsConnected) return;
-                
                 _logger.LogInformation("Connected to NATS");
                 Connected?.Invoke(_connection);
             });

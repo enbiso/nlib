@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  PACKAGE_VERSION: 7.0.1
+  PACKAGE_VERSION: 7.0.2
   PACKAGE_PROJECT: https://nlib.enbiso.com
   PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
   PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
