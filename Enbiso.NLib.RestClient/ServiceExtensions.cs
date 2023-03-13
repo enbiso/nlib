@@ -24,5 +24,6 @@ namespace Enbiso.NLib.RestClient
         public string Scope { get; set; }
         public IDictionary<string, string> Services { get; set; }
         public string GrantType { get; set; } = "client_credentials";
+        public bool IgnoreInvalidSSL { get; set; } = false;
     }
 }

@@ -30,8 +30,18 @@ namespace Enbiso.NLib.RestClient
 
         public RestClient(IHttpClientFactory clientFactory, IOptions<RestClientOptions> options)
         {
-            _client = clientFactory.CreateClient();
             _options = options.Value;
+            if (_options.IgnoreInvalidSSL)
+            {
+                var handler = new HttpClientHandler();
+                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+                _client = new HttpClient(handler);
+            }
+            else
+            {
+                _client = clientFactory.CreateClient();   
+            }
         }
 
         public Task<HttpResponseMessage> Post(string service, string path, object payload)
