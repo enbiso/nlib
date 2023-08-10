@@ -27,10 +27,10 @@
 </PropertyGroup>
 
 <ItemGroup>
-    <PackageReference Include="Duende.IdentityServer.Storage" Version="6.2.3" />
+    <PackageReference Include="Duende.IdentityServer.Storage" Version="6.3.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.3" />
-    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="7.0.10" />
+    <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
 </ItemGroup>
 
 <ItemGroup>

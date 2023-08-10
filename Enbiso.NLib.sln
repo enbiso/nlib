@@ -43,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventLogger.Mon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.RestClient", "Enbiso.NLib.RestClient\Enbiso.NLib.RestClient.csproj", "{027C77FD-2EC1-4C26-B366-A4DCBCFDB37B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.OpenTelemetry", "Enbiso.NLib.OpenTelemetry\Enbiso.NLib.OpenTelemetry.csproj", "{947539BC-DE5B-4BC8-9F8D-3D4D2E56532B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.EventBus.AwsSns", "Enbiso.NLib.EventBus.AwsSns\Enbiso.NLib.EventBus.AwsSns.csproj", "{25B63406-D459-4DEC-932D-4D46B3297A9E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enbiso.NLib.IdentityServer.Mongo", "Enbiso.NLib.IdentityServer.Mongo\Enbiso.NLib.IdentityServer.Mongo.csproj", "{CED4D720-476D-4CAF-9CA6-0BA6BE140489}"
@@ -135,10 +133,6 @@ Global
 		{027C77FD-2EC1-4C26-B366-A4DCBCFDB37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{027C77FD-2EC1-4C26-B366-A4DCBCFDB37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{027C77FD-2EC1-4C26-B366-A4DCBCFDB37B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{947539BC-DE5B-4BC8-9F8D-3D4D2E56532B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{947539BC-DE5B-4BC8-9F8D-3D4D2E56532B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{947539BC-DE5B-4BC8-9F8D-3D4D2E56532B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{947539BC-DE5B-4BC8-9F8D-3D4D2E56532B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{25B63406-D459-4DEC-932D-4D46B3297A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{25B63406-D459-4DEC-932D-4D46B3297A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25B63406-D459-4DEC-932D-4D46B3297A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
