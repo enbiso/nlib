@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  PACKAGE_VERSION: 7.0.5
+  PACKAGE_VERSION: 10.0.0
   PACKAGE_PROJECT: https://nlib.enbiso.com
   PACKAGE_REPO: https://github.com/enbiso/Enbiso.NLib
   PACKAGE_COPYRIGHT: Copyright 2021 (c) enbiso. All rights reserved.
@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 10.0.x
 
       - name: Test
         run: dotnet test --verbosity normal
@@ -34,12 +34,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 10.0.x
 
       - name: Build Release
         run: dotnet build -c release -o ./bin
@@ -49,7 +49,7 @@ jobs:
           dotnet nuget push $nupkg -s $NUGET_REGISTRY -k $NUGET_API_KEY;
           done
         env:
-          NUGET_REGISTRY: https://packages.nuget.org
+          NUGET_REGISTRY: https://api.nuget.org/v3/index.json
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   release:
